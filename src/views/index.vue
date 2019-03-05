@@ -47,7 +47,7 @@ export default {
         display: flex;
         width: 100%;
         align-items: stretch;
-        background-color: #FBFBFB;
+        background-color: #EEEEF5;
     }
 
     #nav-header {
@@ -61,7 +61,9 @@ export default {
         max-width: 250px;
         min-height: 100vh;
         box-shadow: 1px 2px #F7F7F7;
-        background-color: #232327;
+        background-color: #242939;
+        margin: 25px 25px 25px 25px;
+        border-radius: 5px 5px 5px 5px;
     }
 
     #content {
@@ -86,10 +88,11 @@ export default {
 
     #topbar {
         height: 60px;
-        background-color: white;
         min-width: 100%;
-        box-shadow: 1px 2px #F7F7F7;
     }
 
+    #page {
+        padding: 40px 40px 40px 40px;
+    }
 
 </style>
