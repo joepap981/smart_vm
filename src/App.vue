@@ -1,19 +1,21 @@
 <template>
   <div id="app">
-    <!-- <SignIn /> -->
-    <dashboard-index />
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import SignIn from './components/SignIn.vue'
-import DashboardIndex from './components/DashboardIndex.vue'
 
 export default {
   name: 'app',
   components: {
-    SignIn, DashboardIndex
-  }
+  },
+  beforeMount: function () {
+    if (!this.$session.exists()) {
+      this.$router.push('/')
+    }
+  },
+
 }
 </script>
 

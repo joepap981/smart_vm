@@ -1,5 +1,5 @@
 <template>
-    <div class="container w-25">
+    <div class="container w-25 margin-top">
         <h2 class="mb-4"> Sign in </h2>
 
         <form>
@@ -32,5 +32,7 @@ export default {
 </script>
 
 <style scoped>
-
+    .margin-top {
+        margin-top: 100px;
+    }
 </style>

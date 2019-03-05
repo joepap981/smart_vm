@@ -35,10 +35,10 @@
 </template>
 
 <script>
-import OverviewIndex from "./Overview/OverviewIndex.vue"
-import AlarmIndex from "./Alarm/AlarmIndex.vue"
-import UserIndex from "./User/UserIndex.vue"
-import StatisticsIndex from "./Statistics/StatisticsIndex.vue"
+import OverviewIndex from "../views/Overview/"
+import AlarmIndex from "../views/Alarm/"
+import UserIndex from "../views/User/"
+import StatisticsIndex from "../views/Statistics/"
 
 export default {
     name: 'DashboardIndex',
