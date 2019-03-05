@@ -1,36 +1,35 @@
 <template>
     <div class="wrapper">
-        <div class="row">
-            <!--Side Navigation Bar-->
-            <div id="sidebar" class="flex-column">
-                <h3 id="nav-header" style="color:white"> </h3>
 
-                <div class="nav-group">
-                    <router-link tag="div" to="overview" class="nav-item"> Overview </router-link>
-                    <router-link tag="div" to="vm" class="nav-item">자판기 </router-link>
-                    <router-link tag="div" to="user" class="nav-item">사용자 </router-link>
-                    <router-link tag="div" to="alarms" class="nav-item">알림 </router-link>
-                    <router-link tag="div" to="statistics" class="nav-item">통계 </router-link>
+        <!--Side Navigation Bar-->
+        <nav id="sidebar" class="flex-column">
+            <h3 id="nav-header" style="color:white"> </h3>
+
+            <div class="nav-group">
+                <router-link tag="div" to="overview" class="nav-item"> Overview </router-link>
+                <router-link tag="div" to="vm" class="nav-item"> 자판기 </router-link>
+                <router-link tag="div" to="user" class="nav-item"> 사용자 </router-link>
+                <router-link tag="div" to="alarms" class="nav-item"> 알림 </router-link>
+                <router-link tag="div" to="statistics" class="nav-item"> 통계 </router-link>
+            </div>
+        </nav>
+
+        <!-- Rightside Content -->
+        <div id="content">
+            <!--Top Navigation Bar-->
+            <div id="topbar">
+                <div class="d-flex justify-content-end mr-4">
+                    <p> Sign Out </p>
                 </div>
-
             </div>
 
-            <!-- Rightside Content -->
-            <div class="content">
-                <!--Top Navigation Bar-->
-                <div id="topbar">
-                    <div class="d-flex justify-content-end mr-4">
-                        <p> Sign Out </p>
-                    </div>
-                </div>
-
-                <!-- Pages -->
-                <div id="page">
-                    <router-view></router-view>
-                </div>
+            <!-- Pages -->
+            <div id="page">
+                <router-view></router-view>
             </div>
         </div>
     </div>
+
     
 </template>
 
@@ -44,11 +43,10 @@ export default {
 </script>
 
 <style scoped>
-    .content {
-        width: 84%;
-    }
     .wrapper {
-        min-height: 100vh;
+        display: flex;
+        width: 100%;
+        align-items: stretch;
         background-color: #FBFBFB;
     }
 
@@ -59,11 +57,15 @@ export default {
     }
 
     #sidebar {
-        display: flex;
-        background-color: #232327;
-        width: 16%;
+        min-width: 250px;
+        max-width: 250px;
         min-height: 100vh;
         box-shadow: 1px 2px #F7F7F7;
+        background-color: #232327;
+    }
+
+    #content {
+        width: 100%;
     }
 
     .nav-group {
