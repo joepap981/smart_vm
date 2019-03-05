@@ -6,11 +6,11 @@
                 <h3 id="nav-header" style="color:white"> </h3>
 
                 <div class="nav-group">
-                    <div class="nav-item"> Overview </div>
-                    <div class="nav-item">자판기 </div>
-                    <div class="nav-item">사용자 </div>
-                    <div class="nav-item">알림 </div>
-                    <div class="nav-item">통계 </div>
+                    <router-link tag="div" to="overview" class="nav-item"> Overview </router-link>
+                    <router-link tag="div" to="vm" class="nav-item">자판기 </router-link>
+                    <router-link tag="div" to="user" class="nav-item">사용자 </router-link>
+                    <router-link tag="div" to="alarms" class="nav-item">알림 </router-link>
+                    <router-link tag="div" to="statistics" class="nav-item">통계 </router-link>
                 </div>
 
             </div>
@@ -26,7 +26,7 @@
 
                 <!-- Pages -->
                 <div id="page">
-                    <OverviewIndex />
+                    <router-view></router-view>
                 </div>
             </div>
         </div>
@@ -35,15 +35,10 @@
 </template>
 
 <script>
-import OverviewIndex from "../views/Overview/"
-import AlarmIndex from "../views/Alarm/"
-import UserIndex from "../views/User/"
-import StatisticsIndex from "../views/Statistics/"
 
 export default {
     name: 'DashboardIndex',
     components: {
-        OverviewIndex, AlarmIndex, UserIndex, StatisticsIndex
     }
 }
 </script>
@@ -65,7 +60,7 @@ export default {
 
     #sidebar {
         display: flex;
-        background-color: #3F3F50;
+        background-color: #232327;
         width: 16%;
         min-height: 100vh;
         box-shadow: 1px 2px #F7F7F7;

@@ -4,7 +4,7 @@
 
 <script>
 export default {
-    name: 'OverviewIndex'
+    name: 'Overview'
 }
 </script>
 

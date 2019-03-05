@@ -11,9 +11,10 @@ export default {
   components: {
   },
   beforeMount: function () {
-    if (!this.$session.exists()) {
-      this.$router.push('/')
-    }
+    // if (!this.$session.exists()) {
+    //   this.$router.push('/')
+    // }
+    console.log("beforeMount")
   },
 
 }

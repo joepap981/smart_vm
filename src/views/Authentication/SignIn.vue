@@ -1,5 +1,5 @@
 <template>
-    <div class="container w-25 margin-top">
+    <div class="container" id="login-box">
         <h2 class="mb-4"> Sign in </h2>
 
         <form>
@@ -16,7 +16,6 @@
             <button @click="userSignIn()" class="btn btn-primary w-100 mt-3"> Sign in </button>
         </form>
     </div>
-
 </template>
 
 <script>
@@ -32,7 +31,9 @@ export default {
 </script>
 
 <style scoped>
-    .margin-top {
+    #login-box {
         margin-top: 100px;
+        min-width: 300px;
+        max-width: 300px;
     }
 </style>

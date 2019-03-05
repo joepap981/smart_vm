@@ -4,7 +4,7 @@
 
 <script>
 export default {
-    name: 'StatisticsIndex'
+    name: 'Statistics'
 }
 </script>
 

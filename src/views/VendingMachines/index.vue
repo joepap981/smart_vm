@@ -1,10 +1,10 @@
 <template>
-    <h1> User Index </h1>
+    <h1> Vending Machines Index </h1>
 </template>
 
 <script>
 export default {
-    name: 'User'
+    name: 'VendingMachines'
 }
 </script>
 
