@@ -4,7 +4,31 @@
             <h5> Overview </h5>
         </div>
         <hr />
-        <div class="row">
+        <div class="card">
+
+        </div>
+        
+    </div>
+</template>
+
+
+<script>
+import KakaoMap from '../components/KakaoMap.vue';
+
+export default {
+    name: 'Overview',
+    components: {
+        KakaoMap
+    }
+}
+</script>
+
+<style scoped>
+    .card {
+        border-color: white;
+    }
+</style>
+<!-- <div class="row">
             <div class="col-md-3">
                 <div class="card">
                     <div class="card-body">
@@ -33,16 +57,4 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</template>
-
-<script>
-export default {
-    name: 'Overview'
-}
-</script>
-
-<style scoped>
-
-</style>
+        </div> -->
