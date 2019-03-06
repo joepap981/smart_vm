@@ -19,7 +19,11 @@
             <!--Top Navigation Bar-->
             <div id="topbar">
                 <div class="d-flex justify-content-end mr-4">
-                    <p> Sign Out </p>
+                    <div id="notification-bell">
+                        <span id="notification-badge" class="badge badge-light"> 1 </span>
+                        <img class="nav-img" src="../assets/bell.png" width="30" height="30" style="margin-top: 4px"/>          
+                    </div>
+                    <img class="nav-img" src="../assets/profile_placeholder.png" width="40" height="40"  />
                 </div>
             </div>
 
@@ -38,7 +42,12 @@
 export default {
     name: 'DashboardIndex',
     components: {
-    }
+    },
+    //if no tabs have been selected, push to 'overview' page
+    // mounted () {
+    //     if (this.$route.path == "/")
+    //         this.$router.push('overview')
+    // }
 }
 </script>
 
@@ -87,12 +96,32 @@ export default {
     }
 
     #topbar {
-        height: 60px;
+        margin: 25px 25px 0 0;
+        min-height: 60px;
+        max-height: 60px;
         min-width: 100%;
+        vertical-align: middle;
     }
 
     #page {
         padding: 40px 40px 40px 40px;
+    }
+
+    .nav-img {
+        border-radius: 50%;
+        margin: 0 5px 0 5px;
+        vertical-align: middle;
+    }
+
+    #notification-bell {
+        background-color: white;
+        border-radius: 50%;
+    }
+
+    #notification-badge {
+        height: 15px;
+        position: absolute;
+        float: left;
     }
 
 </style>
