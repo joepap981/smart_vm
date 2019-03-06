@@ -43,14 +43,6 @@ export default {
     name: 'DashboardIndex',
     components: {
     },
-    data: function () {
-        return {
-            path: []
-        }
-    },
-    computed: {
-
-    }
     //if no tabs have been selected, push to 'overview' page
     // mounted () {
     //     if (this.$route.path == "/")
@@ -130,10 +122,6 @@ export default {
         height: 15px;
         position: absolute;
         float: left;
-    }
-
-    .breadcrumbs {
-    
     }
 
 </style>
