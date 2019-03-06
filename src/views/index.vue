@@ -19,11 +19,13 @@
             <!--Top Navigation Bar-->
             <div id="topbar">
                 <div class="d-flex justify-content-end mr-4">
-                    <div id="notification-bell">
-                        <span id="notification-badge" class="badge badge-light"> 1 </span>
+                    <div class="nav-circle-item" id="notification-bell">
+                        <span id="notification-badge" class="badge badge-danger"> 1 </span>
                         <img class="nav-img" src="../assets/bell.png" width="30" height="30" style="margin-top: 4px"/>          
                     </div>
-                    <img class="nav-img" src="../assets/profile_placeholder.png" width="40" height="40"  />
+                    <div class="nav-circle-item" id="profile-img">
+                        <img class="nav-img" src="../assets/profile_placeholder.png" width="40" height="40"  />
+                    </div>
                 </div>
             </div>
 
@@ -59,6 +61,8 @@ export default {
         background-color: #EEEEF5;
     }
 
+    /* Side Navbar */
+
     #nav-header {
         height: 60px;
         margin: 0 0 0 0;
@@ -73,10 +77,6 @@ export default {
         background-color: #242939;
         margin: 25px 25px 25px 25px;
         border-radius: 5px 5px 5px 5px;
-    }
-
-    #content {
-        width: 100%;
     }
 
     .nav-group {
@@ -95,16 +95,26 @@ export default {
         color: #D8D8D8;
     }
 
-    #topbar {
+    #page {
+        padding: 40px 40px 40px 40px;
+    }
+
+    #content {
+        width: 100%;
+    }
+
+    /* Top Navbar */
+
+     #topbar {
         margin: 25px 25px 0 0;
         min-height: 60px;
         max-height: 60px;
         min-width: 100%;
         vertical-align: middle;
     }
-
-    #page {
-        padding: 40px 40px 40px 40px;
+    
+    .nav-circle-item {
+        margin: 0 5px 0 5px;
     }
 
     .nav-img {
