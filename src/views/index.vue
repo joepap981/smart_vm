@@ -43,11 +43,6 @@ export default {
     name: 'DashboardIndex',
     components: {
     },
-    //if no tabs have been selected, push to 'overview' page
-    // mounted () {
-    //     if (this.$route.path == "/")
-    //         this.$router.push('overview')
-    // }
 }
 </script>
 
