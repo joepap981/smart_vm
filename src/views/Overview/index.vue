@@ -10,9 +10,8 @@
                     <div class="card-header">
                         <p class="text-left font-weight-bold"> 자판기 위치 </p>
                     </div>
-                    <!-- <kt-map /> -->
-                    <kakao-map />
-                    <!-- <vue-daum-map v-on:load="onLoad" v-bind:appKey= "appKey" v-bind:center= "center " style="width:500px;height:400px;"/> -->
+                    <kt-map />
+                    <!-- <kakao-map /> -->
                 </div>
             </div>
             <div class="col-xl-3 col-md-12">
@@ -56,8 +55,8 @@ import KtMap from '../../components/KtMap.vue'
 export default {
     name: 'Overview',
     components: {
-        KakaoMap, KtMap
-        // VueDaumMap
+        KakaoMap, 
+        KtMap
     },
     // data: function() {
     //     return {

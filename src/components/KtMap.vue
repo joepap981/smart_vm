@@ -4,8 +4,6 @@
 
 <script>
 
-import loadScriptOnce from 'load-script-once';
-
 export default {
     name: 'KtMap',
     data: () => ({
