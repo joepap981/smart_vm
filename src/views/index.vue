@@ -69,18 +69,21 @@ export default {
         background-color: #242939;
         margin: 30px 25px 30px 30px;
         border-radius: 3px 3px 3px 3px;
+        position: fixed;
     }
 
     .content {
         width: 100%;
+        margin-left: 335px;
     }
 
     @media screen and (max-width: 992px) {
         .sidebar {
+            position: fixed;
             margin-left: -280px;
         }
         .content {
-            margin-left: 0;
+            margin-left: 15px;
         }
     }
 
@@ -131,9 +134,11 @@ export default {
     #notification-bell {
         background-color: white;
         border-radius: 50%;
+        box-shadow: 0px 0px 13px 0px rgba(82,63,105,0.05);
     }
 
     #notification-badge {
+        box-shadow: 0px 0px 13px 0px rgba(82,63,105,0.05);    
         height: 15px;
         position: absolute;
         float: left;

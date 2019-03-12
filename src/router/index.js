@@ -9,7 +9,6 @@ import Overview from '../views/Overview'
 import Alarms from '../views/Alarms'
 import Statistics from '../views/Statistics'
 import User from '../views/User'
-import VendingMachines from '../views/VendingMachines'
 
 Vue.use(VueRouter)
 
@@ -26,8 +25,7 @@ export function createRouter () {
                     {path: 'overview', component: Overview},
                     {path: 'alarms', component: Alarms},
                     {path: 'statistics', component: Statistics},
-                    {path: 'user', component: User},
-                    {path: 'vm', component: VendingMachines}
+                    {path: 'user', component: User}
                 ]
             }
        ]

@@ -5,7 +5,7 @@
         </div>
         <hr />
         <div class="row">
-            <div class="col-xl-6 col-md-12">
+            <div class="col-xl-9 col-md-12">
                 <div class="card" >
                     <div class="card-header">
                         <span> 자판기 위치 </span>
@@ -14,9 +14,11 @@
                     <!-- <vue-daum-map v-on:load="onLoad" v-bind:appKey= "appKey" v-bind:center= "center " style="width:500px;height:400px;"/> -->
                 </div>
             </div>
-            <div class="col-xl-5 col-md-12">
+            <div class="col-xl-3 col-md-12">
                 <div class="card">
-                    <p> hello world </p>
+                    <div class="card-header">
+                        <span> 자판기 </span>
+                    </div>
                 </div>
             </div>
         </div>
