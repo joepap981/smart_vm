@@ -6,8 +6,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import { createRouter } from './router'
 
-import Chart from 'chart.js'
-
 Vue.config.productionTip = false
 
 
