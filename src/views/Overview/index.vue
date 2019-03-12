@@ -1,15 +1,16 @@
 <template>
     <div class="">
-        <div class="d-flex justify-content-start">
+        <div class="top-nav">
             <h5> Overview </h5>
         </div>
-        <hr />
+
         <div class="row">
             <div class="col-xl-9 col-md-12">
                 <div class="card" >
                     <div class="card-header">
-                        <span> 자판기 위치 </span>
+                        <p class="text-left font-weight-bold"> 자판기 위치 </p>
                     </div>
+                    <!-- <kt-map /> -->
                     <kakao-map />
                     <!-- <vue-daum-map v-on:load="onLoad" v-bind:appKey= "appKey" v-bind:center= "center " style="width:500px;height:400px;"/> -->
                 </div>
@@ -17,7 +18,29 @@
             <div class="col-xl-3 col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <span> 자판기 </span>
+                        <p class="text-left font-weight-bold"> 자판기 </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <p class="text-left font-weight-bold"> 재고알람 </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-md-12">
+                 <div class="card">
+                    <div class="card-header">
+                        <p class="text-left font-weight-bold"> 장애알람 </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-12">
+                 <div class="card">
+                    <div class="card-header">
+                        <p class="text-left font-weight-bold"> x </p>
                     </div>
                 </div>
             </div>
@@ -27,12 +50,13 @@
 
 <script>
 import KakaoMap from '../../components/KakaoMap.vue'
+import KtMap from '../../components/KtMap.vue'
 // import VueDaumMap from 'vue-daum-map'
 
 export default {
     name: 'Overview',
     components: {
-        KakaoMap
+        KakaoMap, KtMap
         // VueDaumMap
     },
     // data: function() {
@@ -56,21 +80,23 @@ export default {
 </script>
 
 <style scoped>
+
     .card {
         border-color: white;
         width: 100%;
         height: 500px;
         box-shadow: 0px 0px 13px 0px rgba(82,63,105,0.05);
-        margin-top: 5px;
-        margin-bottom: 5px;
-    }
-
-    .card-header {
-        background-color: white;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
 
     .row {
         margin-right:0;
+    }
+
+    .col-xl-3, .col-md-12, .col-xl-6, .col-xl-9 {
+        padding-right: 10px!important;
+        padding-left: 10px!important;
     }
 
 </style>

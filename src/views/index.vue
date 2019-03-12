@@ -8,7 +8,6 @@
 
                 <div class="nav-group">
                     <router-link tag="div" to="overview" class="nav-item"> Overview </router-link>
-                    <router-link tag="div" to="vm" class="nav-item"> 자판기 </router-link>
                     <router-link tag="div" to="user" class="nav-item"> 사용자 </router-link>
                     <router-link tag="div" to="alarms" class="nav-item"> 알림 </router-link>
                     <router-link tag="div" to="statistics" class="nav-item"> 통계 </router-link>
@@ -32,10 +31,6 @@
             <!-- Pages -->
             <div id="page">
                 <router-view></router-view>
-            </div>
-
-            <div style="height: 1000px;">
-                <p> hello world </p>
             </div>
 
         </div>
@@ -74,7 +69,10 @@ export default {
 
     .content {
         width: 100%;
-        margin-left: 335px;
+        min-height: 100vh;
+        margin-left: 340px;
+        padding-right: 15px;
+        padding-bottom: 15px;
     }
 
     @media screen and (max-width: 992px) {
@@ -84,6 +82,7 @@ export default {
         }
         .content {
             margin-left: 15px;
+            padding-right: 0px;
         }
     }
 
@@ -91,6 +90,9 @@ export default {
         .sidebar a {
             text-align: center;
             float: none;
+        }
+        .content {
+            padding-right: 0px;
         }
     }
 
@@ -119,8 +121,8 @@ export default {
     /*Top nav*/
     #topbar {
         margin: 25px 25px 0 0;
-        min-height: 60px;
-        max-height: 60px;
+        min-height: 50px;
+        max-height: 50px;
         min-width: 100%;
         vertical-align: middle;
     }
@@ -149,4 +151,23 @@ export default {
         margin-top: -50px;
     }
 
+</style>
+
+<style>
+    .top-nav {
+        margin-top: 20px;
+        min-height: 35px;
+        max-height: 35px;
+        min-width: 100%;
+        vertical-align: middle;
+        text-align: left;
+    }
+
+    .top-nav h5 {
+        font-weight: bold;
+    }
+
+    .card-header {
+        background-color: white;
+    }
 </style>

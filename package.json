@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "bootstrap": "^4.3.1",
+    "chart.js": "^2.7.3",
     "jquery": "^3.3.1",
     "load-script": "^1.0.0",
     "load-script-once": "^2.0.0",
