@@ -1,5 +1,5 @@
 <template>
-    <div id="map" style="width:500px;height:400px;"></div>
+    <div id="map"></div>
 </template>
 
 <script>
@@ -13,7 +13,7 @@ export default {
         latlng: null,
     }),
     mounted () {
-        loadScriptOnce('//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=a2ebbeb486802e2210128b28e3403190', (err) => {
+        loadScriptOnce('//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=a2ebbeb486802e2210128b28e3403190&libraries=services', (err) => {
             if (err) {
                 console.error(err);
                 return;
@@ -31,9 +31,19 @@ export default {
 
 
                 //return coordinates on click
+                var geocoder = new daum.maps.services.Geocoder();
                 daum.maps.event.addListener(this.map, 'click', function(mouseEvent) {
-                    var latlng = mouseEvent.latLng;
-                    console.log(latlng);
+                    this.latlng = mouseEvent.latLng;
+                    
+                    var callback = function(result, status) {
+                        if (status === daum.maps.services.Status.OK) {
+                            console.log(result[0].address);
+                            
+                        }
+                    };
+
+                    geocoder.coord2Address(this.latlng.getLng(), this.latlng.getLat(), callback);
+                    console.log(this.latlng)
                 });
 
                 //set up markers
@@ -44,6 +54,8 @@ export default {
                 });
 
                 marker.setMap(this.map);
+
+                
             })
       });
     }
@@ -51,5 +63,8 @@ export default {
 </script>
 
 <style scoped>
-
+    #map {
+        width:100%;
+        height:400px;
+    }
 </style>

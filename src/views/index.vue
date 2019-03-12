@@ -2,20 +2,22 @@
     <div class="wrapper">
 
         <!--Side Navigation Bar-->
-        <nav id="sidebar" class="flex-column">
-            <h3 id="nav-header" style="color:white"> </h3>
+        <div class="sidebar">
+            <nav class="flex-column">
+                <h3 id="nav-header" style="color:white"> </h3>
 
-            <div class="nav-group">
-                <router-link tag="div" to="overview" class="nav-item"> Overview </router-link>
-                <router-link tag="div" to="vm" class="nav-item"> 자판기 </router-link>
-                <router-link tag="div" to="user" class="nav-item"> 사용자 </router-link>
-                <router-link tag="div" to="alarms" class="nav-item"> 알림 </router-link>
-                <router-link tag="div" to="statistics" class="nav-item"> 통계 </router-link>
-            </div>
-        </nav>
+                <div class="nav-group">
+                    <router-link tag="div" to="overview" class="nav-item"> Overview </router-link>
+                    <router-link tag="div" to="vm" class="nav-item"> 자판기 </router-link>
+                    <router-link tag="div" to="user" class="nav-item"> 사용자 </router-link>
+                    <router-link tag="div" to="alarms" class="nav-item"> 알림 </router-link>
+                    <router-link tag="div" to="statistics" class="nav-item"> 통계 </router-link>
+                </div>
+            </nav>
+        </div>
 
         <!-- Rightside Content -->
-        <div id="content">
+        <div class="content">
             <!--Top Navigation Bar-->
             <div id="topbar">
                 <div class="d-flex justify-content-end mr-4">
@@ -31,6 +33,11 @@
             <div id="page">
                 <router-view></router-view>
             </div>
+
+            <div style="height: 1000px;">
+                <p> hello world </p>
+            </div>
+
         </div>
     </div>
 
@@ -54,24 +61,40 @@ export default {
         background-color: #EEEEF5;
     }
 
+    .sidebar {
+        min-width: 280px;
+        max-width: 280px;
+        min-height: 91vh;
+        box-shadow: 0px 0px 13px 0px rgba(82,63,105,0.05);
+        background-color: #242939;
+        margin: 30px 25px 30px 30px;
+        border-radius: 3px 3px 3px 3px;
+    }
+
+    .content {
+        width: 100%;
+    }
+
+    @media screen and (max-width: 992px) {
+        .sidebar {
+            margin-left: -280px;
+        }
+        .content {
+            margin-left: 0;
+        }
+    }
+
+    @media screen and (max-width: 400px) {
+        .sidebar a {
+            text-align: center;
+            float: none;
+        }
+    }
+
     #nav-header {
         height: 60px;
         margin: 0 0 0 0;
         padding-top: 7%;
-    }
-
-    #sidebar {
-        min-width: 250px;
-        max-width: 250px;
-        min-height: 100vh;
-        box-shadow: 1px 2px #F7F7F7;
-        background-color: #242939;
-        margin: 25px 25px 25px 25px;
-        border-radius: 5px 5px 5px 5px;
-    }
-
-    #content {
-        width: 100%;
     }
 
     .nav-group {
@@ -90,16 +113,13 @@ export default {
         color: #D8D8D8;
     }
 
+    /*Top nav*/
     #topbar {
         margin: 25px 25px 0 0;
         min-height: 60px;
         max-height: 60px;
         min-width: 100%;
         vertical-align: middle;
-    }
-
-    #page {
-        padding: 40px 40px 40px 40px;
     }
 
     .nav-img {
@@ -117,6 +137,11 @@ export default {
         height: 15px;
         position: absolute;
         float: left;
+    }
+
+    /*Router page*/
+    #page {
+        margin-top: -50px;
     }
 
 </style>

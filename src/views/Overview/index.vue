@@ -4,9 +4,21 @@
             <h5> Overview </h5>
         </div>
         <hr />
-        <div class="card" >
-            <!-- <vue-daum-map v-on:load="onLoad" v-bind:appKey= "appKey" v-bind:center= "center " style="width:500px;height:400px;"/> -->
-            <kakao-map v-on:load="onLoad" style="width:500px;height:400px;"/>
+        <div class="row">
+            <div class="col-xl-6 col-md-12">
+                <div class="card" >
+                    <div class="card-header">
+                        <span> 자판기 위치 </span>
+                    </div>
+                    <kakao-map />
+                    <!-- <vue-daum-map v-on:load="onLoad" v-bind:appKey= "appKey" v-bind:center= "center " style="width:500px;height:400px;"/> -->
+                </div>
+            </div>
+            <div class="col-xl-5 col-md-12">
+                <div class="card">
+                    <p> hello world </p>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -46,5 +58,17 @@ export default {
         border-color: white;
         width: 100%;
         height: 500px;
+        box-shadow: 0px 0px 13px 0px rgba(82,63,105,0.05);
+        margin-top: 5px;
+        margin-bottom: 5px;
     }
+
+    .card-header {
+        background-color: white;
+    }
+
+    .row {
+        margin-right:0;
+    }
+
 </style>
