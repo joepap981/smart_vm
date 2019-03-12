@@ -8,23 +8,23 @@
             <div class="col-xl-9 col-md-12">
                 <div class="card" >
                     <div class="card-header">
-                        <p class="text-left font-weight-bold"> 자판기 위치 </p>
+                        <p class="card-header-title"> 자판기 위치 </p>
                     </div>
-                    <kt-map />
-                    <!-- <kakao-map /> -->
+                    <!-- <kt-map /> -->
+                    <kakao-map />
                 </div>
             </div>
             <div class="col-xl-3 col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <p class="text-left font-weight-bold"> 자판기 </p>
+                        <p class="card-header-title"> 자판기 </p>
                     </div>
                 </div>
             </div>
             <div class="col-xl-4 col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <p class="text-left font-weight-bold"> 재고알람 </p>
+                        <p class="card-header-title"> 재고알람 </p>
                     </div>
                 </div>
             </div>
@@ -32,14 +32,14 @@
             <div class="col-xl-4 col-md-12">
                  <div class="card">
                     <div class="card-header">
-                        <p class="text-left font-weight-bold"> 장애알람 </p>
+                        <p class="card-header-title"> 장애알람 </p>
                     </div>
                 </div>
             </div>
             <div class="col-xl-4 col-md-12">
                  <div class="card">
                     <div class="card-header">
-                        <p class="text-left font-weight-bold"> x </p>
+                        <p class="card-header-title"> x </p>
                     </div>
                 </div>
             </div>

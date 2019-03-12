@@ -11,6 +11,8 @@ import Statistics from '../views/Statistics'
 import User from '../views/User'
 import VendingMachine from '../views/VendingMachine'
 
+import PageNotFound from '../components/PageNotFound'
+
 Vue.use(VueRouter)
 
 export function createRouter () {
@@ -29,7 +31,9 @@ export function createRouter () {
                     {path: 'user', component: User},
                     {path: 'vm', component: VendingMachine}
                 ]
-            }
+            },
+
+            {path: '*', component: PageNotFound}
        ]
     })
 }

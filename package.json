@@ -14,7 +14,8 @@
     "load-script-once": "^2.0.0",
     "popper.js": "^1.14.7",
     "vue": "^2.6.6",
-    "vue-daum-map": "^1.0.12"
+    "vue-daum-map": "^1.0.12",
+    "vue-router": "^3.0.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.4.0",

@@ -170,4 +170,11 @@ export default {
     .card-header {
         background-color: white;
     }
+
+    .card-header-title {
+        text-align: left;
+        font-weight: bold;
+        vertical-align: middle;
+        margin-bottom: 0;
+    }
 </style>
