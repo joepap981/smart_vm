@@ -33,31 +33,14 @@
                 </div>
             </div>
 
-            <!-- Stock Status -->
+            <!-- Lane Status -->
             <div class="col-xl-6 col-md-12">
                 <div class="card">
                     <div class="card-header">
                         <p class="card-header-title"> Lane Status </p>
                     </div>
                     <div class="card-body">
-                        <div class="lane-status-widget d-flex align-items-center">
-                            <div id="laneStatusBadge" class="status-badge"></div>
-                            <div class="lane-status">
-                                <p class="info-title"> Lane 1 </p>
-                                <p class="info-address"> Pepsi </p>
-                            </div>
-    
-                            <div class="stock-status d-flex">
-                                <p class="info-title mr-2"> 재고충분 </p>
-                                <p class="info-address"> Mar 13 13:45:13 </p>
-                            </div>
-                
-                            <div class="env-status d-flex">
-                                <p class="info-title mr-2"> 상태양호 </p>
-                                <p class="info-address"> Mar 13 13:45:13 </p>
-                            </div>
-                   
-                        </div>
+                        <lane-status v-bind:laneProp="this.laneData"/>
                     </div>
                 </div>
             </div>
@@ -86,17 +69,26 @@
 // import LineGraph from '../../components/LineGraph.vue'
 import LineChart from '../../components/LineChart.vue'
 import KtMap from '../../components/KtMap.vue'
+import LaneStatus from '../../components/LaneStatus.vue'
 
 export default {
     name: 'VendingMachine',
     components: {
-        LineChart, KtMap
+        LineChart, KtMap, LaneStatus
     },
     data() {
         return {
             vm_id: 0,
             datacollection: null,
-            options: null
+            options: null,
+            laneData: {
+                id: 1,
+                item: 'Pepsi',
+                stock_status: '재고충분',
+                stock_time: 'Mar 13 13:45:13',
+                env_status: '상태양호',
+                env_time: 'Mar 13 13:45:13',
+            }
         }
     },
     mounted () {
@@ -192,11 +184,6 @@ export default {
         height: 300px;
     }
 
-    /*stock-status widget*/
-    .lane-status-widget {
-        height: 50px;
-    }
-
     .status-badge {
         background-color: #36a2eb;
         min-width: 1rem;
@@ -205,29 +192,7 @@ export default {
         margin-right: 1.2rem;
     }
 
-    .lane-status{
-       text-align: left;
-    }
-    .info-title {
-        font-size: 0.8rem;
-        font-weight: bold;
-        color: #3d4465;
-        margin-bottom: 5px;
-    }
-    .info-address {
-        font-size: 0.8rem;
-        font-weight: bold;
-        color: #a1a8c3;
-        margin-bottom: 0px;
-    }
-
-    .stock-status {
-        margin-left: 10%;
-    }
-
-    .env-status {
-        margin-left: 10%;
-    }
+    
 
 
 
