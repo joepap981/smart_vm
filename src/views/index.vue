@@ -178,4 +178,12 @@ export default {
         vertical-align: middle;
         margin-bottom: 0;
     }
+
+    .status-badge {
+        background-color: #36a2eb;
+        min-width: 1rem;
+        min-height: 1rem;
+        border-radius: 3px;
+        margin-right: 1.2rem;
+    }
 </style>

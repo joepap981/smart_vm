@@ -71,6 +71,8 @@ import LineChart from '../../components/LineChart.vue'
 import KtMap from '../../components/KtMap.vue'
 import LaneStatus from '../../components/LaneStatus.vue'
 
+import linechartjson from '../../data/linechart.json'
+
 export default {
     name: 'VendingMachine',
     components: {
@@ -96,53 +98,8 @@ export default {
     },
     methods: {
         fillData () {
-            this.datacollection = {
-                labels: ["00", "01", "02", "03", "04", "05"],
-                datasets: [
-                    {
-                        label: 'lane1',
-                        data: [12, 11, 3, 5, 2, 3],
-                        backgroundColor:'rgba(0, 0, 0, 0)',
-                        borderColor: [
-                            'rgba(255,99,132,1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        borderWidth: 1
-                    }
-                    ,{
-                        label: 'lane2',
-                        data: [2, 14, 6, 2, 12, 4],
-                        backgroundColor:'rgba(0, 0, 0, 0)',
-                        borderColor: [
-                            // 'rgba(255,99,132,1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        borderWidth: 1
-                    }, 
-                    {
-                        label: 'lane3',
-                        data: [4, 4, 1, 12, 11, 13],
-                        backgroundColor:'rgba(0, 0, 0, 0)',
-                        borderColor: [
-                            // 'rgba(255,99,132,1)',
-                            // 'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        borderWidth: 1
-                    }, 
-                ]
-            }
+            //get data from linechart.json file
+            this.datacollection = linechartjson.datacollection
 
             this.options = {
                 scales: {
@@ -183,17 +140,4 @@ export default {
     .map-container {
         height: 300px;
     }
-
-    .status-badge {
-        background-color: #36a2eb;
-        min-width: 1rem;
-        min-height: 1rem;
-        border-radius: 3px;
-        margin-right: 1.2rem;
-    }
-
-    
-
-
-
 </style>
