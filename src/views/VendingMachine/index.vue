@@ -37,6 +37,22 @@
                     <div class="card-header">
                         <p class="card-header-title"> 재고 </p>
                     </div>
+                    <div class="card-body">
+                        <div class="stock-status-widget d-flex align-items-center">
+                            <div class="stock-status-badge">
+
+                            </div>
+
+                            <div class="stock-status-info">
+                                <p class="info-title"> Lane 1 </p>
+                                <p class="info-address"> 서울시 우면동 </p>
+                            </div>
+
+                            <div class="stock-status-time">
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -46,8 +62,13 @@
                     <div class="card-header">
                         <p class="card-header-title"> 위치 </p>
                     </div>
-                    <div class="map-container">
-                        <kt-map />
+                    <div class="card-body">
+                        <div class="map-container">
+                            <kt-map />
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <p> location </p>
                     </div>
                 </div>
             </div>
@@ -163,6 +184,40 @@ export default {
 
     .map-container {
         height: 300px;
+    }
+
+    /*stock-status widget*/
+    .stock-status-widget {
+        height: 50px;
+    }
+
+    .stock-status-badge {
+        background-color: #37DB3A;
+        width: 1rem;
+        height: 1rem;
+        border-radius: 3px;
+        margin-right: 1.25rem;
+    }
+
+    .stock-status-info {
+       text-align: left;
+    }
+    .info-title {
+        font-size: 0.8rem;
+        font-weight: bold;
+        color: #3d4465;
+        margin-bottom: 5px;
+    }
+
+    .info-address {
+        font-size: 0.8rem;
+        font-weight: bold;
+        color: #a1a8c3;
+        margin-bottom: 0px;
+    }
+
+    .stock-status-time {
+
     }
 
 </style>

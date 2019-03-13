@@ -168,7 +168,7 @@ export default {
         font-weight: bold;
     }
 
-    .card-header {
+    .card-header, .card-footer {
         background-color: white;
     }
 
