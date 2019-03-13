@@ -10,8 +10,9 @@
             <!-- Temperature Monitoring Graph-->
             <div class="col-xl-12">
                 <div class="card">
-                    <div class="card-header">
-                        <p class="card-header-title"> 온도 </p>
+                    <div class="card-header d-flex align-items-center">
+                        <p class="card-header-title mr-2"> 온도 </p>
+                        <div id="tempStatusBadge" class="status-badge"></div>
                     </div>
                     <div class="card-body">
                         <line-chart class="chart-container" :chart-data="datacollection" :options="options" />
@@ -22,8 +23,9 @@
             <!-- Humidity Monitoring Graph-->
             <div class="col-xl-12">
                 <div class="card">
-                    <div class="card-header">
-                        <p class="card-header-title"> 습도 </p>
+                    <div class="card-header d-flex align-items-center">
+                        <p class="card-header-title mr-2"> 습도 </p>
+                        <div id="humidityStatusBadge" class="status-badge"></div>
                     </div>
                     <div class="card-body">
                         <line-chart class="chart-container" :chart-data="datacollection"  :options="options" />
@@ -35,22 +37,26 @@
             <div class="col-xl-6 col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <p class="card-header-title"> 재고 </p>
+                        <p class="card-header-title"> Lane Status </p>
                     </div>
                     <div class="card-body">
-                        <div class="stock-status-widget d-flex align-items-center">
-                            <div class="stock-status-badge">
-
-                            </div>
-
-                            <div class="stock-status-info">
+                        <div class="lane-status-widget d-flex align-items-center">
+                            <div id="laneStatusBadge" class="status-badge"></div>
+                            <div class="lane-status">
                                 <p class="info-title"> Lane 1 </p>
-                                <p class="info-address"> 서울시 우면동 </p>
+                                <p class="info-address"> Pepsi </p>
                             </div>
-
-                            <div class="stock-status-time">
-
+    
+                            <div class="stock-status d-flex">
+                                <p class="info-title mr-2"> 재고충분 </p>
+                                <p class="info-address"> Mar 13 13:45:13 </p>
                             </div>
+                
+                            <div class="env-status d-flex">
+                                <p class="info-title mr-2"> 상태양호 </p>
+                                <p class="info-address"> Mar 13 13:45:13 </p>
+                            </div>
+                   
                         </div>
                     </div>
                 </div>
@@ -187,19 +193,19 @@ export default {
     }
 
     /*stock-status widget*/
-    .stock-status-widget {
+    .lane-status-widget {
         height: 50px;
     }
 
-    .stock-status-badge {
-        background-color: #37DB3A;
-        width: 1rem;
-        height: 1rem;
+    .status-badge {
+        background-color: #36a2eb;
+        min-width: 1rem;
+        min-height: 1rem;
         border-radius: 3px;
-        margin-right: 1.25rem;
+        margin-right: 1.2rem;
     }
 
-    .stock-status-info {
+    .lane-status{
        text-align: left;
     }
     .info-title {
@@ -208,7 +214,6 @@ export default {
         color: #3d4465;
         margin-bottom: 5px;
     }
-
     .info-address {
         font-size: 0.8rem;
         font-weight: bold;
@@ -216,8 +221,14 @@ export default {
         margin-bottom: 0px;
     }
 
-    .stock-status-time {
-
+    .stock-status {
+        margin-left: 10%;
     }
+
+    .env-status {
+        margin-left: 10%;
+    }
+
+
 
 </style>
