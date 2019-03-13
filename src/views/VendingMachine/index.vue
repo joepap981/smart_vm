@@ -1,47 +1,69 @@
 <template>
     <div class="">
         <div class="top-nav">
-            <h5> 자판기 {{ vm_id}} </h5>
-        </div>
-
-        <!-- Temperature Monitoring Graph-->
-        <div class="card">
-            <div class="card-header">
-                <p class="card-header-title"> 온도 </p>
-            </div>
-
-            <!--Line Graph-->
-            <div class="card-body">
-                <line-chart class="chart-container" :chart-data="datacollection" :options="options" />
-                <!-- <line-graph /> -->
-                <!-- <hello-world /> -->
+            <div class="d-flex flex-row">
+                <h5> 자판기 {{ vm_id}} </h5>
             </div>
         </div>
 
-        <!-- Humidity Monitoring Graph-->
-        <div class="card">
-            <div class="card-header">
-                <p class="card-header-title"> 습도 </p>
+        <div class="row">
+            <!-- Temperature Monitoring Graph-->
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header">
+                        <p class="card-header-title"> 온도 </p>
+                    </div>
+                    <div class="card-body">
+                        <line-chart class="chart-container" :chart-data="datacollection" :options="options" />
+                    </div>
+                </div>
             </div>
 
-            <!--Line Graph-->
-            <div class="card-body">
-                <line-chart class="chart-container" :chart-data="datacollection"  :options="options" />
-                <!-- <line-graph /> -->
+            <!-- Humidity Monitoring Graph-->
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header">
+                        <p class="card-header-title"> 습도 </p>
+                    </div>
+                    <div class="card-body">
+                        <line-chart class="chart-container" :chart-data="datacollection"  :options="options" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stock Status -->
+            <div class="col-xl-6 col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <p class="card-header-title"> 재고 </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Location -->
+            <div class="col-xl-6 col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <p class="card-header-title"> 위치 </p>
+                    </div>
+                    <div class="map-container">
+                        <kt-map />
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import LineGraph from '../../components/LineGraph.vue'
+// import LineGraph from '../../components/LineGraph.vue'
 import LineChart from '../../components/LineChart.vue'
-import HelloWorld from '../../components/AmChart.vue'
+import KtMap from '../../components/KtMap.vue'
 
 export default {
     name: 'VendingMachine',
     components: {
-        LineGraph, LineChart, HelloWorld
+        LineChart, KtMap
     },
     data() {
         return {
@@ -125,7 +147,6 @@ export default {
 <style scoped>
     .card {
         margin-bottom: 20px;
-        height: 250px;
     }
 
     .card-body {
@@ -139,4 +160,9 @@ export default {
         margin: auto;
 
     }
+
+    .map-container {
+        height: 300px;
+    }
+
 </style>

@@ -6,12 +6,16 @@
 
         <div class="row">
             <div class="col-xl-9 col-md-12">
-                <div class="card" >
+                <div class="card">
                     <div class="card-header">
                         <p class="card-header-title"> 자판기 위치 </p>
                     </div>
-                    <kt-map />
-                    <!-- <kakao-map /> -->
+                    <div class="card-body">
+                        <div class="map-container">
+                            <kt-map />
+                            <!-- <kakao-map /> -->
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-xl-3 col-md-12">
@@ -95,6 +99,10 @@ export default {
     .col-xl-3, .col-md-12, .col-xl-6, .col-xl-9 {
         padding-right: 10px!important;
         padding-left: 10px!important;
+    }
+
+    .map-container {
+        height: 400px;
     }
 
 </style>
