@@ -23,16 +23,9 @@ export default {
             var map = new olleh.maps.Map(document.getElementById("map"), mapOpts);
         }
 
-        var head = document.getElementsByTagName('head')[0];
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.onreadystatechange = function () {
-            if (this.readyState == 'complete') initialize();
-        }
+        initialize();
 
-        script.onload = initialize;
-        script.src = 'https://gis.kt.com/maps/v3.0/sdk.js?key=eb142d9027f84d51a4a20df8490e44bcf6fc7ef4dea64cae96a7fca282ebd8cc02764651';
-        head.appendChild(script);
+    
     }
 }
 </script>

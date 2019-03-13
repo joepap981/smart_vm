@@ -54,6 +54,7 @@ export default {
         width: 100%;
         align-items: stretch;
         background-color: #EEEEF5;
+        min-width: 350px;
     }
 
     .sidebar {

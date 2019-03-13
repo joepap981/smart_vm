@@ -12,8 +12,9 @@
 
             <!--Line Graph-->
             <div class="card-body">
-                <!-- <line-chart :chart-data="datacollection" :width="400" :height="100" :options="options" /> -->
-                <line-graph />
+                <line-chart class="chart-container" :chart-data="datacollection" :options="options" />
+                <!-- <line-graph /> -->
+                <!-- <hello-world /> -->
             </div>
         </div>
 
@@ -25,8 +26,8 @@
 
             <!--Line Graph-->
             <div class="card-body">
-                <!-- <line-chart :chart-data="datacollection" :width="400" :height="100" /> -->
-                <line-graph />
+                <line-chart class="chart-container" :chart-data="datacollection"  :options="options" />
+                <!-- <line-graph /> -->
             </div>
         </div>
     </div>
@@ -35,11 +36,12 @@
 <script>
 import LineGraph from '../../components/LineGraph.vue'
 import LineChart from '../../components/LineChart.vue'
+import HelloWorld from '../../components/AmChart.vue'
 
 export default {
     name: 'VendingMachine',
     components: {
-        LineGraph, LineChart
+        LineGraph, LineChart, HelloWorld
     },
     data() {
         return {
@@ -54,10 +56,10 @@ export default {
     methods: {
         fillData () {
             this.datacollection = {
-                labels: [this.getRandomInt(), this.getRandomInt()],
+                labels: ["00", "01", "02", "03", "04", "05"],
                 datasets: [
                     {
-                        label: 'time: hours',
+                        label: 'lane1',
                         data: [12, 11, 3, 5, 2, 3],
                         backgroundColor:'rgba(0, 0, 0, 0)',
                         borderColor: [
@@ -71,12 +73,26 @@ export default {
                         borderWidth: 1
                     }
                     ,{
-                        label: 'time: hours',
+                        label: 'lane2',
                         data: [2, 14, 6, 2, 12, 4],
                         backgroundColor:'rgba(0, 0, 0, 0)',
                         borderColor: [
-                            'rgba(255,99,132,1)',
+                            // 'rgba(255,99,132,1)',
                             'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }, 
+                    {
+                        label: 'lane3',
+                        data: [4, 4, 1, 12, 11, 13],
+                        backgroundColor:'rgba(0, 0, 0, 0)',
+                        borderColor: [
+                            // 'rgba(255,99,132,1)',
+                            // 'rgba(54, 162, 235, 1)',
                             'rgba(255, 206, 86, 1)',
                             'rgba(75, 192, 192, 1)',
                             'rgba(153, 102, 255, 1)',
@@ -95,7 +111,8 @@ export default {
                         }
                     }]
                 },
-                responsive: true
+                responsive: true,
+                maintainAspectRatio: false
             }
       },
       getRandomInt () {
@@ -108,5 +125,18 @@ export default {
 <style scoped>
     .card {
         margin-bottom: 20px;
+        height: 250px;
+    }
+
+    .card-body {
+        vertical-align: middle;
+    }
+
+    .chart-container {
+        position: relative;
+        height: 150px;
+        width: 95%;
+        margin: auto;
+
     }
 </style>

@@ -10,8 +10,8 @@
                     <div class="card-header">
                         <p class="card-header-title"> 자판기 위치 </p>
                     </div>
-                    <!-- <kt-map /> -->
-                    <kakao-map />
+                    <kt-map />
+                    <!-- <kakao-map /> -->
                 </div>
             </div>
             <div class="col-xl-3 col-md-12">
@@ -50,7 +50,6 @@
 <script>
 import KakaoMap from '../../components/KakaoMap.vue'
 import KtMap from '../../components/KtMap.vue'
-// import VueDaumMap from 'vue-daum-map'
 
 export default {
     name: 'Overview',
