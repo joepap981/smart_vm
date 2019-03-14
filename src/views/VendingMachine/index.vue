@@ -35,9 +35,11 @@
 
             <!-- Lane Status -->
             <div class="col-xl-6 col-md-12">
-                <div class="card">
-                    <div class="card-header">
+                <div class="card row3">
+                    <div class="card-header d-flex justify-content-between">
                         <p class="card-header-title"> Lane Status </p>
+                        <!-- Add Lane Modal Button -->
+                        <button class="btn btn-sm btn-light" data-toggle="modal" data-target="#lane-modal"> + </button>
                     </div>
                     <div class="card-body">
                         <lane-status v-for="lane in this.lanechartArr" :key="lane.id" :laneProp="lane" />                 
@@ -47,7 +49,7 @@
 
             <!-- Location -->
             <div class="col-xl-6 col-md-12">
-                <div class="card">
+                <div class="card row3">
                     <div class="card-header">
                         <p class="card-header-title"> 위치 </p>
                     </div>
@@ -58,6 +60,27 @@
                     </div>
                     <div class="card-footer">
                         <p> location </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lane Modal -->
+            <div id="lane-modal" class="modal fade" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Lane 추가</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Modal body text goes here.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -109,17 +132,6 @@ export default {
             }
 
             this.lanechartArr = lanechartjson.laneData
-            console.log(this.lanechartArr)
-            this.lanechartArr.forEach(function(lane) {
-                
-                console.log(lane.id)
-            })
-            // for (lane in this.lanechartArr) {
-            //     console.log(lane)
-            // }
-
-            // console.log(this.lanechartArr)
-            
       },
       getRandomInt () {
         return Math.floor(Math.random() * (50 - 5 + 1)) + 5
@@ -144,8 +156,13 @@ export default {
         margin: auto;
 
     }
-
     .map-container {
         height: 300px;
+    }
+    .row3 {
+        min-height: 460px;
+    }
+    .btn-light {
+        background-color: #f8f8f8;
     }
 </style>

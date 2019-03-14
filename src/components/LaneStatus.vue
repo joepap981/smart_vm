@@ -34,6 +34,13 @@ export default {
     /*lane-status widget*/
     .lane-status-widget {
         height: 50px;
+        cursor: pointer;
+        margin-bottom: 10px;
+    }
+
+    .lane-status-widget:hover {
+        background-color: #FCFCFC;
+        border-radius: 3px 3px 3px 3px;
     }
     .lane-status{
        text-align: left;
@@ -42,7 +49,7 @@ export default {
         font-size: 0.8rem;
         font-weight: bold;
         color: #3d4465;
-        margin-bottom: 5px;
+        margin-bottom: 0px;
     }
     .info-address {
         font-size: 0.8rem;
@@ -58,4 +65,6 @@ export default {
     .env-status {
         margin-left: auto;
     }
+
+
 </style>
