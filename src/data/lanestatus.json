@@ -1,0 +1,53 @@
+{ 
+     "laneData": [
+        {
+        
+                "id": 1,
+                "item": "Pepsi",
+                "stock_status": "재고충분",
+                "stock_time": "Mar 13 13:45:13",
+                "env_status": "상태양호",
+                "env_time": "Mar 13 13:45:13"
+    
+        },
+        {
+  
+                "id": 2,
+                "item": "Pepsi",
+                "stock_status": "재고충분",
+                "stock_time": "Mar 13 13:45:13",
+                "env_status": "상태양호",
+                "env_time": "Mar 13 13:45:13"
+
+        },
+        {  
+                "id": 3,
+                "item": "Pepsi",
+                "stock_status": "재고충분",
+                "stock_time": "Mar 13 13:45:13",
+                "env_status": "상태양호",
+                "env_time": "Mar 13 13:45:13"
+         
+        },
+        {
+           
+                "id": 4,
+                "item": "Pepsi",
+                "stock_status": "재고충분",
+                "stock_time": "Mar 13 13:45:13",
+                "env_status": "상태양호",
+                "env_time": "Mar 13 13:45:13"
+     
+        },
+        {  
+           
+                "id": 5,
+                "item": "Pepsi",
+                "stock_status": "재고충분",
+                "stock_time": "Mar 13 13:45:13",
+                "env_status": "상태양호",
+                "env_time": "Mar 13 13:45:13"
+         
+        }
+    ]
+}

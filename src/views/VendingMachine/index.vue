@@ -40,7 +40,7 @@
                         <p class="card-header-title"> Lane Status </p>
                     </div>
                     <div class="card-body">
-                        <lane-status v-bind:laneProp="this.laneData"/>
+                        <lane-status v-for="lane in this.lanechartArr" :key="lane.id" :laneProp="lane" />                 
                     </div>
                 </div>
             </div>
@@ -72,6 +72,8 @@ import KtMap from '../../components/KtMap.vue'
 import LaneStatus from '../../components/LaneStatus.vue'
 
 import linechartjson from '../../data/linechart.json'
+import lanechartjson from '../../data/lanestatus.json'
+import { JSONParser } from '@amcharts/amcharts4/core';
 
 export default {
     name: 'VendingMachine',
@@ -83,14 +85,7 @@ export default {
             vm_id: 0,
             datacollection: null,
             options: null,
-            laneData: {
-                id: 1,
-                item: 'Pepsi',
-                stock_status: '재고충분',
-                stock_time: 'Mar 13 13:45:13',
-                env_status: '상태양호',
-                env_time: 'Mar 13 13:45:13',
-            }
+            lanechartArr: null
         }
     },
     mounted () {
@@ -112,6 +107,19 @@ export default {
                 responsive: true,
                 maintainAspectRatio: false
             }
+
+            this.lanechartArr = lanechartjson.laneData
+            console.log(this.lanechartArr)
+            this.lanechartArr.forEach(function(lane) {
+                
+                console.log(lane.id)
+            })
+            // for (lane in this.lanechartArr) {
+            //     console.log(lane)
+            // }
+
+            // console.log(this.lanechartArr)
+            
       },
       getRandomInt () {
         return Math.floor(Math.random() * (50 - 5 + 1)) + 5
