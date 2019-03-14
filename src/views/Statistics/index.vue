@@ -8,7 +8,7 @@
             <div class="col-xl-6 col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <map-statistics />
+                        <!-- <map-statistics /> -->
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
             <div class="col-xl-6 col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <bar-statistics />
+                        <!-- <bar-statistics /> -->
                     </div>
                 </div>
             </div>
@@ -35,7 +35,7 @@
             <div class="col-xl-6 col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <line-statistics />
+                        <!-- <line-statistics /> -->
                     </div>
                 </div>
             </div>

@@ -6,6 +6,13 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import { createRouter } from './router'
 
+// import DoughnutStatistics from './components/Statistics/DoughnutStatistics.vue'
+
+// Vue.component('doughnut-statistics', DoughnutStatistics)
+
+// import DoughnutChart from './components/DoughnutChart.vue'
+// Vue.component('doughnut-chart', DoughnutChart)
+
 Vue.config.productionTip = false
 
 
