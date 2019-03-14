@@ -82,7 +82,6 @@ export default {
 </script>
 
 <style scoped>
-
     .card {
         border-color: white;
         width: 100%;

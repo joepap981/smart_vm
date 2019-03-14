@@ -64,9 +64,9 @@
                 </div>
             </div>
 
-            <!-- Lane Modal -->
+            <!-- Lane 추가 Modal -->
             <div id="lane-modal" class="modal fade" tabindex="-1" role="dialog">
-                <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-dialog" role="document">
                     <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Lane 추가</h5>
@@ -75,15 +75,25 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Modal body text goes here.</p>
+                        <form>
+                            <div class="form-group text-left">
+                                <label> Lane id : </label>
+                                <input class="form-control" type="text" />
+                                <label> 적정 온도 : </label>
+                                <input class="form-control" type="text" />
+                                <label> 적정 습도 : </label>
+                                <input class="form-control" type="text" />
+                            </div>
+                        </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Lane 추가</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                     </div>
                     </div>
                 </div>
             </div>
+            
         </div>
     </div>
 </template>
@@ -163,6 +173,14 @@ export default {
         min-height: 460px;
     }
     .btn-light {
-        background-color: #f8f8f8;
+        background-color: white;
+        box-shadow: 0px 0px 13px 0px rgba(82,63,105,0.05);
+    }
+    .form-group {
+        padding:5px;
+    }
+
+    .form-group input {
+        margin-bottom:10px;
     }
 </style>

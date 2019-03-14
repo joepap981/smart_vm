@@ -108,16 +108,24 @@ export default {
         margin-bottom: 10px;
     }
 
-    .nav-group .nav-item:hover {
-        color: white;
-        cursor: pointer;
-    }
-
     .nav-group .nav-item {
         margin-top: 10px;
         margin-bottom: 10px;
         color: #D8D8D8;
+        cursor: pointer;
     }
+
+    .nav-group .nav-item:hover {
+        color: white;
+        
+    }
+
+    .nav-item:active {
+        color: white;
+        cursor: pointer;
+    }
+
+    
 
     /*Top nav*/
     #topbar {
@@ -186,4 +194,5 @@ export default {
         border-radius: 3px;
         margin-right: 1.2rem;
     }
+
 </style>
