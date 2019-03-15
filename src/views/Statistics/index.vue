@@ -69,4 +69,8 @@ export default {
         padding-left: 10px;
         padding-right: 10px;
     }
+
+    .col-xl-6 .card {
+        min-height: 450px;
+    }
 </style>
