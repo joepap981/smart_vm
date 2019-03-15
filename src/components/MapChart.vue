@@ -5,46 +5,36 @@
 
 <script>
 import * as am4core from "@amcharts/amcharts4/core";
-import * as am4charts from "@amcharts/amcharts4/charts";
+import * as am4maps from "@amcharts/amcharts4/maps";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import am4geodata_worldLow from "@amcharts/amcharts4-geodata/worldLow";
 
 am4core.useTheme(am4themes_animated);
 
 export default {
     name: 'MapChart',
     mounted() {
-        let chart = am4core.create(this.$refs.chartdiv, am4charts.XYChart);
+            let map = am4core.create(this.$refs.chartdiv, am4maps.MapChart);
+            map.geodata = am4geodata_worldLow;
+            map.projection = new am4maps.projections.Miller();
 
-        chart.paddingRight = 20;
+            var polygonSeries = map.series.push(new am4maps.MapPolygonSeries());
+            polygonSeries.useGeodata = true;
+            polygonSeries.mapPolygons.template.events.on("hit", function(ev) {
+            map.zoomToMapObject(ev.target);
+        });
 
-        let data = [];
-        let visits = 10;
-        for (let i = 1; i < 366; i++) {
-            visits += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
-            data.push({ date: new Date(2018, 0, i), name: "name" + i, value: visits });
-        }
+        // var polygonSeries = new am4maps.MapPolygonSeries();
+        // polygonSeries.useGeodata = true;
+        // map.series.push(series);
 
-        chart.data = data;
+        // var polygonTemplate = polygonSeries.mapPolygons.template;
+        // polygonTemplate.tooltipText = "{name}";
+        // polygonTemplate.fill = am4core.color("#74B266");
 
-        let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-        dateAxis.renderer.grid.template.location = 0;
-
-        let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-        valueAxis.tooltip.disabled = true;
-        valueAxis.renderer.minWidth = 35;
-
-        let series = chart.series.push(new am4charts.LineSeries());
-        series.dataFields.dateX = "date";
-        series.dataFields.valueY = "value";
-
-        series.tooltipText = "{valueY.value}";
-        chart.cursor = new am4charts.XYCursor();
-
-        let scrollbarX = new am4charts.XYChartScrollbar();
-        scrollbarX.series.push(series);
-        chart.scrollbarX = scrollbarX;
-
-        this.chart = chart;
+        // // Create hover state and set alternative fill color
+        // var hs = polygonTemplate.states.create("hover");
+        // hs.properties.fill = am4core.color("#367B25");
     },
 
     beforeDestroy() {

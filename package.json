@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@amcharts/amcharts4": "^4.2.3",
+    "@amcharts/amcharts4-geodata": "^4.1.4",
     "bootstrap": "^4.3.1",
     "chart.js": "^2.7.3",
     "load-script": "^1.0.0",
