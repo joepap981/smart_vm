@@ -51,7 +51,9 @@ import LineStatistics from '../../components/Statistics/LineStatistics.vue'
 
 export default {
     name: 'Statistics',
-    components: BarStatistics, DoughnutStatistics, MapStatistics, LineStatistics
+    components: {
+        BarStatistics, DoughnutStatistics, MapStatistics, LineStatistics
+    }
 }
 </script>
 
