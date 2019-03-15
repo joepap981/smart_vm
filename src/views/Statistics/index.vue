@@ -8,8 +8,7 @@
             <div class="col-xl-12 col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <!-- <map-statistics /> -->
-                        hellooo
+                        <map-statistics />
                     </div>
                 </div>
             </div>
