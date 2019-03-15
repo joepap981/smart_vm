@@ -70,6 +70,8 @@ export default {
         margin-bottom: 0;
     }
 
+
+
 </style>
 
 <!-- calendar related styles -->
