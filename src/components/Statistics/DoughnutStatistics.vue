@@ -2,10 +2,10 @@
     <div >
         <doughnut-chart class="chart-container" :chart-data="chartData" :options="options" />
         <div class="date-picker d-flex d-flex-row justify-content-center">
-            <label> Start </label>
-            <datepicker id="start-date"></datepicker>
-            <label> End </label>
-            <datepicker id="start-date"></datepicker>
+            <p class="datepicker-label"> Start </p>
+            <datepicker input-class="inputclass"></datepicker>
+            <p class="datepicker-label"> End </p>
+            <datepicker input-class="inputclass"></datepicker>
         </div>
     </div>
 </template>
@@ -45,16 +45,30 @@ export default {
         margin: auto;
     }
 
-    .input-class {
-        border-radius: 3px 3px 3px 3px;
-    }
-
     .date-picker {
         margin-top: 20px;
+        align-items: center;
     }
 
-    .date-picker label {
+    .input-box {
+        margin:20px!important;
+    }
+    
+    .datepicker-label {
         font-size: 10px;
+        margin-bottom: 0;
+        margin-left: 5px;
+        margin-right: 5px;
     }
 
+</style>
+
+<!-- calendar related styles -->
+<style>
+    .inputclass {
+        height: 25px;
+        border-radius: .25rem;
+        border-style: solid;
+        border: 1px solid #ced4da;
+    }
 </style>
