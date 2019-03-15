@@ -27,7 +27,7 @@
             <div id="line-chart" class="col-xl-6 col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <!-- <bar-statistics /> -->
+                        <line-statistics />
                     </div>
                 </div>
             </div>

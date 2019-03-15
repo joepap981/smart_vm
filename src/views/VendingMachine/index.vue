@@ -129,17 +129,7 @@ export default {
             //get data from linechart.json file
             this.datacollection = linechartjson.datacollection
 
-            this.options = {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero:true
-                        }
-                    }]
-                },
-                responsive: true,
-                maintainAspectRatio: false
-            }
+            this.options = linechartjson.options
 
             this.lanechartArr = lanechartjson.laneData
       },

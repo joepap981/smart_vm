@@ -44,5 +44,20 @@
                 "borderWidth": 1
             }
         ]
+    },
+    "options": {
+        "title": {
+            "display": false,
+            "text": ""
+        },
+        "scales": {
+            "yAxes": [{
+                "ticks": {
+                    "beginAtZero":true
+                }
+            }]
+        },
+        "responsive": true,
+        "maintainAspectRatio": false
     }
 }

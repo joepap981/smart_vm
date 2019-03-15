@@ -74,18 +74,3 @@ export default {
 
 </style>
 
-<!-- calendar related styles -->
-<style>
-    .inputclass {
-        height: 25px;
-        border-radius: .25rem;
-        border-style: solid;
-        border: 1px solid #ced4da;
-        font-size: 10px;
-
-    }
-
-    .date-picker * {
-        align-items: center;
-    }
-</style>
