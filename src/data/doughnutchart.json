@@ -1,29 +1,21 @@
 {
-    "datasets": [{
-        "data": [
-            1,
-            2,
-            3,
-            4,
-            5
-        ],
-        "backgroundColor": [
-            "rgba(255,99,132,1)",
-            "rgba(54, 162, 235, 1)",
-            "rgba(255, 206, 86, 1)",
-            "rgba(75, 192, 192, 1)",
-            "rgba(153, 102, 255, 1)",
-            "rgba(255, 159, 64, 1)"
-        ],
-        "label": "Dataset 1"
-    }],
-    "labels": [
-        "Red",
-        "Orange",
-        "Yellow",
-        "Green",
-        "Blue"
-    ],
+    "datacollection" : {
+        "labels": ["Coke","Pepsi","Fanta","Gatorade","Powerade"],
+        "datasets": [
+            {
+                "label": "Dataset 1",
+                "data": [10, 20, 30, 5, 35],
+                "backgroundColor": [
+                    "rgba(255,99,132,1)",
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(255, 206, 86, 1)",
+                    "rgba(75, 192, 192, 1)",
+                    "rgba(153, 102, 255, 1)",
+                    "rgba(255, 159, 64, 1)"
+                ]
+            }
+        ]
+    },
     "options": {
         "responsive": true,
         "legend": {
@@ -31,7 +23,7 @@
         },
         "title": {
             "display": true,
-            "text": "Chart.js Doughnut Chart"
+            "text": "인기제품"
         },
         "animation": {
             "animateScale": true,

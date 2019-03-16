@@ -195,4 +195,18 @@ export default {
         margin-right: 1.2rem;
     }
 
+    /* Calendar related styling */
+    .inputclass {
+        height: 25px;
+        border-radius: .25rem;
+        border-style: solid;
+        border: 1px solid #ced4da;
+        font-size: 10px;
+
+    }
+
+    .date-picker * {
+        align-items: center;
+    }
+
 </style>
