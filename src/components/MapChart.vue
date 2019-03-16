@@ -18,25 +18,23 @@ export default {
             map.geodata = am4geodata_worldLow;
             map.projection = new am4maps.projections.Miller();
 
-            var polygonSeries = new am4maps.MapPolygonSeries();
+            var polygonSeries = map.series.push(new am4maps.MapPolygonSeries());
             polygonSeries.useGeodata = true;
-            map.series.push(polygonSeries);
-
-
-            //
             polygonSeries.mapPolygons.template.events.on("hit", function(ev) {
             map.zoomToMapObject(ev.target);
-
-            // Configure series
-            var polygonTemplate = polygonSeries.mapPolygons.template;
-            polygonTemplate.tooltipText = "{name}";
-            polygonTemplate.fill = am4core.color("#74B266");
-
-            // Create hover state and set alternative fill color
-            var hs = polygonTemplate.states.create("hover");
-            hs.properties.fill = am4core.color("#367B25");
-
         });
+
+        // var polygonSeries = new am4maps.MapPolygonSeries();
+        // polygonSeries.useGeodata = true;
+        // map.series.push(series);
+
+        // var polygonTemplate = polygonSeries.mapPolygons.template;
+        // polygonTemplate.tooltipText = "{name}";
+        // polygonTemplate.fill = am4core.color("#74B266");
+
+        // // Create hover state and set alternative fill color
+        // var hs = polygonTemplate.states.create("hover");
+        // hs.properties.fill = am4core.color("#367B25");
     },
 
     beforeDestroy() {
