@@ -5,16 +5,16 @@
         </div>
         <div class="row">
             <!-- Map based statistics -->
-            <div class="col-xl-6 col-sm-12">
+            <div class="col-xl-12 col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <!-- <map-statistics /> -->
+                        <map-statistics />
                     </div>
                 </div>
             </div>
 
             <!-- Doughnut chart statistics -->
-            <div class="col-xl-6 col-sm-12">
+            <div id="doughnut-chart" class="col-xl-6 col-sm-12">
                 <div class="card">
                     <div class="card-body">
                         <DoughnutStatistics />
@@ -23,22 +23,22 @@
             </div>
 
             <!-- Line chart statistics -->
-            <div class="col-xl-6 col-sm-12">
+            <div id="line-chart" class="col-xl-6 col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <!-- <bar-statistics /> -->
+                        <line-statistics />
                     </div>
                 </div>
             </div>
 
             <!-- Bar graph statistics -->
-            <div class="col-xl-6 col-sm-12">
+            <!-- <div class="col-xl-6 col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <!-- <line-statistics /> -->
+                        <line-statistics />
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -51,20 +51,28 @@ import LineStatistics from '../../components/Statistics/LineStatistics.vue'
 
 export default {
     name: 'Statistics',
-    components: BarStatistics, DoughnutStatistics, MapStatistics, LineStatistics
+    components: {
+        BarStatistics, DoughnutStatistics, MapStatistics, LineStatistics
+    }
 }
 </script>
 
 <style scoped>
     .card {
-        min-height: 400px;
+        min-height: 300px;
         margin-top: 10px;
         margin-bottom: 10px;
-
+        padding-top: 10px;
     }
 
-    .col-xl-6 {
-        padding-left: 10px;
+    .col-xl-6 .card {
+        min-height: 450px;
+    }
+
+    #doughnut-chart {
         padding-right: 10px;
+    }
+    #line-chart {
+        padding-left: 10px;
     }
 </style>
