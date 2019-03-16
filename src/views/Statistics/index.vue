@@ -17,7 +17,7 @@
             <div class="col-xl-6 col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <doughnut-statistics />
+                        <DoughnutStatistics />
                     </div>
                 </div>
             </div>

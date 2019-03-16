@@ -106,7 +106,7 @@ import LaneStatus from '../../components/LaneStatus.vue'
 
 import linechartjson from '../../data/linechart.json'
 import lanechartjson from '../../data/lanestatus.json'
-import { JSONParser } from '@amcharts/amcharts4/core';
+// import { JSONParser } from '@amcharts/amcharts4/core';
 
 export default {
     name: 'VendingMachine',

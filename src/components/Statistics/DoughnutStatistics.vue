@@ -1,18 +1,18 @@
 <template>
     <div>
-        <doughnut-chart :chart-data="chartData" />
+        <!-- <doughnut-chart :chart-data="chartData" /> -->
     </div>
 </template>
 
 <script>
-import DoughnutChart from '../DoughnutChart.vue'
+// import DoughnutChart from '../DoughnutChart.vue'
 
 import doughnutchartjson from '../../data/doughnutchart.json'
 
 export default {
     name: 'DoughnutStatistics',
-    components: DoughnutChart,
-    data () {
+    // components: DoughnutChart,
+    data: function () {
         return {
             chartData: null,
             options: null,
