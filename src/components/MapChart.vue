@@ -17,6 +17,7 @@ export default {
     name: 'MapChart',
     mounted() {
         let map = am4core.create(this.$refs.chartdiv, am4maps.MapChart);
+        
 
         // set series for Seoul submunicipalities map
         map.geodata = am4geodata_seoulMunicipalities;
@@ -32,25 +33,39 @@ export default {
         var hs = seoulPolygonTemplate.states.create("hover");
         hs.properties.fill = am4core.color("#367B25");
 
+
+        //specify polygon that is being hovered over
+        seoulSeries.mapPolygons.template.events.on("over", function(ev) {
+            console.log(ev.target._dataItem._dataContext.id);
+        });
+    
+
         seoulSeries.mapPolygons.template.events.on("hit", function(ev) {
             map.zoomToMapObject(ev.target);
+
+
+            // set series for Seoul submunicipalities map
+            var seoulSubSeries = map.series.push(new am4maps.MapPolygonSeries());
+            seoulSubSeries.geodata = am4geodata_seoulSubmunicipalities;
+                
+            var seoulSubPolygonTemplate = seoulSubSeries.mapPolygons.template;
+            seoulSubPolygonTemplate.tooltipText = "{name}";
+            seoulSubPolygonTemplate.fill = am4core.color("#74B266");
+
+            var hs = seoulSubPolygonTemplate.states.create("hover");
+            hs.properties.fill = am4core.color("#367B25");
+            
+            // console.log(seoulSubPolygonTemplate.visible)
+            // console.log(seoulSubPolygonTemplate.show(5000))
+            // seoulSubPolygonTemplate.toFront();
+            // console.log(seoulSubPolygonTemplate.visible)
         });
+        
 
 
+// 1105057
 
-        //  // set series for Seoul submunicipalities map
-        // map.geodata = am4geodata_seoulSubmunicipalities;
-        // map.projection = new am4maps.projections.Miller();
 
-        // var seoulSeries = map.series.push(new am4maps.MapPolygonSeries());
-        // seoulSeries.useGeodata = true;
-    
-        // var seoulPolygonTemplate = seoulSeries.mapPolygons.template;
-        // seoulPolygonTemplate.tooltipText = "{name}";
-        // seoulPolygonTemplate.fill = am4core.color("#74B266");
-
-        // var hs = seoulPolygonTemplate.states.create("hover");
-        // hs.properties.fill = am4core.color("#367B25");
 
     },
 
