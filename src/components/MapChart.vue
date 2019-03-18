@@ -74,7 +74,7 @@ export default {
         // //TEST CODE specify polygon that is being hovered over
         // seoulSeries.mapPolygons.template.events.on("over", function(ev) {
         //     console.log(ev.target.dataItem.dataContext.id);
-        // });
+        });
 
          seoulSeries.mapPolygons.template.events.on("hit", function(ev) {
             // console.log(ev.target.fill = am4core.color("#EDECEC") )
@@ -111,16 +111,11 @@ export default {
 
             var hs2 = seoulSubPolygonTemplate.states.create("hover");
             hs2.properties.fill = am4core.color("#1540AB");
-
         });
 
-
-    },
-
-    beforeDestroy() {
-        if (this.chart) {
+    }, beforeDestroy() {
+        if (this.chart)
             this.chart.dispose();
-        }
     }
 }
 
