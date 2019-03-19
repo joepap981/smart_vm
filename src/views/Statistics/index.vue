@@ -17,7 +17,7 @@
             <div id="doughnut-chart" class="col-xl-6 col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <DoughnutStatistics />
+                        <doughnut-statistics />
                     </div>
                 </div>
             </div>
@@ -69,9 +69,9 @@ export default {
         min-height: 450px;
     }
 
-    #doughnut-chart {
+    /* #doughnut-chart {
         padding-right: 10px;
-    }
+    } */
     #line-chart {
         padding-left: 10px;
     }

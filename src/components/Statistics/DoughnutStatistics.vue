@@ -1,5 +1,5 @@
 <template>
-    <div >
+    <div class="">
         <doughnut-chart class="chart-container" :chart-data="chartData" :options="options" />
         <div class="date-picker d-flex justify-content-center">
             <div>
@@ -56,7 +56,8 @@ export default {
 
 <style scoped>
     .chart-container {
-        width: 60%;
+        min-width: 400px;
+        max-width: 400px;
         margin: auto;
     }
 
