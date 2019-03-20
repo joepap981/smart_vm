@@ -17,6 +17,11 @@ am4core.useTheme(am4themes_animated);
 export default {
     name: 'MapChart',
     mounted() {
+        //zoom depth of map
+        //0: province, 1: municipality, 2: submunicipality
+        var depth = 0;
+        var curObject = null;
+
         //set map
         let map = am4core.create(this.$refs.chartdiv, am4maps.MapChart);
         //disable wheel control + pan control + double click zoom
@@ -35,18 +40,22 @@ export default {
         upButton.align = "right";
         upButton.marginRight = 30;
         upButton.cursorOverStyle = am4core.MouseCursorStyle.pointer;
+
+        //when zoom out button is pressed, 
         upButton.events.on("hit", function() {
-            map.goHome();
+            if (depth > 1) {
+                map.goHome();
+            } else {
+                map.goHome();
+            }
+            
             //remove submunicipality
-            if (map.series._values.length > 1)
-                map.series.removeIndex(1);
+            if (depth > 0) {
+                map.series.removeIndex(depth);
+                depth--;
+            }
         });
 
-        map.seriesContainer.events.on("hit", function(ev) {
-            console.log((map).svgPointToGeo(ev.svgPoint));
-        });
-
-    
         // set series for Seoul municipalities map
         map.geodata = am4geodata_koreaProvinces;
         // map.geodata = am4geodata_seoulMunicipalities;
@@ -61,13 +70,14 @@ export default {
         provinceHS.properties.fill = am4core.color("#00226F");
 
         provinceSeries.mapPolygons.template.events.on("hit", function(ev) {
-        //     var center = {
-        //         latitude:,
-        //         longitude
-        //     }
-
-            map.zoomToMapObject(ev.target)
-            // map.zoomToGeoPoint(center,3, false);
+            console.log(map.zoomLevel)
+            depth++;
+            var selectedObjData = ev.target.dataItem.dataContext;
+            if (selectedObjData.zoomLevel != null) {
+                map.zoomToMapObject(ev.target, selectedObjData.zoomLevel)
+            } else {
+                map.zoomToMapObject(ev.target)
+            }
             // set series for municipality for selected provice
             var municipalitySeries = map.series.push(new am4maps.MapPolygonSeries());
             //set template for series geodata
@@ -83,7 +93,36 @@ export default {
 
             var municipalityHS = municipalityPolygonTemplate.states.create("hover");
             municipalityHS.properties.fill = am4core.color("#0035AE");
+
+
+            //zoom into submunicipality level when clicked
+            municipalitySeries.mapPolygons.template.events.on("hit", function(ev) {
+                console.log(map.zoomLevel)
+                depth++;
+                let selectedObjData = ev.target.dataItem.dataContext;
+                if (selectedObjData.zoomLevel != null) {
+                    map.zoomToMapObject(ev.target, selectedObjData.zoomLevel)
+                } else {
+                    map.zoomToMapObject(ev.target)
+                }
+                // set series for municipality for selected provice
+                let submunicipalitySeries = map.series.push(new am4maps.MapPolygonSeries());
+                //set template for series geodata
+                submunicipalitySeries.geodata = {"type":"FeatureCollection", "features": []}
+                //filter submunicipality that belongs to selected municipality
+                submunicipalitySeries.geodata.features = am4geodata_koreaSubmunicipalities.features.filter(features => {
+                    return features.id.substr(0,5) == ev.target.dataItem.dataContext.id;
+                });
+
+                let submunicipalityPolygonTemplate = submunicipalitySeries.mapPolygons.template;
+                municipalityPolygonTemplate.tooltipText = "{name}";
+                municipalityPolygonTemplate.fill = am4core.color("#002A8C");
+
+                let submunicipalityHS = submunicipalityPolygonTemplate.states.create("hover");
+                municipalityHS.properties.fill = am4core.color("#0035AE");
+            });
         });
+
 
 
 
