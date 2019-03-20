@@ -1,21 +1,6 @@
 <template>
-    <div >
+    <div class="mt-3" >
         <line-chart class="chart-container" :chart-data="chartData" :options="options" />
-        <div class="date-picker d-flex justify-content-center">
-            <div>
-                <div class="d-flex d-flex-row justify-content-center mb-2">
-                    <p class="datepicker-label mr-1"> Start </p>
-                    <datepicker v-model="start_date" input-class="inputclass"></datepicker>
-                </div>
-                <div class="d-flex d-flex-row justify-content-center">
-                    <p class="datepicker-label mr-2"> End </p>
-                    <datepicker v-model="end_date" input-class="inputclass"></datepicker>
-                </div>
-            </div>
-            <div>
-                <button @click="updateData()" class="btn btn-primary btn-sm ml-3"> Show </button>
-            </div>
-        </div>
     </div>
 </template>
 
@@ -41,7 +26,7 @@ export default {
         initData: function() {
             this.chartData = linechartjson.datacollection
             this.options = linechartjson.options
-            this.options.title.display = true;
+            this.options.title.display = false;
             this.options.title.text = '시간별 판매량'
         },
         updateData: function () {
@@ -58,7 +43,7 @@ export default {
 <style scoped>
     .chart-container {
         position: relative;
-        height: 300px;
+        height: 350px;
         width: 95%;
         margin: auto;
     }

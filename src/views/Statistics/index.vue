@@ -7,8 +7,14 @@
             <!-- Map based statistics -->
             <div class="col-xl-12 col-sm-12">
                 <div class="card">
+                    <div class="card-header">
+
+                    </div>
                     <div class="card-body">
                         <map-statistics />
+                    </div>
+                    <div class="card-footer">
+                       <date-picker />
                     </div>
                 </div>
             </div>
@@ -16,8 +22,14 @@
             <!-- Doughnut chart statistics -->
             <div id="doughnut-chart" class="col-xl-6 col-sm-12">
                 <div class="card">
+                    <div class="card-header">
+                        <label> 기간별 인기제품 </label>
+                    </div>
                     <div class="card-body">
                         <doughnut-statistics />
+                    </div>
+                    <div class="card-footer">
+                        <date-picker />
                     </div>
                 </div>
             </div>
@@ -25,8 +37,14 @@
             <!-- Line chart statistics -->
             <div id="line-chart" class="col-xl-6 col-sm-12">
                 <div class="card">
+                    <div class="card-header"> 
+                        <label> 시간별 판매량 </label>
+                    </div>
                     <div class="card-body">
                         <line-statistics />
+                    </div>
+                    <div class="card-footer">
+                        <date-picker />
                     </div>
                 </div>
             </div>
@@ -48,11 +66,12 @@ import BarStatistics from '../../components/Statistics/BarStatistics.vue'
 import DoughnutStatistics from '../../components/Statistics/DoughnutStatistics.vue'
 import MapStatistics from '../../components/Statistics/MapStatistics.vue'
 import LineStatistics from '../../components/Statistics/LineStatistics.vue'
+import DatePicker from '../../components/DatePicker.vue'
 
 export default {
     name: 'Statistics',
     components: {
-        BarStatistics, DoughnutStatistics, MapStatistics, LineStatistics
+        BarStatistics, DoughnutStatistics, MapStatistics, LineStatistics, DatePicker
     }
 }
 </script>
@@ -65,8 +84,21 @@ export default {
         padding-top: 10px;
     }
 
+    .card-header {
+        padding: 0;
+    }
+
+    .card-header label {
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    .card-footer {
+        padding: 10px;
+    }
+
     .col-xl-6 .card {
-        min-height: 450px;
+        min-height: 535px;
     }
 
     /* #doughnut-chart {
@@ -75,4 +107,7 @@ export default {
     #line-chart {
         padding-left: 10px;
     }
+
+
+
 </style>

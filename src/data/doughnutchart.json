@@ -22,7 +22,7 @@
             "position": "top"
         },
         "title": {
-            "display": true,
+            "display": false,
             "text": "인기제품"
         },
         "animation": {

@@ -202,11 +202,13 @@ export default {
         border-style: solid;
         border: 1px solid #ced4da;
         font-size: 10px;
-
+        cursor: pointer;
+        width: 100px;
     }
 
     .date-picker * {
         align-items: center;
     }
+
 
 </style>

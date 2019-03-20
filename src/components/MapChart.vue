@@ -21,10 +21,8 @@ export default {
         let map = am4core.create(this.$refs.chartdiv, am4maps.MapChart);
         //disable wheel control + pan control + double click zoom
         map.chartContainer.wheelable = false;
-
         map.seriesContainer.draggable = false;
         map.seriesContainer.resizable = false;
-
         map.seriesContainer.events.disableType("doublehit");
         map.chartContainer.background.events.disableType("doublehit");
 
@@ -56,10 +54,10 @@ export default {
     
         var seoulPolygonTemplate = seoulSeries.mapPolygons.template;
         seoulPolygonTemplate.tooltipText = "{name}";
-        seoulPolygonTemplate.fill = am4core.color("#242939");
+        seoulPolygonTemplate.fill = am4core.color("#113f67");
 
         var hs = seoulPolygonTemplate.states.create("hover");
-        hs.properties.fill = am4core.color("#1540AB");
+        hs.properties.fill = am4core.color("#226597");
 
         // console.log(seoulPolygonTemplate)
 
@@ -75,7 +73,6 @@ export default {
                 map.series.removeIndex(1);
 
             map.zoomToMapObject(ev.target);
-            
 
             // set series for Seoul submunicipalities map
             var seoulSubSeries = map.series.push(new am4maps.MapPolygonSeries());
@@ -89,13 +86,10 @@ export default {
                 
             var seoulSubPolygonTemplate = seoulSubSeries.mapPolygons.template;
             seoulSubPolygonTemplate.tooltipText = "{name}";
-            seoulSubPolygonTemplate.fill = am4core.color("#242939");
-
-            // seoulPolygonTemplate.fill = am4core.color("#D5D5D5");
-            console.log(ev.target.fill = am4core.color("#D5D5D5"))
+            seoulSubPolygonTemplate.fill = am4core.color("#87c0cd");
 
             var hs2 = seoulSubPolygonTemplate.states.create("hover");
-            hs2.properties.fill = am4core.color("#1540AB");
+            hs2.properties.fill = am4core.color("#f3f9fb");
         });
 
     }, beforeDestroy() {
