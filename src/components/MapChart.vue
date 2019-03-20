@@ -44,16 +44,31 @@ export default {
         //when zoom out button is pressed, 
         upButton.events.on("hit", function() {
             if (depth > 1) {
-                map.goHome();
-            } else {
-                map.goHome();
-            }
-            
-            //remove submunicipality
-            if (depth > 0) {
+                if (curObject.dataItem.dataContext.zoomLevel != null)
+                    map.zoomToMapObject(curObject, curObject.dataItem.dataContext.zoomLevel)
+                else
+                    map.zoomToMapObject(curObject)
+
                 map.series.removeIndex(depth);
                 depth--;
+
             }
+            //zoom out to home
+            else if (depth == 1) {
+                map.series.removeIndex(depth);
+                depth--;
+                curObject = null;
+                map.goHome();
+            }
+            //zoom out to municipality
+            else if (depth > 0) {
+                map.series.removeIndex(depth);
+                depth--;
+            } else {
+
+            }
+
+            console.log
         });
 
         // set series for Seoul municipalities map
@@ -70,8 +85,20 @@ export default {
         provinceHS.properties.fill = am4core.color("#00226F");
 
         provinceSeries.mapPolygons.template.events.on("hit", function(ev) {
-            console.log(map.zoomLevel)
-            depth++;
+            curObject = ev.target;
+        
+            //if move to another municipality in depth
+            if (depth > 1) {
+                map.series.removeIndex(depth);
+                depth--;
+            } else if (depth < 1) {
+                depth++;
+            } else {
+
+            }
+
+            console.log(depth);
+           
             var selectedObjData = ev.target.dataItem.dataContext;
             if (selectedObjData.zoomLevel != null) {
                 map.zoomToMapObject(ev.target, selectedObjData.zoomLevel)
@@ -97,8 +124,9 @@ export default {
 
             //zoom into submunicipality level when clicked
             municipalitySeries.mapPolygons.template.events.on("hit", function(ev) {
-                console.log(map.zoomLevel)
                 depth++;
+                console.log(depth);
+                
                 let selectedObjData = ev.target.dataItem.dataContext;
                 if (selectedObjData.zoomLevel != null) {
                     map.zoomToMapObject(ev.target, selectedObjData.zoomLevel)
