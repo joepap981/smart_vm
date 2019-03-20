@@ -49,9 +49,9 @@ export default {
                 else
                     map.zoomToMapObject(curObject)
 
-                map.series.removeIndex(depth);
                 depth--;
-
+                map.series.removeIndex(depth);
+                
             }
             //zoom out to home
             else if (depth == 1) {
@@ -68,7 +68,8 @@ export default {
 
             }
 
-            console.log
+            console.log(depth)
+
         });
 
         // set series for Seoul municipalities map
@@ -77,6 +78,7 @@ export default {
         map.projection = new am4maps.projections.Miller();
 
         var provinceSeries = map.series.push(new am4maps.MapPolygonSeries());
+        console.log(map.series.length)
         provinceSeries.useGeodata = true;
         var provincePolygonTemplate = provinceSeries.mapPolygons.template;
         provincePolygonTemplate.tooltipText = "{name}";
@@ -84,17 +86,28 @@ export default {
         var provinceHS = provincePolygonTemplate.states.create("hover");
         provinceHS.properties.fill = am4core.color("#00226F");
 
+        //zoom in/out to municipality level when clicked
         provinceSeries.mapPolygons.template.events.on("hit", function(ev) {
             curObject = ev.target;
-        
-            //if move to another municipality in depth
-            if (depth > 1) {
-                map.series.removeIndex(depth);
-                depth--;
-            } else if (depth < 1) {
-                depth++;
-            } else {
 
+            try {
+                //move to another municipality from submunicipality
+                if (depth > 1) {
+                    depth--;
+                    map.series.removeIndex(depth);
+                }
+                //move from province level to municipality level
+                else if (depth < 1) {
+                    depth++;
+                }
+                //move to another municipality
+                else {
+                    map.series.removeIndex(depth);
+                }
+            } catch (err) {
+                console.log(err)
+                console.log(depth)
+                console.log(curObject)
             }
 
             console.log(depth);
@@ -122,8 +135,17 @@ export default {
             municipalityHS.properties.fill = am4core.color("#0035AE");
 
 
-            //zoom into submunicipality level when clicked
+            //zoom in/out to submunicipality level when clicked
             municipalitySeries.mapPolygons.template.events.on("hit", function(ev) {
+                //if move to another municipality in depth
+                if (depth > 1) {
+                    map.series.removeIndex(depth-1);
+                } else if (depth < 1) {
+                    depth++;
+                } else {
+                    map.series.removeIndex(depth);
+                }
+
                 depth++;
                 console.log(depth);
                 
