@@ -7,7 +7,7 @@
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4maps from "@amcharts/amcharts4/maps";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-// import am4geodata_southKoreaHigh from "@amcharts/amcharts4-geodata/southKoreaHigh";
+import am4geodata_southKoreaHigh from "@amcharts/amcharts4-geodata/southKoreaHigh";
 import am4geodata_seoulSubmunicipalities from "../assets/geojson/seoul_submunicipalities.json";
 import am4geodata_seoulMunicipalities from "../assets/geojson/seoul_municipalities.json";
 // import am4geodata_koreaMunicipalities from "../assets/geojson/provinces.json";
@@ -42,15 +42,22 @@ export default {
                 map.series.removeIndex(1);
         });
 
-        // set series for Seoul municipalities map
+        map.geodata = am4geodata_southKoreaHigh;
 
-        map.geodata = am4geodata_seoulMunicipalities;
+        // set series for Seoul municipalities map
+        // map.geodata = am4geodata_seoulMunicipalities;
         map.projection = new am4maps.projections.Miller();
+
+        var koreaSeries = map.series.push(new am4maps.MapPolygonSeries());
+        var koreaPolygonTemplate = koreaSeries.mapPolygons.template;
+        koreaPolygonTemplate.tooltipText = "{name}";
+        koreaPolygonTemplate.fill = am4core.color("#113f67");
 
 
         // set series for South Korea
         var seoulSeries = map.series.push(new am4maps.MapPolygonSeries());
-        seoulSeries.useGeodata = true;
+        // seoulSeries.useGeodata = true;
+        seoulSeries.useGeodata = am4geodata_seoulMunicipalities;;
     
         var seoulPolygonTemplate = seoulSeries.mapPolygons.template;
         seoulPolygonTemplate.tooltipText = "{name}";
@@ -58,13 +65,6 @@ export default {
 
         var hs = seoulPolygonTemplate.states.create("hover");
         hs.properties.fill = am4core.color("#226597");
-
-        // console.log(seoulPolygonTemplate)
-
-
-        // //specify polygon that is being hovered over
-        // seoulSeries.mapPolygons.template.events.on("over", function(ev) {
-        //     console.log(ev.target.dataItem.dataContext.id);
 
         //zoom into municipality to show submuniciple
         seoulSeries.mapPolygons.template.events.on("hit", function(ev) {
@@ -76,10 +76,10 @@ export default {
 
             // set series for Seoul submunicipalities map
             var seoulSubSeries = map.series.push(new am4maps.MapPolygonSeries());
-            // seoulSubSeries.geodata = am4geodata_seoulSubmunicipalities;
             seoulSubSeries.geodata = {"type":"FeatureCollection", "features": [
             ]}
 
+            //filter submunicipality that belongs to selected municipality
             seoulSubSeries.geodata.features = am4geodata_seoulSubmunicipalities.features.filter(features => {
                 return features.properties.municipality == ev.target.dataItem.dataContext.id;
             });
