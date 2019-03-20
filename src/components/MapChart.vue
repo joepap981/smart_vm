@@ -71,9 +71,9 @@ export default {
         provinceSeries.useGeodata = true;
         var provincePolygonTemplate = provinceSeries.mapPolygons.template;
         provincePolygonTemplate.tooltipText = "{name}";
-        provincePolygonTemplate.fill = am4core.color("#00184E");
+        provincePolygonTemplate.fill = am4core.color("#0F2B67");
         var provinceHS = provincePolygonTemplate.states.create("hover");
-        provinceHS.properties.fill = am4core.color("#00226F");
+        provinceHS.properties.fill = am4core.color("#1E3D7E");
 
         //zoom in/out to municipality level when clicked
         provinceSeries.mapPolygons.template.events.on("hit", function(ev) {
@@ -106,10 +106,10 @@ export default {
 
             var municipalityPolygonTemplate = municipalitySeries.mapPolygons.template;
             municipalityPolygonTemplate.tooltipText = "{name}";
-            municipalityPolygonTemplate.fill = am4core.color("#002A8C");
+            municipalityPolygonTemplate.fill = am4core.color("#345291");
 
             var municipalityHS = municipalityPolygonTemplate.states.create("hover");
-            municipalityHS.properties.fill = am4core.color("#0035AE");
+            municipalityHS.properties.fill = am4core.color("#516CA5");
 
 
             //zoom in/out to submunicipality level when clicked
@@ -136,11 +136,11 @@ export default {
                 });
 
                 let submunicipalityPolygonTemplate = submunicipalitySeries.mapPolygons.template;
-                municipalityPolygonTemplate.tooltipText = "{name}";
-                municipalityPolygonTemplate.fill = am4core.color("#002A8C");
+                submunicipalityPolygonTemplate.tooltipText = "{name}";
+                submunicipalityPolygonTemplate.fill = am4core.color("#8793AD");
 
                 let submunicipalityHS = submunicipalityPolygonTemplate.states.create("hover");
-                municipalityHS.properties.fill = am4core.color("#0035AE");
+                submunicipalityHS.properties.fill = am4core.color("#DFDFDF");
             });
         });
 
