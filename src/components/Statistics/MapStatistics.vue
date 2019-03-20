@@ -11,6 +11,8 @@ export default {
     name: 'MapStatistics',
     components: {
         MapChart
+    },
+    methods: {
     }
 }
 </script>
