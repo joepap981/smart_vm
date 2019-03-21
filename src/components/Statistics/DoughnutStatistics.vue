@@ -30,7 +30,6 @@ export default {
         initData: function() {
             // this.chartData = doughnutchartjson.datacollection
             // this.options = doughnutchartjson.options
-
             this.options = doughnutchart_template.options
 
             //get data from a week from today to today
@@ -42,12 +41,18 @@ export default {
             this.getStatData();
         },
         pushToChartTemplate: function (data) {
-            console.log(data)
+            for(var i=0; i < data.length; i++) {
+                this.chartData.labels.push(data[i].drink_type);
+                this.chartData.datasets[0].data.push(data[i].sell);
+            }
+            // console.log(this.chartData)
         },
         getStatData: function () {
             //state this component for use in axios 'then' callback function
             var self = this;
+            
             this.chartData = doughnutchart_template.datacollection;
+          
             const instance = axios.create({
                 baseURL:'http://121.140.19.90:8080',
                 headers: {
