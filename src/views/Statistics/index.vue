@@ -10,12 +10,7 @@
                     <div class="card-header">
                         <label> 지역별 </label>
                     </div>
-                    <div class="card-body">
-                        <map-statistics />
-                    </div>
-                    <div class="card-footer">
-                       <date-picker />
-                    </div>
+                    <map-statistics />
                 </div>
             </div>
 
