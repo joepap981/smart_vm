@@ -41,14 +41,12 @@ export default {
             
             this.getStatData();
         },
-        helloWorld: function () {
-            console.log("hello")
-        },
         pushToChartTemplate: function (data) {
-            // console.log(data)
-            this.helloWorld()
+            console.log(data)
         },
         getStatData: function () {
+            //state this component for use in axios 'then' callback function
+            var self = this;
             this.chartData = doughnutchart_template.datacollection;
             const instance = axios.create({
                 baseURL:'http://121.140.19.90:8080',
@@ -65,17 +63,16 @@ export default {
                     end: this.end,
                 }
             }).then(function (response, error) {
-                console.log(response.data)
-                this.pushToChartTemplate(response.data);
+                self.pushToChartTemplate(response.data);
             }).catch(function (error) {
                 console.log(error);
             })
         },
         
     },
-    mounted: function (){
+    created: function (){
         this.initData();
-        this.pushToChartTemplate()
+        // this.pushToChartTemplate()
 
          // console.log(this.end_date.toISOString().split("T")[0])
         // this.getStatData();
