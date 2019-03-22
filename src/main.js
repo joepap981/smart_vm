@@ -10,7 +10,7 @@ import { createRouter } from './router'
 Vue.config.productionTip = false
 
 
-const router =  createRouter();
+const router =  createRouter()
 
 new Vue({
   render: h => h(App),

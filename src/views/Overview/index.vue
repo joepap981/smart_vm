@@ -12,8 +12,12 @@
                     </div>
                     <div class="card-body">
                         <div class="map-container">
+<<<<<<< HEAD
                             <overview-map />
                             <!-- <kt-map /> -->
+=======
+                            <kt-map />
+>>>>>>> parent of 2441897... Merge branch 'master' of https://github.com/joepap981/smart_vm
                             <!-- <kakao-map /> -->
                         </div>
                     </div>
@@ -54,16 +58,15 @@
 
 <script>
 // import KakaoMap from '../../components/KakaoMap.vue'
-// import KtMap from '../../components/KtMap.vue'
-import OverviewMap from '../../components/Overview/OverviewMap.vue'
-import axios from 'axios'
+import KtMap from '../../components/KtMap.vue'
 
 export default {
     name: 'Overview',
     components: {
         // KakaoMap, 
-       OverviewMap
+        KtMap
     },
+<<<<<<< HEAD
     data: function () {
         return {
             vm_data: null
@@ -94,6 +97,8 @@ export default {
     mounted () {
         this.getVMData()
     }
+=======
+>>>>>>> parent of 2441897... Merge branch 'master' of https://github.com/joepap981/smart_vm
 }
 </script>
 

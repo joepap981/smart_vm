@@ -26,27 +26,19 @@ import Datepicker from 'vuejs-datepicker';
 
 export default {
     name: 'DatePicker',
-    data: function () {
-        return {
-            start_date: null,
-            end_date: null,
-            stat_type: null
-        }
-    },
-    computed: {
-
-    },
     components: {
         Datepicker
     },
     methods: {
-        sendDate: function () {
-            
-        },
         updateData: function () {
-            // console.log(this.start_date);
-            // console.log(this.end_date);
+
             // console.log(this.end_date.toISOString().split("T")[0])
+        }
+    },
+    data () {
+        return {
+            start_date: null,
+            end_date: null
         }
     },
 }
