@@ -122,9 +122,6 @@ export default {
                 else if (depth == 2) {
                     zoomMove(ev.target)
                 }
-               
-
-                // zoomIn(ev.target);
                 
                 // set series for municipality for selected provice
                 let submunicipalitySeries = map.series.push(new am4maps.MapPolygonSeries());
@@ -137,10 +134,10 @@ export default {
 
                 let submunicipalityPolygonTemplate = submunicipalitySeries.mapPolygons.template;
                 submunicipalityPolygonTemplate.tooltipText = "{name}";
-                submunicipalityPolygonTemplate.fill = am4core.color("#8793AD");
+                submunicipalityPolygonTemplate.fill = am4core.color("#4445DD");
 
                 let submunicipalityHS = submunicipalityPolygonTemplate.states.create("hover");
-                submunicipalityHS.properties.fill = am4core.color("#DFDFDF");
+                submunicipalityHS.properties.fill = am4core.color("#A8A9DE");
             });
         });
 

@@ -12,7 +12,8 @@
                     </div>
                     <div class="card-body">
                         <div class="map-container">
-                            <kt-map />
+                            <overview-map :vm_data="vm_data" />
+                            <!-- <kt-map /> -->
                             <!-- <kakao-map /> -->
                         </div>
                     </div>
@@ -53,14 +54,58 @@
 
 <script>
 // import KakaoMap from '../../components/KakaoMap.vue'
-import KtMap from '../../components/KtMap.vue'
+// import KtMap from '../../components/KtMap.vue'
+import OverviewMap from '../../components/Overview/OverviewMap.vue'
+import axios from 'axios'
 
 export default {
     name: 'Overview',
     components: {
         // KakaoMap, 
-        KtMap
+       OverviewMap
     },
+    data: function () {
+        return {
+            vm_data: null
+        }
+    },
+    methods: {
+        getVMData: async function () {
+            console.log("index.getVMData")
+            //state this component for use in axios 'then' callback function
+            var self = this;
+          
+            const instance = axios.create({
+                baseURL:'http://localhost:8082',
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                },
+                useCredentials: true,
+                crossDomain: true,
+            })
+            await instance.get('/machines', {
+            }).then(function (response, error) {
+                console.log(response.data.content);
+                return response.data.content;
+            }).catch(function (error) {
+                console.log(error);
+            })
+        }
+    },
+    beforeCreate () {
+        console.log("index beforecreate")
+    },
+    async created () {
+        console.log("index created")
+        this.vm_data= await this.getVMData();
+    },
+    beforeMount () {
+        
+    },
+    mounted () {
+        
+        console.log("index mounted")
+    }
 }
 </script>
 
