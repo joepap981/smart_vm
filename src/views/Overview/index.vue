@@ -55,12 +55,15 @@
 <script>
 // import KakaoMap from '../../components/KakaoMap.vue'
 import KtMap from '../../components/KtMap.vue'
+import OverviewMap from '../../components/Overview/OverviewMap.vue'
+
+import axios from 'axios'
 
 export default {
     name: 'Overview',
     components: {
         // KakaoMap, 
-        KtMap
+        OverviewMap,
     },
     data: function () {
         return {
@@ -73,7 +76,7 @@ export default {
             var self = this;
           
             const instance = axios.create({
-                baseURL:'http://localhost:8082',
+                baseURL:'https://my-json-server.typicode.com/joepap981/api/',
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                 },
@@ -81,9 +84,9 @@ export default {
                 crossDomain: true,
             })
             //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
-            instance.get('/machines', {
+            instance.get('/content/1/', {
             }).then(function (response, error) {
-                console.log(response.data.content);
+                console.log(response.data);
             }).catch(function (error) {
                 console.log(error);
             })
