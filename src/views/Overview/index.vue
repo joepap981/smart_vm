@@ -84,9 +84,9 @@ export default {
                 crossDomain: true,
             })
             //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
-            instance.get('/content/', {
+            instance.get('/machines', {
             }).then(function (response, error) {
-                console.log(response.data);
+                console.log(response.data.content);
             }).catch(function (error) {
                 console.log(error);
             })
