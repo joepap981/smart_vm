@@ -12,7 +12,7 @@
                     </div>
                     <div class="card-body">
                         <div class="map-container">
-                            <overview-map :vm_data="vm_data" />
+                            <overview-map />
                             <!-- <kt-map /> -->
                             <!-- <kakao-map /> -->
                         </div>
@@ -70,8 +70,7 @@ export default {
         }
     },
     methods: {
-        getVMData: async function () {
-            console.log("index.getVMData")
+        getVMData: function () {
             //state this component for use in axios 'then' callback function
             var self = this;
           
@@ -83,28 +82,17 @@ export default {
                 useCredentials: true,
                 crossDomain: true,
             })
-            await instance.get('/machines', {
+            //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
+            instance.get('/machines', {
             }).then(function (response, error) {
                 console.log(response.data.content);
-                return response.data.content;
             }).catch(function (error) {
                 console.log(error);
             })
         }
     },
-    beforeCreate () {
-        console.log("index beforecreate")
-    },
-    async created () {
-        console.log("index created")
-        this.vm_data= await this.getVMData();
-    },
-    beforeMount () {
-        
-    },
     mounted () {
-        
-        console.log("index mounted")
+        this.getVMData()
     }
 }
 </script>
