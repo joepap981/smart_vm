@@ -12,7 +12,8 @@
                     </div>
                     <div class="card-body">
                         <div class="map-container">
-                            <kt-map />
+                            <overview-map />
+                            <!-- <kt-map /> -->
                             <!-- <kakao-map /> -->
                         </div>
                     </div>
@@ -53,14 +54,46 @@
 
 <script>
 // import KakaoMap from '../../components/KakaoMap.vue'
-import KtMap from '../../components/KtMap.vue'
+// import KtMap from '../../components/KtMap.vue'
+import OverviewMap from '../../components/Overview/OverviewMap.vue'
+import axios from 'axios'
 
 export default {
     name: 'Overview',
     components: {
         // KakaoMap, 
-        KtMap
+       OverviewMap
     },
+    data: function () {
+        return {
+            vm_data: null
+        }
+    },
+    methods: {
+        getVMData: function () {
+            //state this component for use in axios 'then' callback function
+            var self = this;
+          
+            const instance = axios.create({
+                baseURL:'http://localhost:8082',
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                },
+                useCredentials: true,
+                crossDomain: true,
+            })
+            //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
+            instance.get('/machines', {
+            }).then(function (response, error) {
+                console.log(response.data.content);
+            }).catch(function (error) {
+                console.log(error);
+            })
+        }
+    },
+    mounted () {
+        this.getVMData()
+    }
 }
 </script>
 
