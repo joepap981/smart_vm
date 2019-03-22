@@ -62,7 +62,6 @@ export default {
         // KakaoMap, 
         KtMap
     },
-<<<<<<< HEAD
     data: function () {
         return {
             vm_data: null
@@ -93,8 +92,6 @@ export default {
     mounted () {
         this.getVMData()
     }
-=======
->>>>>>> parent of 2441897... Merge branch 'master' of https://github.com/joepap981/smart_vm
 }
 </script>
 
