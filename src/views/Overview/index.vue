@@ -12,15 +12,8 @@
                     </div>
                     <div class="card-body">
                         <div class="map-container">
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> parent of 2b3cccc... Parent child prop push issue
                             <overview-map />
                             <!-- <kt-map /> -->
-=======
-                            <kt-map />
->>>>>>> parent of 2441897... Merge branch 'master' of https://github.com/joepap981/smart_vm
                             <!-- <kakao-map /> -->
                         </div>
                     </div>
