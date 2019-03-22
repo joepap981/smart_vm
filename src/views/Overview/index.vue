@@ -13,6 +13,9 @@
                     <div class="card-body">
                         <div class="map-container">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 2b3cccc... Parent child prop push issue
                             <overview-map />
                             <!-- <kt-map /> -->
 =======
