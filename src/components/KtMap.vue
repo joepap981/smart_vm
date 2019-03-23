@@ -24,7 +24,10 @@ export default {
             value.forEach(function(coor) {
                 var marker = new olleh.maps.overlay.Marker({
                     position: new olleh.maps.LatLng(coor.location.latitude, coor.location.longitude),
-                    map: self.map
+                    map: self.map,
+                    icon: {
+                        url:'../assets/vending-machine2.png'
+                    }
                 })
             });
         }
