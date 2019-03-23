@@ -34,8 +34,8 @@ export default {
             var self = this;
 
             var mapOpts = {
-                center: new olleh.maps.UTMK(958386.06353292, 1941447.5761742294),
-                zoom: 9,
+                center: new olleh.maps.LatLng(37.5379659, 127.0879996),
+                zoom: 6,
                 mapTypeId: 'ROADMAP',
                 disableDefaultUI: true
             };

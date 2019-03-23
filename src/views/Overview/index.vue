@@ -15,7 +15,6 @@
                             <kt-map v-bind:vm_data="vm_data"/>
                             <!-- <kakao-map /> -->
                         </div>
-                        <button @click="test()" class="btn" >TEST </button>
                     </div>
                 </div>
             </div>
@@ -55,6 +54,7 @@
 <script>
 // import KakaoMap from '../../components/KakaoMap.vue'
 import KtMap from '../../components/KtMap.vue'
+import VendingMachineList from '../../components/Overview/VendingMachineList.vue'
 
 import axios from 'axios'
 
@@ -62,7 +62,7 @@ export default {
     name: 'Overview',
     components: {
         // KakaoMap, 
-        KtMap,
+        KtMap, VendingMachineList
     },
     data: function () {
         return {

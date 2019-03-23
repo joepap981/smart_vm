@@ -4,7 +4,8 @@
         <!--Side Navigation Bar-->
         <div class="sidebar">
             <nav class="flex-column">
-                <h3 id="nav-header" style="color:white"> </h3>
+                <h3 id="nav-header" style="color:white"> smart vm </h3>
+                <hr style="border-color:#989eb3;opacity: 0.1" />
 
                 <div class="nav-group">
                     <router-link tag="div" to="overview" class="nav-item"> Overview </router-link>
@@ -109,6 +110,7 @@ export default {
     }
 
     .nav-group .nav-item {
+        font-size: 14px;
         margin-top: 10px;
         margin-bottom: 10px;
         color: #D8D8D8;
