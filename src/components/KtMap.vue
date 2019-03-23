@@ -13,15 +13,26 @@ export default {
     props: ['vm_data'],
     watch: {
         vm_data: function (value) {
-            value.forEach(function (coor) {
-                console.log(coor);
+            var self = this;
+            
+            //if the map is not initialize create new map
+            if(this.map == null) {
+                this.initialize();
+            }
+
+            //loop through array of vending machines and add marker on map
+            value.forEach(function(coor) {
+                var marker = new olleh.maps.overlay.Marker({
+                    position: new olleh.maps.LatLng(coor.location.latitude, coor.location.longitude),
+                    map: self.map
+                })
             });
         }
     },
     methods: {
-    },
-    mounted () {
-        var initialize = function () {
+        initialize: function () {
+            var self = this;
+
             var mapOpts = {
                 center: new olleh.maps.UTMK(958386.06353292, 1941447.5761742294),
                 zoom: 9,
@@ -29,18 +40,9 @@ export default {
                 disableDefaultUI: true
             };
 
-            var map = new olleh.maps.Map(document.getElementById("map"), mapOpts);
-
-            var marker = new olleh.maps.overlay.Marker({
-                position: new olleh.maps.UTMK(958386.06353292, 1941447.5761742294),
-                map: map
-            })
-        }
-
-        initialize();
-
-    
-    }
+            self.map = new olleh.maps.Map(document.getElementById("map"), mapOpts);
+        },
+    },
 }
 </script>
 
