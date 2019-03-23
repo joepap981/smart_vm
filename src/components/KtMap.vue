@@ -10,6 +10,14 @@ export default {
         map: null,
         latlng: null,
     }),
+    props: ['vm_data'],
+    watch: {
+        vm_data: function (value) {
+            value.forEach(function (coor) {
+                console.log(coor);
+            });
+        }
+    },
     methods: {
     },
     mounted () {
@@ -22,6 +30,11 @@ export default {
             };
 
             var map = new olleh.maps.Map(document.getElementById("map"), mapOpts);
+
+            var marker = new olleh.maps.overlay.Marker({
+                position: new olleh.maps.UTMK(958386.06353292, 1941447.5761742294),
+                map: map
+            })
         }
 
         initialize();

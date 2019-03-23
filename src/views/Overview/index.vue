@@ -12,8 +12,7 @@
                     </div>
                     <div class="card-body">
                         <div class="map-container">
-                            <overview-map v-bind:vm_data="vm_data"/>
-                            <!-- <kt-map /> -->
+                            <kt-map v-bind:vm_data="vm_data"/>
                             <!-- <kakao-map /> -->
                         </div>
                         <button @click="test()" class="btn" >TEST </button>
@@ -56,7 +55,6 @@
 <script>
 // import KakaoMap from '../../components/KakaoMap.vue'
 import KtMap from '../../components/KtMap.vue'
-import OverviewMap from '../../components/Overview/OverviewMap.vue'
 
 import axios from 'axios'
 
@@ -64,11 +62,11 @@ export default {
     name: 'Overview',
     components: {
         // KakaoMap, 
-        OverviewMap,
+        KtMap,
     },
     data: function () {
         return {
-            vm_data: 12,
+            vm_data: null,
             ready: false,
         }
     },
