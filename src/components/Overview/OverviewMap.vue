@@ -2,6 +2,7 @@
     <div class="map-container">
         <kt-map />
     </div>
+    
 </template>
 
 <script>
@@ -11,11 +12,20 @@ export default {
     components: {
         KtMap
     },
-    data () {
+    props: ['vm_data'],
+    data() {
         return {
-            vm_data: null
+            map_data: this.vm_data,
         }
-    }
+    },
+    watch: {
+        vm_data: function (val) {
+            console.log(val);
+        }
+    },
+    methods: {
+    },
+
 }
 </script>
 

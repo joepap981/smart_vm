@@ -12,10 +12,11 @@
                     </div>
                     <div class="card-body">
                         <div class="map-container">
-                            <overview-map />
+                            <overview-map v-bind:vm_data="vm_data"/>
                             <!-- <kt-map /> -->
                             <!-- <kakao-map /> -->
                         </div>
+                        <button @click="test()" class="btn" >TEST </button>
                     </div>
                 </div>
             </div>
@@ -67,7 +68,8 @@ export default {
     },
     data: function () {
         return {
-            vm_data: null
+            vm_data: 12,
+            ready: false,
         }
     },
     methods: {
@@ -84,17 +86,18 @@ export default {
                 crossDomain: true,
             })
             //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
-            instance.get('/machines', {
+            instance.get('/content/', {
             }).then(function (response, error) {
-                console.log(response.data.content);
+                self.vm_data = response.data;
             }).catch(function (error) {
                 console.log(error);
             })
-        }
+    
+        },
     },
-    mounted () {
-        this.getVMData()
-    }
+    beforeMount () {
+        this.getVMData();
+    },
 }
 </script>
 
