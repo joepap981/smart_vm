@@ -80,7 +80,7 @@ export default {
     .lane-status-widget {
         height: 50px;
         cursor: pointer;
-        margin-bottom: 10px;
+        margin-bottom: 0px;
     }
 
     .lane-status-widget:hover {

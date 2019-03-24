@@ -1,12 +1,12 @@
 <template>
-    <div class="d-flex flex-row justify-content-start">
+    <div class="list-item d-flex flex-row justify-content-start">
         <div id="laneStatusBadge" class="status-badge"></div>
         <div class="ml-2 mb-2">
             <p class="info-title"> Vending Machine 5 </p>
             <p class="info-sub"> 서울시 광진구 잠실동 </p>
         </div>
         <div class="ml-5">
-            <p class="info-title"> Lane 3: Pepsi </p>
+            <p class="info-title"> Lane 3: 온도 </p>
             <p class="info-sub"> Mar 6 13:53 </p>
         </div>
     </div>
@@ -42,4 +42,15 @@ export default {
         border-radius: 3px;
         margin-right: 1.2rem;
     }
+
+    .list-item {
+        height: 50px;
+        cursor: pointer;
+        margin-bottom: 10px;
+    }
+    .list-item :hover{ 
+        box-shadow: 0px 0px 13px 0px rgba(82,63,105,0.05);
+        border-radius: 3px 3px 3px 3px;
+    }
+
 </style>

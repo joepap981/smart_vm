@@ -29,7 +29,7 @@ export function createRouter () {
                     {path: 'alarms', component: Alarms},
                     {path: 'statistics', component: Statistics},
                     {path: 'user', component: User},
-                    {path: 'vm', component: VendingMachine}
+                    {path: 'vm/:id', component: VendingMachine}
                 ]
             },
 
