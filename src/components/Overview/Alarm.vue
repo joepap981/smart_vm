@@ -1,15 +1,36 @@
 <template>
-    <div class="list-item d-flex flex-row justify-content-start">
+<div class="list-item">
+    <div class="d-flex flex-row justify-content-start" data-toggle="modal" data-target="#alarm-modal">
         <div id="laneStatusBadge" class="status-badge"></div>
         <div class="ml-2 mb-2">
             <p class="info-title"> Vending Machine 5 </p>
             <p class="info-sub"> 서울시 광진구 잠실동 </p>
         </div>
         <div class="ml-5">
-            <p class="info-title"> Lane 3: 온도 </p>
+            <p class="info-title"> 3Lane : 온도 </p>
             <p class="info-sub"> Mar 6 13:53 </p>
         </div>
     </div>
+    <!--Alarm info modal -->
+    <div id="alarm-modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Lane 정보</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">닫기</button>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
 </template>
 
 <script>
@@ -51,6 +72,11 @@ export default {
     .list-item :hover{ 
         box-shadow: 0px 0px 13px 0px rgba(82,63,105,0.05);
         border-radius: 3px 3px 3px 3px;
+    }
+
+    .modal-title {
+        font-size: 16px;
+        font-weight: bold;
     }
 
 </style>

@@ -11,31 +11,22 @@
             <p class="info-sub"> Mar 6 13:53 </p>
         </div>
     </div>
-    <!-- Lane 편집 Modal -->
+    <!--Stock alarm info modal -->
     <div id="stock-alarm-modal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Lane 정보</h5>
+                <h5 class="modal-title">Stock Alarm</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <!--Lane 정보 편집-->
-                <form>
-                    <div class="form-group text-left">
-                        <label> Lane id : </label>
-                        <input class="form-control" type="text" />
-                        <label> 적정 온도 : </label>
-                        <input class="form-control" type="text" />
-                        <label> 적정 습도 : </label>
-                        <input class="form-control" type="text" />
-                    </div>
-                    <button type="button" class="btn btn-primary btn-sm">변경저장</button>
-                </form>
+
+            </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">닫기</button>
             </div>
             </div>
         </div>
@@ -82,6 +73,11 @@ export default {
     .list-item :hover{ 
         box-shadow: 0px 0px 13px 0px rgba(82,63,105,0.05);
         border-radius: 3px 3px 3px 3px;
+    }
+
+    .modal-title {
+        font-size: 16px;
+        font-weight: bold;
     }
 
 </style>

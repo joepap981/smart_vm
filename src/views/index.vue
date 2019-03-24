@@ -8,10 +8,10 @@
                 <hr style="border-color:#989eb3;opacity: 0.1" />
 
                 <div class="nav-group">
-                    <router-link tag="div" to="overview" class="nav-item"> Overview </router-link>
-                    <router-link tag="div" to="user" class="nav-item"> 사용자 </router-link>
-                    <router-link tag="div" to="alarms" class="nav-item"> 알림 </router-link>
-                    <router-link tag="div" to="statistics" class="nav-item"> 통계 </router-link>
+                    <router-link tag="div" to="/overview" class="nav-item"> Overview </router-link>
+                    <router-link tag="div" to="/user" class="nav-item"> 사용자 </router-link>
+                    <router-link tag="div" to="/alarms" class="nav-item"> 알림 </router-link>
+                    <router-link tag="div" to="/statistics" class="nav-item"> 통계 </router-link>
                 </div>
             </nav>
         </div>
