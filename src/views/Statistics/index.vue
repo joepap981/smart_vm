@@ -14,7 +14,7 @@
                         <map-statistics />
                     </div>
                     <div class="card-footer">
-                       <date-picker />
+  
                     </div>
                 </div>
             </div>
@@ -25,12 +25,8 @@
                     <div class="card-header">
                         <label> 기간별 인기제품 </label>
                     </div>
-                    <div class="card-body">
-                        <doughnut-statistics />
-                    </div>
-                    <div class="card-footer">
-                        <date-picker />
-                    </div>
+                    <doughnut-statistics />
+                   
                 </div>
             </div>
 
@@ -44,7 +40,7 @@
                         <line-statistics />
                     </div>
                     <div class="card-footer">
-                        <date-picker />
+         
                     </div>
                 </div>
             </div>
@@ -66,12 +62,12 @@ import BarStatistics from '../../components/Statistics/BarStatistics.vue'
 import DoughnutStatistics from '../../components/Statistics/DoughnutStatistics.vue'
 import MapStatistics from '../../components/Statistics/MapStatistics.vue'
 import LineStatistics from '../../components/Statistics/LineStatistics.vue'
-import DatePicker from '../../components/DatePicker.vue'
+
 
 export default {
     name: 'Statistics',
     components: {
-        BarStatistics, DoughnutStatistics, MapStatistics, LineStatistics, DatePicker
+        BarStatistics, DoughnutStatistics, MapStatistics, LineStatistics,
     }
 }
 </script>

@@ -12,11 +12,11 @@
             </div>
         </div>
 
-        <datepicker class="datepicker-util" calendar-button-icon="far fa-calendar-alt" :calendar-button="true" v-model="start_date" input-class="inputclass"></datepicker>
+        <datepicker class="datepicker-util" calendar-button-icon="far fa-calendar-alt" :calendar-button="true" v-model="date.start" input-class="inputclass"></datepicker>
         ~
-        <datepicker class="datepicker-util" calendar-button-icon="far fa-calendar-alt" :calendar-button="true" v-model="end_date" input-class="inputclass"></datepicker>
+        <datepicker class="datepicker-util" calendar-button-icon="far fa-calendar-alt" :calendar-button="true" v-model="date.end" input-class="inputclass"></datepicker>
 
-        <button @click="updateData()" class="update-btn btn btn-primary btn-light btn-sm"> Update </button>
+        <button @click="update()" class="update-btn btn btn-primary btn-light btn-sm"> Update </button>
     </div>
 
 </template>
@@ -30,17 +30,28 @@ export default {
         Datepicker
     },
     methods: {
-        updateData: function () {
-
-            // console.log(this.end_date.toISOString().split("T")[0])
+        update: function () {
+            console.log("update");
+            this.$emit('update-chart');
         }
     },
     data () {
         return {
-            start_date: null,
-            end_date: null
+            date: {
+                start: null,
+                end: null
+            }
+            
         }
     },
+    // watch: {
+    //     start: function (value) {
+    //         console.log(value);
+    //     },
+    //     end: function (value) {
+    //         console.log(value);
+    //     }
+    // }
 }
 </script>
 

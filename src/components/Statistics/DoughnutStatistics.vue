@@ -1,11 +1,17 @@
 <template>
     <div class="">
-        <doughnut-chart v-if="data_ready" class="chart-container" :chart-data="chart_data" :options="options" />
+        <div class="card-body">
+            <doughnut-chart v-if="data_ready" v-on:update-chart="getChartData" class="chart-container" :chart-data="chart_data" :options="options" />
+        </div>
+        <div class="card-footer">
+            <date-picker />
+        </div>
     </div>
 </template>
 
 <script>
 import DoughnutChart from '../DoughnutChart.vue'
+import DatePicker from '../../components/DatePicker.vue'
 import doughnutchartjson from '../../data/doughnutchart.json'
 
 import axios from 'axios';
@@ -13,7 +19,7 @@ import axios from 'axios';
 export default {
     name: 'DoughnutStatistics',
     components: {
-        DoughnutChart
+        DoughnutChart, DatePicker
     },
     data () {
         return {
@@ -82,11 +88,22 @@ export default {
                 });
                 self.data_ready = true;
                 console.log(self.chart_data.labels)
-                // self.chart_data = response.data;
             }).catch(function (error) {
                 console.log(error);
             })
         },
+        getChartData: function () {
+            // this.start = event.start;
+            // this.end = event.end;
+            console.log("getchartdata")
+            // if (event != undefined) {
+            //     console.log(event.start);
+
+            //     console.log(this.start);
+            //     console.log(this.end);
+            // }
+
+        }
     },
     created: function (){
         this.initData()
