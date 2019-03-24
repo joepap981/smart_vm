@@ -32,7 +32,7 @@ export default {
     methods: {
         update: function () {
             console.log("update");
-            this.$emit('update-chart');
+            console.log(this.$emit('update-chart'));
         }
     },
     data () {
