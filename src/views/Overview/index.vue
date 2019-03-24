@@ -18,7 +18,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-md-12">
+            <div class="col-xl-3 col-md-6">
                 <div class="card">
                     <div class="card-header">
                         <p class="card-header-title"> 자판기 </p>
@@ -28,22 +28,28 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-4 col-md-12">
+            <div class="col-xl-4 col-md-6">
                 <div class="card">
                     <div class="card-header">
                         <p class="card-header-title"> 재고알람 </p>
                     </div>
+                    <div class="card-body">
+                        <stock-alarm />
+                    </div>
                 </div>
             </div>
 
-            <div class="col-xl-4 col-md-12">
+            <div class="col-xl-4 col-md-6">
                  <div class="card">
                     <div class="card-header">
                         <p class="card-header-title"> 장애알람 </p>
                     </div>
+                    <div class="card-body">
+                        <alarm />
+                    </div>
                 </div>
             </div>
-            <div class="col-xl-4 col-md-12">
+            <div class="col-xl-4 col-md-6">
                  <div class="card">
                     <div class="card-header">
                         <p class="card-header-title"> x </p>
@@ -58,6 +64,8 @@
 // import KakaoMap from '../../components/KakaoMap.vue'
 import KtMap from '../../components/KtMap.vue'
 import VendingMachineList from '../../components/Overview/VendingMachineList.vue'
+import StockAlarm from '../../components/Overview/StockAlarm.vue'
+import Alarm from '../../components/Overview/Alarm.vue'
 
 import axios from 'axios'
 
@@ -65,12 +73,15 @@ export default {
     name: 'Overview',
     components: {
         // KakaoMap, 
-        KtMap, VendingMachineList
+        KtMap, VendingMachineList, StockAlarm, Alarm
     },
     data: function () {
         return {
             vm_data: null,
             ready: false,
+            stock_alarm_data: null,
+            alarm_data: null,
+            alarm_polling: null,
         }
     },
     methods: {
@@ -93,12 +104,64 @@ export default {
             }).catch(function (error) {
                 console.log(error);
             })
-    
         },
+        getStockAlarmData: function () {
+            //state this component for use in axios 'then' callback function
+            var self = this;
+          
+            const instance = axios.create({
+                baseURL:'https://my-json-server.typicode.com/joepap981/api/',
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                },
+                useCredentials: true,
+                crossDomain: true,
+            })
+            //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
+            instance.get('/content/', {
+            }).then(function (response, error) {
+                self.stock_alarm_data = response.data;
+            }).catch(function (error) {
+                console.log(error);
+            })
+
+            console.log(new Date());
+        },
+        getAlarmData: function () {
+                        //state this component for use in axios 'then' callback function
+            var self = this;
+          
+            const instance = axios.create({
+                baseURL:'https://my-json-server.typicode.com/joepap981/api/',
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                },
+                useCredentials: true,
+                crossDomain: true,
+            })
+            //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
+            instance.get('/content/', {
+            }).then(function (response, error) {
+                self.alarm_data = response.data;
+            }).catch(function (error) {
+                console.log(error);
+            })
+
+            console.log(new Date());
+        }
     },
     beforeMount () {
-        this.getVMData();
+        var self = this;
+        // this.alarm_polling = setInterval(() => {
+        //     self.getStockDataAlarmData();
+        //     self.getAlarmData();
+        // }, 3000)
+
+       this.getVMData();
     },
+    beforeDestroy() {
+        clearInterval(this.alarm_polling)
+    }
 }
 </script>
 
@@ -116,7 +179,7 @@ export default {
         margin-right:0;
     }
 
-    .col-xl-3, .col-md-12, .col-xl-6, .col-xl-9 {
+    .col-xl-3, .col-md-12, .col-xl-6, .col-xl-9, .col-md-4 .col-md-6, .col-xl-4{
         padding-right: 10px!important;
         padding-left: 10px!important;
     }

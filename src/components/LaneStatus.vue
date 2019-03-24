@@ -84,7 +84,7 @@ export default {
     }
 
     .lane-status-widget:hover {
-        background-color: #FCFCFC;
+        box-shadow: 0px 0px 13px 0px rgba(82,63,105,0.05);
         border-radius: 3px 3px 3px 3px;
     }
     .lane-status{
