@@ -59,7 +59,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <p> location </p>
+                        <p v-if="vm_data_ready"> {{ vm_data.location.address.province }} {{ vm_data.location.address.municipality }} {{ vm_data.location.address.submunicipality }} </p>
                     </div>
                 </div>
             </div>
@@ -137,6 +137,7 @@ export default {
             //flags to alert chart that data has been received
             temp_data_ready: false,
             hum_data_ready: false,
+            vm_data_ready: false,
 
             //lane related data
             add_lane: {
@@ -198,6 +199,7 @@ export default {
                 }).then(function (response, error) {
                     self.vm_data = response.data;
                     self.map_data= [response.data];
+                    self.vm_data_ready = true;
                 }).catch(function (error) {
                     console.log(error);
                 });
