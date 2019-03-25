@@ -11,38 +11,14 @@ export default {
         latlng: null,
     }),
     props: {
-        vm_data: Array,
-        map_id: String,
-    },
-    watch: {
-        vm_data: function (value) {
-            var self = this;
-
-            
-            //if the map is not initialize create new map
-            if(this.map == null) {
-                this.initialize();
-            }
-
-            //loop through array of vending machines and add marker on map
-            value.forEach(function(coor) {
-                var marker = new olleh.maps.overlay.Marker({
-                    position: new olleh.maps.LatLng(coor.location.latitude, coor.location.longitude),
-                    map: self.map,
-                    // icon: {
-                    //     url:'../assets/vending-machine2.png'
-                    // }
-                })
-            });
-        }
     },
     methods: {
         initialize: function () {
             var self = this;
 
             var mapOpts = {
-                center: new olleh.maps.LatLng(this.vm_data[0].location.latitude, this.vm_data[0].location.longitude),
-                zoom: 6,
+                center: new olleh.maps.LatLng(37.5210873, 127.0889181),
+                zoom: 4,
                 mapTypeId: 'ROADMAP',
                 disableDefaultUI: true
             };
@@ -50,12 +26,15 @@ export default {
             self.map = new olleh.maps.Map(document.getElementById("map"), mapOpts);
         },
     },
+    mounted () {
+        this.initialize();
+    }
 }
 </script>
 
 <style scoped>
     #map {
-        width:90%;
+        width:100%;
         height:100%;
         margin: auto;
         border-radius: 3px 3px 3px 3px;
