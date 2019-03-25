@@ -106,6 +106,8 @@ import LaneStatus from '../../components/LaneStatus.vue';
 
 import linechartjson from '../../data/linechart.json';
 import lanechartjson from '../../data/lanestatus.json';
+
+import linechart_template from '../../data/linechart_template.json';
 // import { JSONParser } from '@amcharts/amcharts4/core';
 
 export default {
@@ -117,11 +119,11 @@ export default {
         return {
             vm_id: this.$route.params.id,
             vm_data: null,
-            axios_instance: null,
+            data_instance: null,
 
-            temp_data: null,
-            hum_data: null,
-            
+            temp_data: [],
+            hum_data: [],
+
             datacollection: null,
             options: null,
             lanechartArr: null
@@ -143,6 +145,10 @@ export default {
       init () {
             var self = this;
 
+            //initialize temperature and humidity variables
+            this.temp_data = linechart_template.datacollection;
+            this.hum_data = linechart_template.datacollection;
+
             //get vending machine information
             var vm_info_instance = axios.create({
                 baseURL:'http://localhost:8082/',
@@ -152,16 +158,9 @@ export default {
                 useCredentials: true,
                 crossDomain: true,
             })
-      
-            vm_info_instance.get(`/machines/${this.vm_id}`, {
-            }).then(function (response, error) {
-                self.vm_data = response.data;
-            }).catch(function (error) {
-                console.log(error);
-            });
 
             //get initial temperature and humidity data
-            this.axios_instance = axios.create({
+            this.data_instance = axios.create({
                 baseURL:'http://121.140.19.90:8080/',
                 headers: {
                     'Access-Control-Allow-Origin': '*',
@@ -170,14 +169,43 @@ export default {
                 crossDomain: true,
             })
 
+            var getMachineData = function () {
+                let promise = vm_info_instance.get(`/machines/${self.vm_id}`, {
+                }).then(function (response, error) {
+                    self.vm_data = response.data;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+
+                return promise;
+            }
+            
             //initial temperature data
             //`/logs/temperature/init/${user_id}/${vm_id}/${lane_id}`
-            this.axios_instance.get('/logs/temperature/init/user1@kt.com/machine1/1', {
-            }).then(function (response, error) {
-                console.log(response.data);
-            }).catch(function (error) {
-                console.log(error);
-            });
+            var getInitLaneData = function () {
+                let promise = self.data_instance.get('/logs/temperature/init/user1@kt.com/machine1/1', {
+                }).then(function (response, error) {
+         
+                }).catch(function (error) {
+                    console.log(error);
+ 
+                });
+
+                return promise;
+            }
+
+            //once successful in getting machine and lane data
+            Promise.all([getMachineData(), getInitLaneData()])
+                .then(function(values) {
+                    console.log(self.vm_data);
+                    
+                }).catch(function (error) {
+                    console.log("error");
+                    console.log(error.message);
+                })
+
+            
+            
 
             // //initial humidity data
             // //`/logs/humidity/init/${user_id}/${vm_id}/${lane_id}`
@@ -188,12 +216,12 @@ export default {
             //     console.log(error);
             // });
 
-            this.getTempData();
+            // this.getTempData();
       },
       getTempData () {
             //latest temperature data
             //`/logs/temperature/${user_id}/${vm_id}/${lane_id}`
-            this.axios_instance.get('/logs/temperature/user1@kt.com/machine1/1', {
+            this.data_instance.get('/logs/temperature/user1@kt.com/machine1/1', {
             }).then(function (response, error) {
                 console.log(response.data);
             }).catch(function (error) {
@@ -203,7 +231,7 @@ export default {
       getHumidData () {
             //latest humidity data
             //`/logs/humidity/${user_id}/${vm_id}/${lane_id}`
-            this.axios_instance.get('/logs/humidity/user1@kt.com/machine1/1', {
+            this.data_instance.get('/logs/humidity/user1@kt.com/machine1/1', {
             }).then(function (response, error) {
                 console.log(response.data);
             }).catch(function (error) {
