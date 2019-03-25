@@ -11,6 +11,7 @@ import Statistics from '../views/Statistics'
 import User from '../views/User'
 import VendingMachine from '../views/VendingMachine'
 import VendingMachineList from '../views/VendingMachineList'
+import AddVendingMachine from '../views/VendingMachineList/AddVendingMachine.vue'
 
 import PageNotFound from '../components/PageNotFound'
 
@@ -31,7 +32,8 @@ export function createRouter () {
                     {name: 'statistics', path: 'statistics', component: Statistics},
                     {name: 'user', path: 'user', component: User},
                     {name: 'vm', path: 'vm/:id', component: VendingMachine},
-                    {name: 'vm_list', path: 'vm_list/', component: VendingMachineList}
+                    {name: 'vm_list', path: 'vm_list/', component: VendingMachineList},
+                    {name: 'vm_list/add_machine', path: 'vm_list/add_machine', component: AddVendingMachine}
                 ]
             },
 
