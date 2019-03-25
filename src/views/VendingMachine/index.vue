@@ -77,17 +77,21 @@
                     <div class="modal-body">
                         <form>
                             <div class="form-group text-left">
-                                <label> Lane id : </label>
-                                <input class="form-control" type="text" />
-                                <label> 적정 온도 : </label>
-                                <input class="form-control" type="text" />
-                                <label> 적정 습도 : </label>
-                                <input class="form-control" type="text" />
+                                <label> Sequence : </label>
+                                <input v-model="add_lane.temperature.sequence" class="form-control" type="text" />
+                                <label> 적정 온도 (high) : </label>
+                                <input v-model="add_lane.temperature.optimal_temp_high" class="form-control" type="text" />
+                                <label> 적정 온도 (low): </label>
+                                <input v-model="add_lane.temperature.optimal_temp_low" class="form-control" type="text" />
+                                <label> 적정 습도 (high): </label>
+                                <input v-model="add_lane.humidity.optimal_humi_high" class="form-control" type="text" />
+                                <label> 적정 습도 (low): </label>
+                                <input v-model="add_lane.humidity.optimal_humi_low" class="form-control" type="text" />
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">Lane 추가</button>
+                        <button @click="addLane()" type="button" class="btn btn-primary" data-dismiss="modal">Lane 추가</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                     </div>
                     </div>
@@ -120,6 +124,8 @@ export default {
             vm_id: this.$route.params.id,
             vm_data: null,
             data_instance: null,
+            vm_info_instance: null,
+
             //final objects whose datacollection and options gets inserted into the chart
             temp: null,
             hum: null,
@@ -130,6 +136,18 @@ export default {
             //flags to alert chart that data has been received
             temp_data_ready: false,
             hum_data_ready: false,
+
+            add_lane: {
+                humidity: {
+                    optimal_humi_high: null,
+                    optimal_humi_low: null,
+                },
+                temperature: {
+                    optimal_temp_high: null,
+                    optimal_temp_low: null,
+                },
+                sequence: 0
+            },
 
             datacollection: null,
             options: null,
@@ -149,7 +167,7 @@ export default {
             this.hum= linechart_template;
 
             //get vending machine information
-            var vm_info_instance = axios.create({
+            this.vm_info_instance = axios.create({
                 baseURL:'http://localhost:8082/',
                 headers: {
                     'Access-Control-Allow-Origin': '*',
@@ -168,85 +186,85 @@ export default {
                 crossDomain: true,
             })
 
-            //get vending machine data
-            var getMachineData = function () {
-                let promise = vm_info_instance.get(`/machines/${self.vm_id}`, {
-                }).then(function (response, error) {
-                    self.vm_data = response.data;
-                }).catch(function (error) {
-                    console.log(error);
-                });
+            // //get vending machine data
+            // var getMachineData = function () {
+            //     let promise = vm_info_instance.get(`/machines/${self.vm_id}`, {
+            //     }).then(function (response, error) {
+            //         self.vm_data = response.data;
+            //     }).catch(function (error) {
+            //         console.log(error);
+            //     });
 
-                return promise;
-            }
+            //     return promise;
+            // }
             
-            //initial temperature data
-            //`/logs/temperature/init/${user_id}/${vm_id}/${lane_id}`
-            var getInitTempData = function () {
-                let promise = self.data_instance.get('/logs/temperature/init/user1@kt.com/machine1/', {
-                }).then(function (response, error) {
-                    self.temp_init_data = response.data;
-                }).catch(function (error) {
-                    console.log(error);
-                });
-                return promise;
-            }
+            // //initial temperature data
+            // //`/logs/temperature/init/${user_id}/${vm_id}/${lane_id}`
+            // var getInitTempData = function () {
+            //     let promise = self.data_instance.get('/logs/temperature/init/user1@kt.com/machine1/', {
+            //     }).then(function (response, error) {
+            //         self.temp_init_data = response.data;
+            //     }).catch(function (error) {
+            //         console.log(error);
+            //     });
+            //     return promise;
+            // }
 
-            //once successful in getting machine and lane data
-            //format lane temp + hum data from server to chart
-            Promise.all([getMachineData(), getInitTempData()])
-                .then(function() {
+            // //once successful in getting machine and lane data
+            // //format lane temp + hum data from server to chart
+            // Promise.all([getMachineData(), getInitTempData()])
+            //     .then(function() {
                     
-                    // console.log(self.vm_data);
-                    // console.log(self.temp_init_data);
+            //         // console.log(self.vm_data);
+            //         // console.log(self.temp_init_data);
 
-                    // var str = self.temp_init_data;
-                    // console.log(str[0][0].date.split(" ")[1]);
+            //         // var str = self.temp_init_data;
+            //         // console.log(str[0][0].date.split(" ")[1]);
 
-                    //add labels
-                    let init_lane = self.temp_init_data[0];
-                    for(let i=0; i < init_lane.data.length; i++) {
-                        self.temp.datacollection.labels.push(init_lane.data[i].date.split(" ")[1]);
-                    }
+            //         //add labels
+            //         let init_lane = self.temp_init_data[0];
+            //         for(let i=0; i < init_lane.data.length; i++) {
+            //             self.temp.datacollection.labels.push(init_lane.data[i].date.split(" ")[1]);
+            //         }
                     
-                    //push each lane data into a dataset, which is inserted into datacollection
-                    for(var i=0; i < self.temp_init_data.length; i++){
-                        //current lane
-                        var lane = self.temp_init_data[i].data;
-                        // console.log(lane);
+            //         //push each lane data into a dataset, which is inserted into datacollection
+            //         for(var i=0; i < self.temp_init_data.length; i++){
+            //             //current lane
+            //             var lane = self.temp_init_data[i].data;
+            //             // console.log(lane);
                   
-                        //dataset object to push into temp_datacollection
-                        var lane_dataset = {
-                            "label": "lane " + self.vm_data.lanes[i].id,
-                            "data": [],
-                            "backgroundColor":"rgba(0, 0, 0, 0)",
-                            "borderColor": [
-                            ],
-                            "borderWidth": 1
-                        }
+            //             //dataset object to push into temp_datacollection
+            //             var lane_dataset = {
+            //                 "label": "lane " + self.vm_data.lanes[i].id,
+            //                 "data": [],
+            //                 "backgroundColor":"rgba(0, 0, 0, 0)",
+            //                 "borderColor": [
+            //                 ],
+            //                 "borderWidth": 1
+            //             }
 
-                        for(var j=0; j < lane.length; j++) {
-                            //split string to get just time
-                            lane_dataset.data.push(lane[j].degree);
-                        }
-                        //set border color for lane -> get from the linechart_template list of bordercolors
-                        lane_dataset.borderColor.push(self.temp.borderColor[i])
+            //             for(var j=0; j < lane.length; j++) {
+            //                 //split string to get just time
+            //                 lane_dataset.data.push(lane[j].degree);
+            //             }
+            //             //set border color for lane -> get from the linechart_template list of bordercolors
+            //             lane_dataset.borderColor.push(self.temp.borderColor[i])
 
-                        //push current dataset (lane) into the datacollection
-                        // *having muliple lanes means having multiple datasets and labels
-                        self.temp.datacollection.datasets.push(lane_dataset);
+            //             //push current dataset (lane) into the datacollection
+            //             // *having muliple lanes means having multiple datasets and labels
+            //             self.temp.datacollection.datasets.push(lane_dataset);
 
-                        //set flag to true to initiate chart creation
-                        self.temp_data_ready = true
-                    }
+            //             //set flag to true to initiate chart creation
+            //             self.temp_data_ready = true
+            //         }
                     
 
-                    self.updateData();
-                }).catch(function (error) {
-                    console.log(error);
-                })
+            //         self.updateData();
+            //     }).catch(function (error) {
+            //         console.log(error);
+            //     })
 
-            // console.log(this.temp);
+    
             
             
             
@@ -259,7 +277,7 @@ export default {
             //     console.log(error);
             // });
 
-            // this.getData('temperature');
+
         },
         updateData () {
             var self = this;
@@ -312,12 +330,35 @@ export default {
             .catch(function () {
 
             })
-
-            
-
-
-            // getTempData();
         },
+        addLane () {
+            //get vending machine data
+            var self = this;
+            
+            this.vm_info_instance.post(`/machines/${this.vm_id}/lanes`, {
+                humidity: this.add_lane.humidity,
+                temperature: this.add_lane.temperature,
+                sequence: this.add_lane.sequence
+            }).then(function (response, error) {
+                console.log(response);
+                //reset add lane
+                self.add_lane = {
+                    humidity: {
+                        optimal_humi_high: null,
+                        optimal_humi_low: null,
+                    },
+                    temperature: {
+                        optimal_temp_high: null,
+                        optimal_temp_low: null,
+                    },
+                    sequence: 0
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+
+         
+        }
         
     }
 }
