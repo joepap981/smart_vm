@@ -137,19 +137,10 @@ export default {
         }
     },
     mounted () {
-        this.fillData()
         this.init();
     },
     methods: {
-        fillData () {
-            //get data from linechart.json file
-            this.datacollection = linechartjson.datacollection
-
-            this.options = linechartjson.options
-
-            this.lanechartArr = lanechartjson.laneData
-      },
-      init () {
+        init () {
             var self = this;
 
             //initialize temperature and humidity variables
@@ -191,35 +182,43 @@ export default {
             
             //initial temperature data
             //`/logs/temperature/init/${user_id}/${vm_id}/${lane_id}`
-            var getInitLaneData = function () {
-                let promise = self.data_instance.get('/logs/temperature/init/user1@kt.com/machine1/1', {
+            var getInitTempData = function () {
+                let promise = self.data_instance.get('/logs/temperature/init/user1@kt.com/machine1/', {
                 }).then(function (response, error) {
-                    self.temp_init_data.push(response.data);
+                    self.temp_init_data = response.data;
                 }).catch(function (error) {
                     console.log(error);
                 });
-
                 return promise;
             }
 
             //once successful in getting machine and lane data
             //format lane temp + hum data from server to chart
-            Promise.all([getMachineData(), getInitLaneData()])
+            Promise.all([getMachineData(), getInitTempData()])
                 .then(function() {
+                    
                     // console.log(self.vm_data);
                     // console.log(self.temp_init_data);
 
                     // var str = self.temp_init_data;
                     // console.log(str[0][0].date.split(" ")[1]);
 
-                    //push each lane data to separate chart datacollection
+                    //add labels
+                    let init_lane = self.temp_init_data[0];
+                    console.log(init_lane.data);
+                    for(let i=0; i < init_lane.data.length; i++) {
+                        self.temp.datacollection.labels.push(init_lane.data[i].date.split(" ")[1]);
+                    }
+                    
+                    //push each lane data into a dataset, which is inserted into datacollection
                     for(var i=0; i < self.temp_init_data.length; i++){
                         //current lane
-                        var lane = self.temp_init_data[i];
-                
+                        var lane = self.temp_init_data[i].data;
+                        // console.log(lane);
+                  
                         //dataset object to push into temp_datacollection
                         var lane_dataset = {
-                            "label": null,
+                            "label": "lane " + self.vm_data.lanes[i].id,
                             "data": [],
                             "backgroundColor":"rgba(0, 0, 0, 0)",
                             "borderColor": [
@@ -229,7 +228,6 @@ export default {
 
                         for(var j=0; j < lane.length; j++) {
                             //split string to get just time
-                            self.temp.datacollection.labels.push(lane[j].date.split(" ")[1]);
                             lane_dataset.data.push(lane[j].degree);
                         }
                         //set border color for lane -> get from the linechart_template list of bordercolors
@@ -247,7 +245,7 @@ export default {
                     console.log(error);
                 })
 
-            // console.log(this.temp);
+            console.log(this.temp);
             
             
 
@@ -260,28 +258,26 @@ export default {
             //     console.log(error);
             // });
 
-            // this.getTempData();
+            // this.getData('temperature');
       },
-      getTempData () {
-            //latest temperature data
-            //`/logs/temperature/${user_id}/${vm_id}/${lane_id}`
-            this.data_instance.get('/logs/temperature/user1@kt.com/machine1/1', {
+      updateData () {
+
+      },
+      getData (data_type, ) {
+            //get latest data
+            //`/logs/${data_type}/${user_id}/${vm_id}/${lane_id}`
+            let promise = this.data_instance.get(`/logs/${data_type}/user1@kt.com/machine1/`, {
             }).then(function (response, error) {
                 console.log(response.data);
+                for(var i=0; i < response.data.length; i++) {
+                    
+                }
             }).catch(function (error) {
                 console.log(error);
             });
+
+            return promise;
       },
-      getHumidData () {
-            //latest humidity data
-            //`/logs/humidity/${user_id}/${vm_id}/${lane_id}`
-            this.data_instance.get('/logs/humidity/user1@kt.com/machine1/1', {
-            }).then(function (response, error) {
-                console.log(response.data);
-            }).catch(function (error) {
-                console.log(error);
-            });
-      }
     }
 }
 </script>
@@ -297,7 +293,7 @@ export default {
 
     .chart-container {
         position: relative;
-        height: 150px;
+        height: 300px;
         width: 95%;
         margin: auto;
 
