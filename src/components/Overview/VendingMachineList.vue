@@ -1,5 +1,5 @@
 <template>
-<router-link tag="div" to="{ name: 'vm', params: {id: vm_data.id } }" class="list-item"> 
+<router-link tag="div" :to="{ name: 'vm', params: {id: vm_data.id } }" class="list-item"> 
     <div class="d-flex flex-row justify-content-start">
         <div>
             <img src="../../assets/vending-machine.png" height="32" width="34" />

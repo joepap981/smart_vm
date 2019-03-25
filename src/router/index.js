@@ -18,18 +18,18 @@ Vue.use(VueRouter)
 export function createRouter () {
     return new VueRouter({
         mode: 'history',
-       routes: [
+        routes: [
            //authentication/redirect routes
            { path: '/signin', component: SignIn},
 
            //dashboard routes
            { path: '/', component: DashboardIndex,
                 children: [
-                    {path: 'overview', component: Overview},
-                    {path: 'alarms', component: Alarms},
-                    {path: 'statistics', component: Statistics},
-                    {path: 'user', component: User},
-                    {path: 'vm/:id', component: VendingMachine}
+                    {name: 'overview', path: 'overview', component: Overview},
+                    {name: 'alarms', path: 'alarms', component: Alarms},
+                    {name: 'statistics', path: 'statistics', component: Statistics},
+                    {name: 'user', path: 'user', component: User},
+                    {name: 'vm', path: 'vm/:id', component: VendingMachine}
                 ]
             },
 
