@@ -15,7 +15,7 @@
                         <div id="tempStatusBadge" class="status-badge"></div>
                     </div>
                     <div class="card-body">
-                        <line-chart class="chart-container" :chart-data="datacollection" :options="options" />
+                        <line-chart v-if="temp_data_ready" class="chart-container" :chart-data="temp.datacollection" :options="temp.options" />
                     </div>
                 </div>
             </div>
@@ -120,12 +120,16 @@ export default {
             vm_id: this.$route.params.id,
             vm_data: null,
             data_instance: null,
-
-            temp_datacollection: null,
-            hum_datacollection: null,
-
+            //final objects whose datacollection and options gets inserted into the chart
+            temp: null,
+            hum: null,
+            //arrays 
             temp_init_data: [],
             hum_init_data: [],
+
+            //flags to alert chart that data has been received
+            temp_data_ready: false,
+            hum_data_ready: false,
 
             datacollection: null,
             options: null,
@@ -149,6 +153,7 @@ export default {
             var self = this;
 
             //initialize temperature and humidity variables
+            //these are the final object whose datacollection and options gets inserted into the chart
             this.temp = linechart_template;
             this.hum= linechart_template;
 
@@ -211,6 +216,7 @@ export default {
                     for(var i=0; i < self.temp_init_data.length; i++){
                         //current lane
                         var lane = self.temp_init_data[i];
+                
                         //dataset object to push into temp_datacollection
                         var lane_dataset = {
                             "label": null,
@@ -227,15 +233,21 @@ export default {
                             lane_dataset.data.push(lane[j].degree);
                         }
                         //set border color for lane -> get from the linechart_template list of bordercolors
-                        lane.borderColor.push(self.temp.borderColor[i])
-                        self.temp.datacollection.datasets.push(lane);
+                        lane_dataset.borderColor.push(self.temp.borderColor[i])
+
+                        //push current dataset (lane) into the datacollection
+                        // *having muliple lanes means having multiple datasets and labels
+                        self.temp.datacollection.datasets.push(lane_dataset);
+
+                        //set flag to true to initiate chart creation
+                        self.temp_data_ready = true
                     }
                     
                 }).catch(function (error) {
                     console.log(error);
                 })
 
-            console.log(this.temp);
+            // console.log(this.temp);
             
             
 
