@@ -121,8 +121,11 @@ export default {
             vm_data: null,
             data_instance: null,
 
-            temp_data: [],
-            hum_data: [],
+            temp_datacollection: null,
+            hum_datacollection: null,
+
+            temp_init_data: [],
+            hum_init_data: [],
 
             datacollection: null,
             options: null,
@@ -146,8 +149,8 @@ export default {
             var self = this;
 
             //initialize temperature and humidity variables
-            this.temp_data = linechart_template.datacollection;
-            this.hum_data = linechart_template.datacollection;
+            this.temp = linechart_template;
+            this.hum= linechart_template;
 
             //get vending machine information
             var vm_info_instance = axios.create({
@@ -169,6 +172,7 @@ export default {
                 crossDomain: true,
             })
 
+            //get vending machine data
             var getMachineData = function () {
                 let promise = vm_info_instance.get(`/machines/${self.vm_id}`, {
                 }).then(function (response, error) {
@@ -185,25 +189,53 @@ export default {
             var getInitLaneData = function () {
                 let promise = self.data_instance.get('/logs/temperature/init/user1@kt.com/machine1/1', {
                 }).then(function (response, error) {
-         
+                    self.temp_init_data.push(response.data);
                 }).catch(function (error) {
                     console.log(error);
- 
                 });
 
                 return promise;
             }
 
             //once successful in getting machine and lane data
+            //format lane temp + hum data from server to chart
             Promise.all([getMachineData(), getInitLaneData()])
-                .then(function(values) {
-                    console.log(self.vm_data);
+                .then(function() {
+                    // console.log(self.vm_data);
+                    // console.log(self.temp_init_data);
+
+                    // var str = self.temp_init_data;
+                    // console.log(str[0][0].date.split(" ")[1]);
+
+                    //push each lane data to separate chart datacollection
+                    for(var i=0; i < self.temp_init_data.length; i++){
+                        //current lane
+                        var lane = self.temp_init_data[i];
+                        //dataset object to push into temp_datacollection
+                        var lane_dataset = {
+                            "label": null,
+                            "data": [],
+                            "backgroundColor":"rgba(0, 0, 0, 0)",
+                            "borderColor": [
+                            ],
+                            "borderWidth": 1
+                        }
+
+                        for(var j=0; j < lane.length; j++) {
+                            //split string to get just time
+                            self.temp.datacollection.labels.push(lane[j].date.split(" ")[1]);
+                            lane_dataset.data.push(lane[j].degree);
+                        }
+                        //set border color for lane -> get from the linechart_template list of bordercolors
+                        lane.borderColor.push(self.temp.borderColor[i])
+                        self.temp.datacollection.datasets.push(lane);
+                    }
                     
                 }).catch(function (error) {
-                    console.log("error");
-                    console.log(error.message);
+                    console.log(error);
                 })
 
+            console.log(this.temp);
             
             
 
