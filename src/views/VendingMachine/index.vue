@@ -55,7 +55,7 @@
                     </div>
                     <div class="card-body">
                         <div class="map-container">
-                            <kt-map />
+                            <kt-map2 v-bind:vm_data="map_data"/>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -105,7 +105,7 @@
 <script>
 import axios from 'axios';
 import LineChart from '../../components/LineChart.vue';
-import KtMap from '../../components/KtMap.vue';
+import KtMap2 from '../../components/KtMap.vue';
 import LaneStatus from '../../components/VendingMachine/LaneStatus.vue';
 
 import linechartjson from '../../data/linechart.json';
@@ -117,12 +117,13 @@ import linechart_template from '../../data/linechart_template.json';
 export default {
     name: 'VendingMachine',
     components: {
-        LineChart, KtMap, LaneStatus
+        LineChart, KtMap2, LaneStatus
     },
     data() {
         return {
             vm_id: this.$route.params.id,
             vm_data: null,
+            map_data: null,
             data_instance: null,
             vm_info_instance: null,
 
@@ -191,17 +192,20 @@ export default {
 
             this.getLanes();
 
-            // //get vending machine data
-            // var getMachineData = function () {
-            //     let promise = vm_info_instance.get(`/machines/${self.vm_id}`, {
-            //     }).then(function (response, error) {
-            //         self.vm_data = response.data;
-            //     }).catch(function (error) {
-            //         console.log(error);
-            //     });
+            //get vending machine data
+            var getMachineData = function () {
+                let promise = self.vm_info_instance.get(`/machines/${self.vm_id}`, {
+                }).then(function (response, error) {
+                    self.vm_data = response.data;
+                    self.map_data= [response.data];
+                }).catch(function (error) {
+                    console.log(error);
+                });
 
-            //     return promise;
-            // }
+                return promise;
+            }
+
+            getMachineData();
             
             // //initial temperature data
             // //`/logs/temperature/init/${user_id}/${vm_id}/${lane_id}`
@@ -370,7 +374,6 @@ export default {
             this.vm_info_instance.get(`/machines/${this.vm_id}/lanes`, {
             }).then(function (response, error) {
                 self.lanes = response.data;
-                console.log(response.data);
             }).catch(function (error) {
                 console.log(error);
             })

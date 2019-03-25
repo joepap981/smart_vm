@@ -5,7 +5,7 @@
 <script>
 
 export default {
-    name: 'KtMap',
+    name: 'KtMap2',
     data: () => ({
         map: null,
         latlng: null,
