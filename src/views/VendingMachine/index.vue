@@ -42,7 +42,7 @@
                         <button class="btn btn-sm btn-light" data-toggle="modal" data-target="#lane-modal"> + </button>
                     </div>
                     <div class="card-body">
-                        <lane-status v-for="lane in this.lanechartArr" :key="lane.id" :laneProp="lane" />                 
+                        <lane-status v-for="lane in this.lanes" :key="lane.id" :laneProp="lane" />                 
                     </div>
                 </div>
             </div>
@@ -78,7 +78,7 @@
                         <form>
                             <div class="form-group text-left">
                                 <label> Sequence : </label>
-                                <input v-model="add_lane.temperature.sequence" class="form-control" type="text" />
+                                <input v-model="add_lane.sequence" class="form-control" type="text" />
                                 <label> 적정 온도 (high) : </label>
                                 <input v-model="add_lane.temperature.optimal_temp_high" class="form-control" type="text" />
                                 <label> 적정 온도 (low): </label>
@@ -106,7 +106,7 @@
 import axios from 'axios';
 import LineChart from '../../components/LineChart.vue';
 import KtMap from '../../components/KtMap.vue';
-import LaneStatus from '../../components/LaneStatus.vue';
+import LaneStatus from '../../components/VendingMachine/LaneStatus.vue';
 
 import linechartjson from '../../data/linechart.json';
 import lanechartjson from '../../data/lanestatus.json';
@@ -137,6 +137,7 @@ export default {
             temp_data_ready: false,
             hum_data_ready: false,
 
+            //lane related data
             add_lane: {
                 humidity: {
                     optimal_humi_high: null,
@@ -149,9 +150,10 @@ export default {
                 sequence: 0
             },
 
+            lanes: [],
+
             datacollection: null,
             options: null,
-            lanechartArr: null
         }
     },
     mounted () {
@@ -160,6 +162,7 @@ export default {
     methods: {
         init () {
             var self = this;
+
 
             //initialize temperature and humidity variables
             //these are the final object whose datacollection and options gets inserted into the chart
@@ -185,6 +188,8 @@ export default {
                 useCredentials: true,
                 crossDomain: true,
             })
+
+            this.getLanes();
 
             // //get vending machine data
             // var getMachineData = function () {
@@ -341,6 +346,9 @@ export default {
                 sequence: this.add_lane.sequence
             }).then(function (response, error) {
                 console.log(response);
+            }).catch(function (error) {
+                console.log(error);
+            }).then(function (){
                 //reset add lane
                 self.add_lane = {
                     humidity: {
@@ -353,12 +361,20 @@ export default {
                     },
                     sequence: 0
                 }
+            });
+        },
+        getLanes () {
+            var self = this;
+
+            this.vm_info_instance.get(`/machines/${this.vm_id}/lanes`, {
+            }).then(function (response, error) {
+                self.lanes = response.data;
+                console.log(response.data);
             }).catch(function (error) {
                 console.log(error);
-            });
-
-         
+            })
         }
+
         
     }
 }

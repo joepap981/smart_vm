@@ -4,10 +4,10 @@
             <div id="laneStatusBadge" class="status-badge"></div>
             <div class="lane-status">
                 <p class="info-title"> Lane {{ lane.id }} </p>
-                <p class="info-address">{{ lane.item }} </p>
+                <p class="info-address">{{ lane.product }} </p>
             </div>
 
-            <div class="stock-status d-flex">
+            <!-- <div class="stock-status d-flex">
                 <p class="info-title mr-2"> {{ lane.stock_status }} </p>
                 <p class="info-address"> {{ lane.stock_time }} </p>
             </div>
@@ -15,7 +15,7 @@
             <div class="env-status d-flex">
                 <p class="info-title mr-2"> {{ lane.env_status}} </p>
                 <p class="info-address"> {{ lane.env_time }} </p>
-            </div>
+            </div> -->
         </div>
 
         <!-- Lane 편집 Modal -->
@@ -32,12 +32,16 @@
                     <!--Lane 정보 편집-->
                     <form>
                         <div class="form-group text-left">
-                            <label> Lane id : </label>
-                            <input class="form-control" type="text" />
-                            <label> 적정 온도 : </label>
-                            <input class="form-control" type="text" />
-                            <label> 적정 습도 : </label>
-                            <input class="form-control" type="text" />
+                            <label> Sequence : </label>
+                                <input v-model="lane.sequence" class="form-control" type="text" />
+                                <label> 적정 온도 (high) : </label>
+                                <input v-model="lane.temperature.optimal_temp_high" class="form-control" type="text" />
+                                <label> 적정 온도 (low): </label>
+                                <input v-model="lane.temperature.optimal_temp_low" class="form-control" type="text" />
+                                <label> 적정 습도 (high): </label>
+                                <input v-model="lane.humidity.optimal_humi_high" class="form-control" type="text" />
+                                <label> 적정 습도 (low): </label>
+                                <input v-model="lane.humidity.optimal_humi_low" class="form-control" type="text" />
                         </div>
                         <button type="button" class="btn btn-primary btn-sm">변경저장</button>
                     </form>
