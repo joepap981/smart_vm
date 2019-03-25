@@ -31,7 +31,7 @@
                 <div class="modal-body">
                     <!--Lane 정보 편집-->
                     <form>
-                        <div class="form-group text-left">
+                        <div  class="form-group text-left">
                             <label> Sequence : </label>
                                 <input v-model="lane.sequence" class="form-control" type="text" />
                                 <label> 적정 온도 (high) : </label>
@@ -43,7 +43,7 @@
                                 <label> 적정 습도 (low): </label>
                                 <input v-model="lane.humidity.optimal_humi_low" class="form-control" type="text" />
                         </div>
-                        <button type="button" class="btn btn-primary btn-sm">변경저장</button>
+                        <button @click="test()" type="button" class="btn btn-primary btn-sm">변경저장</button>
                     </form>
                     <hr/>
                     <!--제품 정보 편집-->
@@ -70,12 +70,21 @@
 <script>
 export default {
     name: "LaneStatus",
+    props: ['laneProp'],
     data () {
         return {
-            lane: this.laneProp,
+           lane: this.laneProp,
         }
     },
-    props: ['laneProp']
+    methods: {
+        test () {
+            console.log(this.lane);
+        }
+    },
+
+    mounted () {
+        
+    }
 }
 </script>
 

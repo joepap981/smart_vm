@@ -25,9 +25,9 @@ export default {
                 var marker = new olleh.maps.overlay.Marker({
                     position: new olleh.maps.LatLng(coor.location.latitude, coor.location.longitude),
                     map: self.map,
-                    icon: {
-                        url:'../assets/vending-machine2.png'
-                    }
+                    // icon: {
+                    //     url:'../assets/vending-machine2.png'
+                    // }
                 })
             });
         }
