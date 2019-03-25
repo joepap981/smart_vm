@@ -205,7 +205,6 @@ export default {
 
                     //add labels
                     let init_lane = self.temp_init_data[0];
-                    console.log(init_lane.data);
                     for(let i=0; i < init_lane.data.length; i++) {
                         self.temp.datacollection.labels.push(init_lane.data[i].date.split(" ")[1]);
                     }
@@ -241,14 +240,16 @@ export default {
                         self.temp_data_ready = true
                     }
                     
+
+                    self.updateData();
                 }).catch(function (error) {
                     console.log(error);
                 })
 
-            console.log(this.temp);
+            // console.log(this.temp);
             
             
-
+            
             // //initial humidity data
             // //`/logs/humidity/init/${user_id}/${vm_id}/${lane_id}`
             // this.axios_instance.get('/logs/humidity/init/user1@kt.com/machine1/1', {
@@ -259,25 +260,65 @@ export default {
             // });
 
             // this.getData('temperature');
-      },
-      updateData () {
+        },
+        updateData () {
+            var self = this;
+            //get new data
+            //data_type: temperature/humidity
+            //datacollection: this.temp/this.hum
+  
+            var temp_datasets = self.temp.datacollection.datasets;
+            var temp_labels = self.temp.datacollection.labels;
 
-      },
-      getData (data_type, ) {
+            var update_temp;
+            var update_hum;
+
             //get latest data
-            //`/logs/${data_type}/${user_id}/${vm_id}/${lane_id}`
-            let promise = this.data_instance.get(`/logs/${data_type}/user1@kt.com/machine1/`, {
-            }).then(function (response, error) {
-                console.log(response.data);
-                for(var i=0; i < response.data.length; i++) {
+            //`/logs/temperature/${user_id}/${vm_id}/${lane_id}`
+            var getTempData = function () {
+                let promise = self.data_instance.get('/logs/temperature/user1@kt.com/machine1/', {
+                }).then(function (response, error) {
+                     update_temp = response.data;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+
+                return promise;
+            }
+
+
+            Promise.all([getTempData()])
+            .then(function () {
+                // console.log(temp_datasets);
+                // console.log(temp_datasets.length);
+                // console.log(update_temp);
+
+                //remove labels
+                for(let i=0; i < update_temp[0].data.length; i++){
+                    temp_labels.splice(0, update_temp[0].data.length)
+                }
+
+                for(let i=0; i< temp_datasets.length; i++) {
+                    //splice off num of data being pushed in
+                    temp_datasets[i].data.splice(0, update_temp[0].data.length)
                     
                 }
-            }).catch(function (error) {
-                console.log(error);
-            });
+                
+                console.log(self.temp.datacollection.labels.length);
 
-            return promise;
-      },
+                // console.log(temp_datasets);
+
+            })
+            .catch(function () {
+
+            })
+
+            
+
+
+            // getTempData();
+        },
+        
     }
 }
 </script>
@@ -293,7 +334,7 @@ export default {
 
     .chart-container {
         position: relative;
-        height: 300px;
+        height: 500px;
         width: 95%;
         margin: auto;
 
