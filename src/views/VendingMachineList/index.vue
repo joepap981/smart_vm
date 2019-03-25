@@ -1,7 +1,7 @@
 <template>
     <div class="">
         <div class="top-nav">
-            <h5> Alarms </h5>
+            <h5> Vending Machine List </h5>
         </div>
         <div class="card">
         </div>
@@ -10,7 +10,7 @@
 
 <script>
 export default {
-    name: 'Alarms'
+    name: 'VendingMachineList'
 }
 </script>
 

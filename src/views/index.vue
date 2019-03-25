@@ -9,9 +9,10 @@
 
                 <div class="nav-group">
                     <router-link tag="div" to="/overview" class="nav-item"> Overview </router-link>
+                    <router-link tag="div" to="/vm_list" class="nav-item"> 자판기 목록 </router-link>
                     <router-link tag="div" to="/user" class="nav-item"> 사용자 </router-link>
                     <router-link tag="div" to="/alarms" class="nav-item"> 알림 </router-link>
-                    <router-link tag="div" to="/statistics" class="nav-item"> 통계 </router-link>
+                    <router-link tag="div" to="/statistics" class="nav-item"> 통계 </router-link>    
                 </div>
             </nav>
         </div>

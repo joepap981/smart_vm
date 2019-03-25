@@ -10,6 +10,7 @@ import Alarms from '../views/Alarms'
 import Statistics from '../views/Statistics'
 import User from '../views/User'
 import VendingMachine from '../views/VendingMachine'
+import VendingMachineList from '../views/VendingMachineList'
 
 import PageNotFound from '../components/PageNotFound'
 
@@ -29,7 +30,8 @@ export function createRouter () {
                     {name: 'alarms', path: 'alarms', component: Alarms},
                     {name: 'statistics', path: 'statistics', component: Statistics},
                     {name: 'user', path: 'user', component: User},
-                    {name: 'vm', path: 'vm/:id', component: VendingMachine}
+                    {name: 'vm', path: 'vm/:id', component: VendingMachine},
+                    {name: 'vm_list', path: 'vm_list/', component: VendingMachineList}
                 ]
             },
 
