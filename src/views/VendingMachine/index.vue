@@ -99,13 +99,13 @@
 </template>
 
 <script>
-// import LineGraph from '../../components/LineGraph.vue'
-import LineChart from '../../components/LineChart.vue'
-import KtMap from '../../components/KtMap.vue'
-import LaneStatus from '../../components/LaneStatus.vue'
+import axios from 'axios';
+import LineChart from '../../components/LineChart.vue';
+import KtMap from '../../components/KtMap.vue';
+import LaneStatus from '../../components/LaneStatus.vue';
 
-import linechartjson from '../../data/linechart.json'
-import lanechartjson from '../../data/lanestatus.json'
+import linechartjson from '../../data/linechart.json';
+import lanechartjson from '../../data/lanestatus.json';
 // import { JSONParser } from '@amcharts/amcharts4/core';
 
 export default {
@@ -115,7 +115,9 @@ export default {
     },
     data() {
         return {
-            vm_id: 0,
+            vm_id: this.$route.params.id,
+            vm_data: null,
+            axios_instance: null,
             datacollection: null,
             options: null,
             lanechartArr: null
@@ -123,6 +125,7 @@ export default {
     },
     mounted () {
         this.fillData()
+        this.init();
     },
     methods: {
         fillData () {
@@ -133,8 +136,75 @@ export default {
 
             this.lanechartArr = lanechartjson.laneData
       },
-      getRandomInt () {
-        return Math.floor(Math.random() * (50 - 5 + 1)) + 5
+      init () {
+            var self = this;
+
+            //get vending machine information
+            var vm_info_instance = axios.create({
+                aseURL:'http://localhost:8082/',
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                },
+                useCredentials: true,
+                crossDomain: true,
+            })
+
+            vm_info_instance.get('/machines/${vm_id}', {
+            }).then(function (response, error) {
+                console.log(response.data);
+            }).catch(function (error) {
+                console.log(error);
+            });
+
+            //get initial temperature and humidity data
+            this.axios_instance = axios.create({
+                baseURL:'http://121.140.19.90:8080/',
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                },
+                useCredentials: true,
+                crossDomain: true,
+            })
+
+            //initial temperature data
+            //'/logs/temperature/init/${user_id}/${vm_id}/${lane_id}'
+            this.axios_instance.get('/logs/temperature/init/user1@kt.com/machine1/1', {
+            }).then(function (response, error) {
+                console.log(response.data);
+            }).catch(function (error) {
+                console.log(error);
+            });
+
+            // //initial humidity data
+            // //'/logs/humidity/init/${user_id}/${vm_id}/${lane_id}'
+            // this.axios_instance.get('/logs/humidity/init/user1@kt.com/machine1/1', {
+            // }).then(function (response, error) {
+            //     console.log(response.data);
+            // }).catch(function (error) {
+            //     console.log(error);
+            // });
+
+            this.getTempData();
+      },
+      getTempData () {
+            //latest temperature data
+            //'/logs/temperature/${user_id}/${vm_id}/${lane_id}'
+            this.axios_instance.get('/logs/temperature/user1@kt.com/machine1/1', {
+            }).then(function (response, error) {
+                console.log(response.data);
+            }).catch(function (error) {
+                console.log(error);
+            });
+      },
+      getHumidData () {
+            //latest humidity data
+            //'/logs/humidity/${user_id}/${vm_id}/${lane_id}'
+            this.axios_instance.get('/logs/humidity/user1@kt.com/machine1/1', {
+            }).then(function (response, error) {
+                console.log(response.data);
+            }).catch(function (error) {
+                console.log(error);
+            });
       }
     }
 }

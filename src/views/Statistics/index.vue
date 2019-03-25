@@ -63,6 +63,7 @@ import DoughnutStatistics from '../../components/Statistics/DoughnutStatistics.v
 import MapStatistics from '../../components/Statistics/MapStatistics.vue'
 import LineStatistics from '../../components/Statistics/LineStatistics.vue'
 
+import axios from 'axios';
 
 export default {
     name: 'Statistics',
@@ -76,8 +77,9 @@ export default {
     },
     methods: {
         init: function () {
+            //'https://my-json-server.typicode.com/joepap981/api/'
              this.instance = axios.create({
-                baseURL:'https://my-json-server.typicode.com/joepap981/api/',
+                baseURL:'http://121.140.19.90:8080/',
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                 },
@@ -93,17 +95,13 @@ export default {
             var self = this;
             
             //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
-            this.instance.get('/result/', {
-                // params: {
-                //     start: this.start,
-                //     end: this.end
-                // }
+            this.instance.get('/logs/sell/user1@kt.com/', {
+                params: {
+                    start: '2019-03-10',
+                    end: '2019-03-28'
+                }
             }).then(function (response, error) {
-                var iterator = response.data;
-                iterator.forEach(element => {
-                    self.chart_data.labels.push(element.product);
-                    self.chart_data.datasets[0].data.push(element.set);
-                });
+                console.log(response.data);
                 self.data_ready = true;
                 console.log(self.chart_data.labels)
             }).catch(function (error) {
@@ -119,6 +117,10 @@ export default {
 
             this.getVMData();
         },
+    },
+    mounted () {
+        this.init();
+        this.getTempData();
     }
 }
 </script>

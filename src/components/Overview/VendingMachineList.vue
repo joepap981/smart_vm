@@ -1,12 +1,12 @@
 <template>
-<router-link tag="div" :to="{ name: 'vm', params: {id: vm_data.id } }" class="list-item"> 
+<router-link tag="div" :to="{ name: 'vm', params: {id: vm_data.name } }" class="list-item"> 
     <div class="d-flex flex-row justify-content-start">
         <div>
             <img src="../../assets/vending-machine.png" height="32" width="34" />
         </div>
         <div class="ml-2 mb-2">
-            <p class="info-title"> Vending Machine {{ vm_data.id }} </p>
-            <p class="info-sub"> {{ vm_data.province }} {{ vm_data.municipality }} {{ vm_data.submunicipality }} </p>
+            <p class="info-title"> Vending Machine {{ vm_data.name }} </p>
+            <p class="info-sub"> {{ vm_data.address.province }} {{ vm_data.address.municipality }} {{ vm_data.address.submunicipality }} </p>
         </div>
     </div>
 </router-link>

@@ -87,7 +87,7 @@ export default {
                     self.chart_data.datasets[0].data.push(element.set);
                 });
                 self.data_ready = true;
-                console.log(self.chart_data.labels)
+                // console.log(self.chart_data.labels)
             }).catch(function (error) {
                 console.log(error);
             })
