@@ -6,7 +6,7 @@
         </div>
         <div class="ml-2 mb-2">
             <p class="info-title"> Vending Machine {{ vm_data.name }} </p>
-            <p class="info-sub"> {{ vm_data.address.province }} {{ vm_data.address.municipality }} {{ vm_data.address.submunicipality }} </p>
+            <p class="info-sub"> {{ vm_data.location.province }} {{ vm_data.location.municipality }} {{ vm_data.location.submunicipality }} </p>
         </div>
     </div>
 </router-link>

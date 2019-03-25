@@ -90,7 +90,7 @@ export default {
             var self = this;
           
             const instance = axios.create({
-                baseURL:'https://my-json-server.typicode.com/joepap981/api/',
+                baseURL:'http://localhost:8082/',
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                 },
@@ -98,9 +98,10 @@ export default {
                 crossDomain: true,
             })
             //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
-            instance.get('/content/', {
+            instance.get('/machines/', {
             }).then(function (response, error) {
-                self.vm_data = response.data;
+                self.vm_data = response.data.content;
+                console.log(response.data.content);
             }).catch(function (error) {
                 console.log(error);
             })
