@@ -8,21 +8,21 @@
             <table class="table table-borderless">
                 <thead>
                     <tr>
-                    <th scope="col">id</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Username</th>
-                    <th scope="col"># of lanes</th>
-                    <th scope="col">Location</th>
+                        <th scope="col">id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Username</th>
+                        <th scope="col"># of lanes</th>
+                        <th scope="col">Location</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="vm in vm_data" :key="vm.id">
+                    <router-link :to="{ name: 'vm', params: {id: vm.name } }" tag="tr" v-for="vm in vm_data" :key="vm.id">
                         <td> {{vm.id }} </td>
                         <td> {{vm.name }} </td>
                         <td> {{vm.username}} </td>
                         <td> {{vm.lanes.length }} </td>
                         <td> {{vm.location.address.province }} </td>
-                    </tr>
+                    </router-link>
                 </tbody>
             </table>
         </div>
@@ -100,6 +100,11 @@ export default {
     .btn {
         font-size: 13px;
         font-weight: bold;
+    }
+
+    tbody tr:hover{
+        background-color: rgb(253, 253, 253);
+        cursor: pointer;
     }
 
 </style>

@@ -26,17 +26,6 @@
                 </div>
             </div>
 
-            <!-- Temperature Monitoring Graph-->
-            <div class="col-xl-6">
-                <div class="card">
-                    <div class="card-header d-flex align-items-center">
-                        <p class="card-header-title mr-2"> 관리 자판기 정보 </p>
-                    </div>
-                    <div class="card-body">
-                        <line-chart class="chart-container" :chart-data="datacollection" :options="options" />
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </template>
@@ -48,5 +37,7 @@ export default {
 </script>
 
 <style scoped>
-
+    .card-body label {
+        font-size:13px;
+    }
 </style>

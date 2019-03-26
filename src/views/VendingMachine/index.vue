@@ -15,7 +15,7 @@
                         <div id="tempStatusBadge" class="status-badge"></div>
                     </div>
                     <div class="card-body">
-                        <line-chart v-if="temp_data_ready" class="chart-container" :chart-data="temp.datacollection" :options="temp.options" />
+                        <temp-status-chart  v-if="temp_data_ready" class="chart-container" :chart-data="temp.datacollection" :options="temp.options" />
                     </div>
                 </div>
             </div>
@@ -105,6 +105,7 @@
 <script>
 import axios from 'axios';
 import LineChart from '../../components/LineChart.vue';
+import TempStatusChart from '../../components/TempStatusChart.vue';
 import KtMap2 from '../../components/KtMap.vue';
 import LaneStatus from '../../components/VendingMachine/LaneStatus.vue';
 
@@ -117,7 +118,7 @@ import linechart_template from '../../data/linechart_template.json';
 export default {
     name: 'VendingMachine',
     components: {
-        LineChart, KtMap2, LaneStatus
+        TempStatusChart, LineChart, KtMap2, LaneStatus
     },
     data() {
         return {
@@ -161,6 +162,10 @@ export default {
     mounted () {
         this.init();
     },
+    beforeDestroy () {
+        this.temp = null;
+        this.hum = null;
+    },
     methods: {
         init () {
             var self = this;
@@ -168,8 +173,10 @@ export default {
 
             //initialize temperature and humidity variables
             //these are the final object whose datacollection and options gets inserted into the chart
-            this.temp = linechart_template;
-            this.hum= linechart_template;
+            this.temp = JSON.parse(JSON.stringify(linechart_template));
+            this.hum= JSON.parse(JSON.stringify(linechart_template));
+
+            console.log(this.temp === this.hum)
 
             //get vending machine information
             this.vm_info_instance = axios.create({
@@ -233,24 +240,32 @@ export default {
                 return promise;
             }
 
+            var insertChartLabel = function (datacollection, data) {
+                console.log(datacollection);
+                console.log(data);
+                for(let i=0; i < data.length; i++) {
+                    datacollection.labels.push(data[i].date.split(" ")[1]);
+                }
+               
+            }
+
             //once successful in getting machine and lane data
             //format lane temp + hum data from server to chart
             Promise.all([getMachineData(), getInitTempData(), getInitHumData()])
                 .then(function() {
-                    //add labels
-                    let temp_init_lane = self.temp_init_data[0];
-                    for(let i=0; i < temp_init_lane.data.length; i++) {
-                        self.temp.datacollection.labels.push(temp_init_lane.data[i].date.split(" ")[1]);
-                    }
+
+                    //insert label into charts
+                    insertChartLabel(self.temp.datacollection, self.temp_init_data[0].data)
+                    insertChartLabel(self.hum.datacollection, self.hum_init_data[0].data)
                     
                     //temperature
                     //push each lane data into a dataset, which is inserted into datacollection
                     for(var i=0; i < self.temp_init_data.length; i++){
                         //current lane
-                        let lane = self.temp_init_data[i].data;
+                        let temp_lane = self.temp_init_data[i].data;
                  
                         //dataset object to push into temp_datacollection
-                        let lane_dataset = {
+                        let temp_lane_dataset = {
                             "label": "lane " + self.vm_data.lanes[i].id,
                             "data": [],
                             "backgroundColor":"rgba(0, 0, 0, 0)",
@@ -259,16 +274,16 @@ export default {
                             "borderWidth": 1
                         }
 
-                        for(var j=0; j < lane.length; j++) {
+                        for(var j=0; j < temp_lane.length; j++) {
                             //split string to get just time
-                            lane_dataset.data.push(lane[j].degree);
+                            temp_lane_dataset.data.push(temp_lane[j].degree);
                         }
                         //set border color for lane -> get from the linechart_template list of bordercolors
-                        lane_dataset.borderColor.push(self.temp.borderColor[i])
+                        temp_lane_dataset.borderColor.push(self.temp.borderColor[i])
 
                         //push current dataset (lane) into the datacollection
                         // *having muliple lanes means having multiple datasets and labels
-                        self.temp.datacollection.datasets.push(lane_dataset);
+                        self.temp.datacollection.datasets.push(temp_lane_dataset);
                     }
                     //set flag to true to initiate chart creation
                     self.temp_data_ready = true
@@ -277,10 +292,10 @@ export default {
                     //push each lane data into a dataset, which is inserted into datacollection
                     for(var i=0; i < self.hum_init_data.length; i++){
                         //current lane
-                        let lane = self.hum_init_data[i].data;
+                        let hum_lane = self.hum_init_data[i].data;
                  
                         //dataset object to push into temp_datacollection
-                        let lane_dataset = {
+                        let hum_lane_dataset = {
                             "label": "lane " + self.vm_data.lanes[i].id,
                             "data": [],
                             "backgroundColor":"rgba(0, 0, 0, 0)",
@@ -289,23 +304,21 @@ export default {
                             "borderWidth": 1
                         }
 
-                        for(var j=0; j < lane.length; j++) {
+                        for(var j=0; j < hum_lane.length; j++) {
                             //split string to get just time
-                            lane_dataset.data.push(lane[j].degree);
+                            hum_lane_dataset.data.push(hum_lane[j].degree);
                         }
                         //set border color for lane -> get from the linechart_template list of bordercolors
-                        lane_dataset.borderColor.push(self.hum.borderColor[i])
+                        hum_lane_dataset.borderColor.push(self.hum.borderColor[i])
 
                         //push current dataset (lane) into the datacollection
                         // *having muliple lanes means having multiple datasets and labels
-                        self.hum.datacollection.datasets.push(lane_dataset);
-
-                        
+                        self.hum.datacollection.datasets.push(hum_lane_dataset);  
                     }
                     //set flag to true to initiate chart creation
                     self.hum_data_ready = true
                     
-                    self.updateData();
+                    // self.updateData();
                 }).catch(function (error) {
                     console.log(error);
                 })

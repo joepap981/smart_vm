@@ -138,11 +138,6 @@ export default {
     .wrapper {
         height: 300px;
     }
-
-    .form-control {
-        height: 25px;
-    }
-
     .btn {
         min-width: 200px;
         margin: 10px 20px 0px 20px;

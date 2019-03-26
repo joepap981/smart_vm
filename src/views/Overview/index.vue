@@ -42,7 +42,7 @@
             <div class="col-xl-4 col-md-6">
                  <div class="card">
                     <div class="card-header">
-                        <p class="card-header-title"> 장애알람 </p>
+                        <p class="card-header-title"> 온도알람 </p>
                     </div>
                     <div class="card-body">
                         <alarm />
@@ -52,7 +52,7 @@
             <div class="col-xl-4 col-md-6">
                  <div class="card">
                     <div class="card-header">
-                        <p class="card-header-title"> x </p>
+                        <p class="card-header-title"> 습도알람 </p>
                     </div>
                 </div>
             </div>

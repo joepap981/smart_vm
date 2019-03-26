@@ -213,5 +213,9 @@ export default {
         align-items: center;
     }
 
+    .form-control {
+        height:27px;
+    }
+
 
 </style>

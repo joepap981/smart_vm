@@ -37,7 +37,10 @@
 <script>
 export default {
     name: 'StockAlarm',
-    props: ['stock_alarm_data']
+    props: {
+        'alarm_type': String,
+        'stock_alarm_data': Object,
+    }
 }
 </script>
 
@@ -70,7 +73,7 @@ export default {
         cursor: pointer;
         margin-bottom: 10px;
     }
-    .list-item :hover{ 
+    .list-item:hover{ 
         box-shadow: 0px 0px 13px 0px rgba(82,63,105,0.05);
         border-radius: 3px 3px 3px 3px;
     }

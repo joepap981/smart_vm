@@ -1,15 +1,17 @@
 <template>
-<router-link tag="div" :to="{ name: 'vm', params: {id: vm_data.name } }" class="list-item"> 
-    <div class="d-flex flex-row justify-content-start">
-        <div>
-            <img src="../../assets/vending-machine.png" height="32" width="34" />
+<div class="wrapper">
+    <router-link tag="div" :to="{ name: 'vm', params: {id: vm_data.name } }" class="list-item"> 
+        <div class="d-flex flex-row justify-content-start">
+            <div>
+                <img src="../../assets/vending-machine.png" height="32" width="34" />
+            </div>
+            <div class="ml-2 mb-2">
+                <p class="info-title"> Vending Machine {{ vm_data.name }} </p>
+                <p class="info-sub"> {{ vm_data.location.province }} {{ vm_data.location.municipality }} {{ vm_data.location.submunicipality }} </p>
+            </div>
         </div>
-        <div class="ml-2 mb-2">
-            <p class="info-title"> Vending Machine {{ vm_data.name }} </p>
-            <p class="info-sub"> {{ vm_data.location.province }} {{ vm_data.location.municipality }} {{ vm_data.location.submunicipality }} </p>
-        </div>
-    </div>
-</router-link>
+    </router-link>
+</div>
 </template>
 
 <script>
@@ -40,7 +42,11 @@ export default {
         cursor: pointer;
         margin-bottom: 10px;
     }
-    .list-item :hover{ 
+    .wrapper {
+        box-sizing: border-box;
+    }
+
+    .wrapper:hover{ 
         box-shadow: 0px 0px 13px 0px rgba(82,63,105,0.05);
         border-radius: 3px 3px 3px 3px;
     }
