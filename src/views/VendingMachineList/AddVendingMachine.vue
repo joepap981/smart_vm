@@ -3,30 +3,18 @@
         <div class="top-nav">
             <h5> Add Vending Machine </h5>
         </div>
-        <div class="card">
-            <div class="card-body">
-                <div class="map-container">
-                    <kt-map3 />
-                </div>
-                <div class="row mt-3">
-                    <div class="form-group col-xl-6 text-left">
-                        <label> Name </label>
-                        <input class="form-control" />
-                    </div>
-                    <div class="location-info col-xl-6 text-left">
-                        <label> Address </label>
-                        <input class="form-control" />
-                        <div class="row">
-                            <div class="col-6">
-                                <label> Lat </label>
-                                <input class="form-control mr-2" />
-                            </div>
-                            <div class="col-6">
-                                <label> Long </label>
-                                <input class="form-control" />
-                            </div>
+        <div class="row">
+            <div class="col-xl-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="map-container">
+                            <kt-map3 />
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="card">
                 </div>
             </div>
         </div>
@@ -45,6 +33,8 @@ export default {
         return {
             
         }
+    },
+    methods: {
     }
 }
 </script>
@@ -53,7 +43,7 @@ export default {
     .card {
         border-color: white;
         width: 100%;
-        height: 80vh;
+        min-height: 95vh;
         box-shadow: 0px 0px 13px 0px rgba(82,63,105,0.05);
         margin-top: 10px;
         margin-bottom: 10px;
@@ -62,7 +52,7 @@ export default {
         padding: 30px;
     }
     .map-container {
-        height: 300px;
+        min-height: 300px;
     }
 
     .form-control {
