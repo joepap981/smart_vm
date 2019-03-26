@@ -28,7 +28,7 @@
                         <div id="humidityStatusBadge" class="status-badge"></div>
                     </div>
                     <div class="card-body">
-                        <line-chart class="chart-container" :chart-data="datacollection"  :options="options" />
+                        <line-chart v-if="temp_data_ready" class="chart-container" :chart-data="hum.datacollection"  :options="hum.options" />
                     </div>
                 </div>
             </div>
@@ -209,84 +209,106 @@ export default {
 
             getMachineData();
             
-            // //initial temperature data
-            // //`/logs/temperature/init/${user_id}/${vm_id}/${lane_id}`
-            // var getInitTempData = function () {
-            //     let promise = self.data_instance.get('/logs/temperature/init/user1@kt.com/machine1/', {
-            //     }).then(function (response, error) {
-            //         self.temp_init_data = response.data;
-            //     }).catch(function (error) {
-            //         console.log(error);
-            //     });
-            //     return promise;
-            // }
+            //initial temperature data
+            //`/logs/temperature/init/${user_id}/${vm_id}/${lane_id}`
+            var getInitTempData = function () {
+                let promise = self.data_instance.get('/logs/temperature/init/user1@kt.com/machine1/', {
+                }).then(function (response, error) {
+                    self.temp_init_data = response.data;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+                return promise;
+            }
 
-            // //once successful in getting machine and lane data
-            // //format lane temp + hum data from server to chart
-            // Promise.all([getMachineData(), getInitTempData()])
-            //     .then(function() {
+            //initial humidity data
+            //`/logs/humidity/init/${user_id}/${vm_id}/${lane_id}`
+            var getInitHumData = function () {
+                let promise = self.data_instance.get('/logs/humidity/init/user1@kt.com/machine1/', {
+                }).then(function (response, error) {
+                    self.hum_init_data = response.data;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+                return promise;
+            }
+
+            //once successful in getting machine and lane data
+            //format lane temp + hum data from server to chart
+            Promise.all([getMachineData(), getInitTempData(), getInitHumData()])
+                .then(function() {
+                    //add labels
+                    let temp_init_lane = self.temp_init_data[0];
+                    for(let i=0; i < temp_init_lane.data.length; i++) {
+                        self.temp.datacollection.labels.push(temp_init_lane.data[i].date.split(" ")[1]);
+                    }
                     
-            //         // console.log(self.vm_data);
-            //         // console.log(self.temp_init_data);
+                    //temperature
+                    //push each lane data into a dataset, which is inserted into datacollection
+                    for(var i=0; i < self.temp_init_data.length; i++){
+                        //current lane
+                        let lane = self.temp_init_data[i].data;
+                 
+                        //dataset object to push into temp_datacollection
+                        let lane_dataset = {
+                            "label": "lane " + self.vm_data.lanes[i].id,
+                            "data": [],
+                            "backgroundColor":"rgba(0, 0, 0, 0)",
+                            "borderColor": [
+                            ],
+                            "borderWidth": 1
+                        }
 
-            //         // var str = self.temp_init_data;
-            //         // console.log(str[0][0].date.split(" ")[1]);
+                        for(var j=0; j < lane.length; j++) {
+                            //split string to get just time
+                            lane_dataset.data.push(lane[j].degree);
+                        }
+                        //set border color for lane -> get from the linechart_template list of bordercolors
+                        lane_dataset.borderColor.push(self.temp.borderColor[i])
 
-            //         //add labels
-            //         let init_lane = self.temp_init_data[0];
-            //         for(let i=0; i < init_lane.data.length; i++) {
-            //             self.temp.datacollection.labels.push(init_lane.data[i].date.split(" ")[1]);
-            //         }
+                        //push current dataset (lane) into the datacollection
+                        // *having muliple lanes means having multiple datasets and labels
+                        self.temp.datacollection.datasets.push(lane_dataset);
+                    }
+                    //set flag to true to initiate chart creation
+                    self.temp_data_ready = true
+
+                    //humidity
+                    //push each lane data into a dataset, which is inserted into datacollection
+                    for(var i=0; i < self.hum_init_data.length; i++){
+                        //current lane
+                        let lane = self.hum_init_data[i].data;
+                 
+                        //dataset object to push into temp_datacollection
+                        let lane_dataset = {
+                            "label": "lane " + self.vm_data.lanes[i].id,
+                            "data": [],
+                            "backgroundColor":"rgba(0, 0, 0, 0)",
+                            "borderColor": [
+                            ],
+                            "borderWidth": 1
+                        }
+
+                        for(var j=0; j < lane.length; j++) {
+                            //split string to get just time
+                            lane_dataset.data.push(lane[j].degree);
+                        }
+                        //set border color for lane -> get from the linechart_template list of bordercolors
+                        lane_dataset.borderColor.push(self.hum.borderColor[i])
+
+                        //push current dataset (lane) into the datacollection
+                        // *having muliple lanes means having multiple datasets and labels
+                        self.hum.datacollection.datasets.push(lane_dataset);
+
+                        
+                    }
+                    //set flag to true to initiate chart creation
+                    self.hum_data_ready = true
                     
-            //         //push each lane data into a dataset, which is inserted into datacollection
-            //         for(var i=0; i < self.temp_init_data.length; i++){
-            //             //current lane
-            //             var lane = self.temp_init_data[i].data;
-            //             // console.log(lane);
-                  
-            //             //dataset object to push into temp_datacollection
-            //             var lane_dataset = {
-            //                 "label": "lane " + self.vm_data.lanes[i].id,
-            //                 "data": [],
-            //                 "backgroundColor":"rgba(0, 0, 0, 0)",
-            //                 "borderColor": [
-            //                 ],
-            //                 "borderWidth": 1
-            //             }
-
-            //             for(var j=0; j < lane.length; j++) {
-            //                 //split string to get just time
-            //                 lane_dataset.data.push(lane[j].degree);
-            //             }
-            //             //set border color for lane -> get from the linechart_template list of bordercolors
-            //             lane_dataset.borderColor.push(self.temp.borderColor[i])
-
-            //             //push current dataset (lane) into the datacollection
-            //             // *having muliple lanes means having multiple datasets and labels
-            //             self.temp.datacollection.datasets.push(lane_dataset);
-
-            //             //set flag to true to initiate chart creation
-            //             self.temp_data_ready = true
-            //         }
-                    
-
-            //         self.updateData();
-            //     }).catch(function (error) {
-            //         console.log(error);
-            //     })
-
-    
-            
-            
-            
-            // //initial humidity data
-            // //`/logs/humidity/init/${user_id}/${vm_id}/${lane_id}`
-            // this.axios_instance.get('/logs/humidity/init/user1@kt.com/machine1/1', {
-            // }).then(function (response, error) {
-            //     console.log(response.data);
-            // }).catch(function (error) {
-            //     console.log(error);
-            // });
+                    self.updateData();
+                }).catch(function (error) {
+                    console.log(error);
+                })
 
 
         },
@@ -315,23 +337,34 @@ export default {
                 return promise;
             }
 
+            var getHumData = function () {
+                let promise = self.data_instance.get('/logs/humidity/user1@kt.com/machine1/', {
+                }).then(function (response, error) {
+                     update_hum = response.data;
+                }).catch(function (error) {
+                    console.log(error);
+                });
 
-            Promise.all([getTempData()])
+                return promise;
+            }
+
+
+            Promise.all([getTempData(), getHumData()])
             .then(function () {
                 // console.log(temp_datasets);
                 // console.log(temp_datasets.length);
                 // console.log(update_temp);
 
                 //remove labels
-                for(let i=0; i < update_temp[0].data.length; i++){
-                    temp_labels.splice(0, update_temp[0].data.length)
-                }
+                // for(let i=0; i < update_temp[0].data.length; i++){
+                //     temp_labels.splice(0, update_temp[0].data.length)
+                // }
 
-                for(let i=0; i< temp_datasets.length; i++) {
-                    //splice off num of data being pushed in
-                    temp_datasets[i].data.splice(0, update_temp[0].data.length)
+                // for(let i=0; i< temp_datasets.length; i++) {
+                //     //splice off num of data being pushed in
+                //     temp_datasets[i].data.splice(0, update_temp[0].data.length)
                     
-                }
+                // }
                 
                 console.log(self.temp.datacollection.labels.length);
 
