@@ -101,7 +101,7 @@ export default {
             instance.get('/machines/', {
             }).then(function (response, error) {
                 self.vm_data = response.data.content;
-                console.log(response.data.content);
+
             }).catch(function (error) {
                 console.log(error);
             })
@@ -161,7 +161,7 @@ export default {
        this.getVMData();
     },
     beforeDestroy() {
-        clearInterval(this.alarm_polling)
+        // clearInterval(this.alarm_polling)
     }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <div id="map"></div>
+    <div id="map2"></div>
 </template>
 
 <script>
@@ -7,7 +7,7 @@
 export default {
     name: 'KtMap2',
     data: () => ({
-        map: null,
+        map2: null,
         latlng: null,
     }),
     props: {
@@ -20,15 +20,15 @@ export default {
 
             
             //if the map is not initialize create new map
-            if(this.map == null) {
+            if(this.map2 == null) {
                 this.initialize();
             }
 
             //loop through array of vending machines and add marker on map
             value.forEach(function(coor) {
                 var marker = new olleh.maps.overlay.Marker({
-                    position: new olleh.maps.LatLng(coor.location.latitude, coor.location.longitude),
-                    map: self.map,
+                    position: new olleh.maps.UTMK(coor.location.latitude, coor.location.longitude),
+                    map: self.map2,
                     // icon: {
                     //     url:'../assets/vending-machine2.png'
                     // }
@@ -47,14 +47,14 @@ export default {
                 disableDefaultUI: true
             };
 
-            self.map = new olleh.maps.Map(document.getElementById("map"), mapOpts);
+            self.map2 = new olleh.maps.Map(document.getElementById("map2"), mapOpts);
         },
     },
 }
 </script>
 
 <style scoped>
-    #map {
+    #map2 {
         width:90%;
         height:100%;
         margin: auto;

@@ -1,6 +1,6 @@
 <template>
 <div class="wrapper">
-    <div id="map"></div>
+    <div id="map3"></div>
     <div class="row text-left justify-content-center">
         <button class="btn btn-light btn-sm"> x: {{ utmk.x }} </button>
         <button class="btn btn-light btn-sm"> y: {{ utmk.y }} </button>
@@ -28,7 +28,7 @@ export default {
     data: () => ({
         axios_instance: null,
         vm_data: null,
-        map: null,
+        map3: null,
         latlng: null,
         utmk: {
             x: null,
@@ -55,17 +55,17 @@ export default {
                 disableDefaultUI: true
             };
 
-            self.map = new olleh.maps.Map(document.getElementById("map"), mapOpts);
+            self.map3 = new olleh.maps.Map(document.getElementById("map3"), mapOpts);
 
-            var marker = new olleh.maps.overlay.Marker({
-                position: new olleh.maps.LatLng(37.5210873, 127.0889181),
-                map: self.map,
-                visible: false,
-            })
+            // var marker = new olleh.maps.overlay.Marker({
+            //     position: new olleh.maps.LatLng(37.5210873, 127.0889181),
+            //     map: self.map,
+            //     visible: false,
+            // })
 
-            this.map.onEvent('click', function (event, payload){
-                marker.position = event.getCoord(),
-                marker.visible = true;
+            this.map3.onEvent('click', function (event, payload){
+                // marker.position = event.getCoord(),
+                // marker.visible = true;
                 
                 self.utmk.x = event.getCoord().x;
                 self.utmk.y = event.getCoord().y;
@@ -92,15 +92,16 @@ export default {
             })
         },
         registerVM () {
-            var clearFields = function () {
-                this.utmk.x = null;
-                this.utmk.y = null;
-                this.address.province= null;
-                this.address.municipality = null;
-                this.address.submunicipality= null;
-                this.name = null;
-            }
             var self = this;
+            var clearFields = function () {
+                self.utmk.x = null;
+                self.utmk.y = null;
+                self.address.province= null;
+                self.address.municipality = null;
+                self.address.submunicipality= null;
+                self.name = null;
+            }
+            
 
             //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
             this.axios_instance.post('/machines/', {
@@ -126,7 +127,7 @@ export default {
 </script>
 
 <style scoped>
-    #map {
+    #map3 {
         width:100%;
         height:100%;
         margin: auto;

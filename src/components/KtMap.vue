@@ -27,7 +27,7 @@ export default {
             //loop through array of vending machines and add marker on map
             value.forEach(function(coor) {
                 var marker = new olleh.maps.overlay.Marker({
-                    position: new olleh.maps.LatLng(coor.location.latitude, coor.location.longitude),
+                    position: new olleh.maps.UTMK(coor.location.latitude, coor.location.longitude),
                     map: self.map,
                     // icon: {
                     //     url:'../assets/vending-machine2.png'
@@ -41,7 +41,7 @@ export default {
             var self = this;
 
             var mapOpts = {
-                center: new olleh.maps.LatLng(this.vm_data[0].location.latitude, this.vm_data[0].location.longitude),
+                center: new olleh.maps.UTMK(this.vm_data[0].location.latitude, this.vm_data[0].location.longitude),
                 zoom: 6,
                 mapTypeId: 'ROADMAP',
                 disableDefaultUI: true
