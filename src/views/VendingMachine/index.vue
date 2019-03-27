@@ -15,7 +15,7 @@
                         <div id="tempStatusBadge" class="status-badge"></div>
                     </div>
                     <div class="card-body">
-                        <temp-status-chart  v-if="temp_data_ready" class="chart-container" :chart-data="temp.datacollection" :options="temp.options" />
+                        <line-chart  v-if="temp_data_ready" class="chart-container" :chart-data="temp.datacollection" :options="temp.options" />
                     </div>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                         <button class="btn btn-sm btn-light" data-toggle="modal" data-target="#lane-modal"> + </button>
                     </div>
                     <div class="card-body">
-                        <lane-status v-for="lane in this.lanes" :key="lane.id" :laneProp="lane" />                 
+                        <lane-status-item v-for="lane in this.lanes" :key="lane.id" :laneProp="lane" />                 
                     </div>
                 </div>
             </div>
@@ -104,10 +104,9 @@
 
 <script>
 import axios from 'axios';
-import LineChart from '../../components/LineChart.vue';
-import TempStatusChart from '../../components/TempStatusChart.vue';
-import KtMap2 from '../../components/KtMap.vue';
-import LaneStatus from '../../components/VendingMachine/LaneStatus.vue';
+import LineChart from '../../components/Common/LineChart.vue';
+import KtMap2 from '../../components/VendingMachine/KtMap2.vue';
+import LaneStatusItem from '../../components/VendingMachine/LaneStatusItem.vue';
 
 import linechartjson from '../../data/linechart.json';
 import lanechartjson from '../../data/lanestatus.json';
@@ -118,7 +117,7 @@ import linechart_template from '../../data/linechart_template.json';
 export default {
     name: 'VendingMachine',
     components: {
-        TempStatusChart, LineChart, KtMap2, LaneStatus
+         LineChart, KtMap2, LaneStatusItem
     },
     data() {
         return {
@@ -126,7 +125,7 @@ export default {
             vm_data: null,
             map_data: null,
             data_instance: null,
-            vm_info_instance: null,
+            machine_service: null,
 
             //final objects whose datacollection and options gets inserted into the chart
             temp: null,
@@ -150,11 +149,10 @@ export default {
                     optimal_temp_high: null,
                     optimal_temp_low: null,
                 },
-                sequence: 0
+                sequence: (Math.random() * 100000).toFixed(0)
             },
 
             lanes: [],
-
             datacollection: null,
             options: null,
         }
@@ -173,14 +171,13 @@ export default {
 
             //initialize temperature and humidity variables
             //these are the final object whose datacollection and options gets inserted into the chart
+            //deep copy json object template
             this.temp = JSON.parse(JSON.stringify(linechart_template));
             this.hum= JSON.parse(JSON.stringify(linechart_template));
 
-            console.log(this.temp === this.hum)
-
-            //get vending machine information
-            this.vm_info_instance = axios.create({
-                baseURL:'http://localhost:8082/',
+            //machine-service
+            this.machine_service = axios.create({
+                baseURL:'http://localhost:8100/',
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                 },
@@ -202,10 +199,11 @@ export default {
 
             //get vending machine data
             var getMachineData = function () {
-                let promise = self.vm_info_instance.get(`/machines/${self.vm_id}`, {
+                let promise = self.machine_service.get(`/machines/${self.vm_id}`, {
                 }).then(function (response, error) {
                     self.vm_data = response.data;
                     self.map_data= [response.data];
+             
                     self.vm_data_ready = true;
                 }).catch(function (error) {
                     console.log(error);
@@ -213,8 +211,6 @@ export default {
 
                 return promise;
             }
-
-            getMachineData();
             
             //initial temperature data
             //`/logs/temperature/init/${user_id}/${vm_id}/${lane_id}`
@@ -222,6 +218,7 @@ export default {
                 let promise = self.data_instance.get('/logs/temperature/init/user1@kt.com/machine1/', {
                 }).then(function (response, error) {
                     self.temp_init_data = response.data;
+                    console.log(self.temp_init_data)
                 }).catch(function (error) {
                     console.log(error);
                 });
@@ -241,8 +238,8 @@ export default {
             }
 
             var insertChartLabel = function (datacollection, data) {
-                console.log(datacollection);
-                console.log(data);
+                // console.log(datacollection);
+                // console.log(data);
                 for(let i=0; i < data.length; i++) {
                     datacollection.labels.push(data[i].date.split(" ")[1]);
                 }
@@ -254,6 +251,7 @@ export default {
             Promise.all([getMachineData(), getInitTempData(), getInitHumData()])
                 .then(function() {
 
+                    console.log(self.temp_init_data)
                     //insert label into charts
                     insertChartLabel(self.temp.datacollection, self.temp_init_data[0].data)
                     insertChartLabel(self.hum.datacollection, self.hum_init_data[0].data)
@@ -392,7 +390,7 @@ export default {
             //get vending machine data
             var self = this;
             
-            this.vm_info_instance.post(`/machines/${this.vm_id}/lanes`, {
+            this.machine_service.post(`/machines/${this.vm_id}/lanes`, {
                 humidity: this.add_lane.humidity,
                 temperature: this.add_lane.temperature,
                 sequence: this.add_lane.sequence
@@ -412,14 +410,14 @@ export default {
                         optimal_temp_high: null,
                         optimal_temp_low: null,
                     },
-                    sequence: 0
+                    sequence: (Math.random() * 100000).toFixed(0)
                 }
             });
         },
         getLanes () {
             var self = this;
 
-            this.vm_info_instance.get(`/machines/${this.vm_id}/lanes`, {
+            this.machine_service.get(`/machines/${this.vm_id}/lanes`, {
             }).then(function (response, error) {
                 self.lanes = response.data;
             }).catch(function (error) {

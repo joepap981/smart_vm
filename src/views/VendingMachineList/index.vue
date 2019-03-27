@@ -47,8 +47,9 @@ export default {
         init () {
             var self = this;
           
+            //machine-service
             this.axios_instance = axios.create({
-                baseURL:'http://localhost:8082/',
+                baseURL:'http://localhost:8100/',
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                 },

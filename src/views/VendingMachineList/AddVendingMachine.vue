@@ -22,8 +22,7 @@
 </template>
 
 <script>
-import axios from 'axios';
-import KtMap3 from '../../components/KtMap3.vue'
+import KtMap3 from '../../components/AddVendingMachine/KtMap3.vue'
 export default {
     name: 'AddVendingMachine',
     components: {

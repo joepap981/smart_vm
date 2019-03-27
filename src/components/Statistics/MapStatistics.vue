@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import MapChart from '../MapChart.vue'
+import MapChart from '../Common/MapChart.vue'
 
 export default {
     name: 'MapStatistics',

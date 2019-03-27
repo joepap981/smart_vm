@@ -16,7 +16,7 @@
 
 <script>
 export default {
-    name: 'VendingMachineList',
+    name: 'VmListItem',
     props: ['vm_data']
 }
 </script>

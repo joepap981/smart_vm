@@ -24,7 +24,7 @@
                         <p class="card-header-title"> 자판기 </p>
                     </div>
                     <div class="card-body">
-                        <vending-machine-list v-for="vm in this.vm_data" :key="vm.id" :vm_data="vm"/>
+                        <vm-list-item v-for="vm in this.vm_data" :key="vm.id" :vm_data="vm"/>
                     </div>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                         <p class="card-header-title"> 재고알람 </p>
                     </div>
                     <div class="card-body">
-                        <stock-alarm />
+                       
                     </div>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                         <p class="card-header-title"> 온도알람 </p>
                     </div>
                     <div class="card-body">
-                        <alarm />
+                        <!-- <alarm-list alarm_type="temp" /> -->
                     </div>
                 </div>
             </div>
@@ -62,10 +62,10 @@
 
 <script>
 // import KakaoMap from '../../components/KakaoMap.vue'
-import KtMap from '../../components/KtMap.vue'
-import VendingMachineList from '../../components/Overview/VendingMachineList.vue'
-import StockAlarm from '../../components/Overview/StockAlarm.vue'
-import Alarm from '../../components/Overview/Alarm.vue'
+import KtMap from '../../components/Overview/KtMap.vue'
+import VmListItem from '../../components/Overview/VmListItem.vue'
+import AlarmList from '../../components/Overview/AlarmList.vue'
+
 
 import axios from 'axios'
 
@@ -73,7 +73,7 @@ export default {
     name: 'Overview',
     components: {
         // KakaoMap, 
-        KtMap, VendingMachineList, StockAlarm, Alarm
+        KtMap, VmListItem, AlarmList
     },
     data: function () {
         return {
@@ -82,6 +82,7 @@ export default {
             stock_alarm_data: null,
             alarm_data: null,
             alarm_polling: null,
+            machine_service: null,
         }
     },
     methods: {
@@ -89,79 +90,29 @@ export default {
             //state this component for use in axios 'then' callback function
             var self = this;
           
-            const instance = axios.create({
-                baseURL:'http://localhost:8082/',
+            //machine-service
+            this.machine_service = axios.create({
+                baseURL:'http://localhost:8100/',
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                 },
                 useCredentials: true,
                 crossDomain: true,
             })
-            //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
-            instance.get('/machines/', {
+
+            //get all vending machines
+            this.machine_service.get('/machines/', {
             }).then(function (response, error) {
                 self.vm_data = response.data.content;
-
             }).catch(function (error) {
                 console.log(error);
             })
         },
-        getStockAlarmData: function () {
-            //state this component for use in axios 'then' callback function
-            var self = this;
-          
-            const instance = axios.create({
-                baseURL:'https://my-json-server.typicode.com/joepap981/api/',
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                },
-                useCredentials: true,
-                crossDomain: true,
-            })
-            //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
-            instance.get('/content/', {
-            }).then(function (response, error) {
-                self.stock_alarm_data = response.data;
-            }).catch(function (error) {
-                console.log(error);
-            })
-
-            console.log(new Date());
-        },
-        getAlarmData: function () {
-                        //state this component for use in axios 'then' callback function
-            var self = this;
-          
-            const instance = axios.create({
-                baseURL:'https://my-json-server.typicode.com/joepap981/api/',
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                },
-                useCredentials: true,
-                crossDomain: true,
-            })
-            //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
-            instance.get('/content/', {
-            }).then(function (response, error) {
-                self.alarm_data = response.data;
-            }).catch(function (error) {
-                console.log(error);
-            })
-
-            console.log(new Date());
-        }
     },
     beforeMount () {
         var self = this;
-        // this.alarm_polling = setInterval(() => {
-        //     self.getStockDataAlarmData();
-        //     self.getAlarmData();
-        // }, 3000)
 
-       this.getVMData();
-    },
-    beforeDestroy() {
-        // clearInterval(this.alarm_polling)
+        this.getVMData();
     }
 }
 </script>

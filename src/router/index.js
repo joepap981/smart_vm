@@ -13,7 +13,7 @@ import VendingMachine from '../views/VendingMachine'
 import VendingMachineList from '../views/VendingMachineList'
 import AddVendingMachine from '../views/VendingMachineList/AddVendingMachine.vue'
 
-import PageNotFound from '../components/PageNotFound'
+import PageNotFound from '../components/Common/PageNotFound'
 
 Vue.use(VueRouter)
 

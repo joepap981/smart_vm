@@ -8,9 +8,9 @@ import * as am4core from "@amcharts/amcharts4/core";
 import * as am4maps from "@amcharts/amcharts4/maps";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
-import am4geodata_koreaSubmunicipalities from "../assets/geojson/skorea_submunicipalities_2018_geo.json";
-import am4geodata_koreaMunicipalities from "../assets/geojson/skorea_municipalities_2018_geo.json";
-import am4geodata_koreaProvinces from "../assets/geojson/skorea_provinces_2018_geo.json";
+import am4geodata_koreaSubmunicipalities from "../../assets/geojson/skorea_submunicipalities_2018_geo.json";
+import am4geodata_koreaMunicipalities from "../../assets/geojson/skorea_municipalities_2018_geo.json";
+import am4geodata_koreaProvinces from "../../assets/geojson/skorea_provinces_2018_geo.json";
 
 am4core.useTheme(am4themes_animated);
 
@@ -122,9 +122,7 @@ export default {
                 else if (depth == 2) {
                     zoomMove(ev.target)
                 }
-               
 
-                // zoomIn(ev.target);
                 
                 // set series for municipality for selected provice
                 let submunicipalitySeries = map.series.push(new am4maps.MapPolygonSeries());

@@ -10,9 +10,8 @@
 </template>
 
 <script>
-import DoughnutChart from '../DoughnutChart.vue'
-import DatePicker from '../../components/DatePicker.vue'
-import doughnutchartjson from '../../data/doughnutchart.json'
+import DoughnutChart from '../Common/DoughnutChart.vue'
+import DatePicker from '../../components/Common/DatePicker.vue'
 
 import axios from 'axios';
 
@@ -59,8 +58,6 @@ export default {
     },
     methods: {
         initData: function() {
-            // this.chartData = doughnutchartjson.datacollection
-            // this.options = doughnutchartjson.options
             //state this component for use in axios 'then' callback function
             var self = this;
             this.start = new Date().toISOString().split("T")[0];

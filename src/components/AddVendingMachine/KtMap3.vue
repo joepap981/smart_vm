@@ -1,9 +1,9 @@
 <template>
 <div class="wrapper">
     <div id="map3"></div>
-    <div class="row text-left justify-content-center">
-        <button class="btn btn-light btn-sm"> x: {{ utmk.x }} </button>
-        <button class="btn btn-light btn-sm"> y: {{ utmk.y }} </button>
+    <div class="coord row text-left justify-content-center">
+        <p> x: {{ utmk.x }} </p>
+        <p> y: {{ utmk.y }} </p>
     </div>
     <div class="form-group text-left">
         <label> Name </label>
@@ -26,7 +26,7 @@ import axios from 'axios'
 export default {
     name: 'KtMap3',
     data: () => ({
-        axios_instance: null,
+        machine_service: null,
         vm_data: null,
         map3: null,
         latlng: null,
@@ -71,9 +71,9 @@ export default {
                 self.utmk.y = event.getCoord().y;
             })
 
-            //initialize axios
-             this.axios_instance = axios.create({
-                baseURL:'http://localhost:8082/',
+            //machine-service
+             this.machine_service = axios.create({
+                baseURL:'http://localhost:8100/',
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                 },
@@ -83,7 +83,7 @@ export default {
         },
         getMachineList () {
             //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
-            this.axios_instance.get('/machines/', {
+            this.machine_service.get('/machines/', {
             }).then(function (response, error) {
                 self.vm_data = response.data.content;
                 console.log(response.data.content);
@@ -104,7 +104,7 @@ export default {
             
 
             //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
-            this.axios_instance.post('/machines/', {
+            this.machine_service.post('/machines/', {
                 location: {
                     address: self.address,
                     latitude: self.utmk.x,
@@ -138,7 +138,8 @@ export default {
     .wrapper {
         height: 300px;
     }
-    .btn {
+    .coord p {
+        font-size: 14px;
         min-width: 200px;
         margin: 10px 20px 0px 20px;
     }

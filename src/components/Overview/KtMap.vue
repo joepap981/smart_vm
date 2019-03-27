@@ -24,16 +24,19 @@ export default {
                 this.initialize();
             }
 
-            //loop through array of vending machines and add marker on map
-            value.forEach(function(coor) {
-                var marker = new olleh.maps.overlay.Marker({
-                    position: new olleh.maps.UTMK(coor.location.latitude, coor.location.longitude),
-                    map: self.map,
-                    // icon: {
-                    //     url:'../assets/vending-machine2.png'
-                    // }
-                })
-            });
+            if(this.vm_data.length =! 0) {
+                //loop through array of vending machines and add marker on map
+                value.forEach(function(coor) {
+                    var marker = new olleh.maps.overlay.Marker({
+                        position: new olleh.maps.UTMK(coor.location.latitude, coor.location.longitude),
+                        map: self.map,
+                        // icon: {
+                        //     url:'../assets/vending-machine2.png'
+                        // }
+                    })
+                });
+            }
+         
         }
     },
     methods: {
@@ -41,11 +44,19 @@ export default {
             var self = this;
 
             var mapOpts = {
-                center: new olleh.maps.UTMK(this.vm_data[0].location.latitude, this.vm_data[0].location.longitude),
+                center: null,
                 zoom: 6,
                 mapTypeId: 'ROADMAP',
                 disableDefaultUI: true
             };
+
+            //if no vm data center on fixed location
+            if (this.vm_data.length < 1) {
+                mapOpts.center = new olleh.maps.UTMK(958383.0798032843, 1941452.1748861822);
+            } else {
+                mapOpts.center = new olleh.maps.UTMK(this.vm_data[0].location.latitude, this.vm_data[0].location.longitude);
+            }
+            
 
             self.map = new olleh.maps.Map(document.getElementById("map"), mapOpts);
         },

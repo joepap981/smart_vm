@@ -69,7 +69,7 @@
 
 <script>
 export default {
-    name: "LaneStatus",
+    name: "LaneStatusItem",
     props: ['laneProp'],
     data () {
         return {

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import LineChart from '../LineChart.vue'
+import LineChart from '../Common/LineChart.vue'
 import Datepicker from 'vuejs-datepicker';
 
 import linechartjson from '../../data/linechart.json'
