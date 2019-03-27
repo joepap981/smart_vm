@@ -114,6 +114,7 @@ export default {
             }).then(function (response, error) {
                 console.log(response.data);
                 clearFields();
+                self.$router.push('/vm_list')
             }).catch(function (error) {
                 console.log(error);
             })
