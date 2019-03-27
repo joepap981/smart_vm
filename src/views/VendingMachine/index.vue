@@ -55,7 +55,7 @@
                     </div>
                     <div class="card-body">
                         <div class="map-container">
-                            <kt-map2 v-bind:vm_data="map_data"/>
+                            <kt-map2 v-if="vm_data_ready" v-bind:vm_data="map_data"/>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -107,9 +107,6 @@ import axios from 'axios';
 import LineChart from '../../components/Common/LineChart.vue';
 import KtMap2 from '../../components/VendingMachine/KtMap2.vue';
 import LaneStatusItem from '../../components/VendingMachine/LaneStatusItem.vue';
-
-import linechartjson from '../../data/linechart.json';
-import lanechartjson from '../../data/lanestatus.json';
 
 import linechart_template from '../../data/linechart_template.json';
 // import { JSONParser } from '@amcharts/amcharts4/core';
@@ -231,6 +228,8 @@ export default {
                 let promise = self.data_instance.get('/logs/humidity/init/user1@kt.com/machine1/', {
                 }).then(function (response, error) {
                     self.hum_init_data = response.data;
+                    if (self.hum_init_data.length < 1)
+                        throw new Error('No lane humidity data');
                 }).catch(function (error) {
                     console.log(error);
                 });
@@ -319,6 +318,7 @@ export default {
                     // self.updateData();
                 }).catch(function (error) {
                     console.log(error);
+                    alert(error);
                 })
 
 
