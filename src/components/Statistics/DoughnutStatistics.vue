@@ -77,8 +77,14 @@ export default {
                 console.log(error);
             })
         },
+
+        //update chart on response from DatePicker
         updateChart: function (event) {
-            console.log(event);
+
+            this.start = event.start;
+            this.end = event.end;
+
+            this.getSalesData();
         }
     },
     mounted: function (){

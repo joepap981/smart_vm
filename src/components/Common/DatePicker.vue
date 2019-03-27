@@ -50,15 +50,21 @@ export default {
         update: function (event) {
             var self = this;
 
-            var date = {
-                start: self.start,
-                end: self.end
-            };
-
-            this.$emit('update-chart', date);
+            //check if the starting date is before the end date
+            if(this.validateDates()) {
+                alert("시작 날짜가 앞서 있습니다. 날짜를 다시 선택해주세요.")
+            } else {
+                var date = {
+                    start: self.start,
+                    end: self.end
+                };
+                this.$emit('update-chart', date);
+            }
+            
         },
+        //validate inserted dates 
         validateDates: function () {
-
+            return this.start > this.end;
         }
     },
     // watch: {
