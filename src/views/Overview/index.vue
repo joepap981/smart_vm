@@ -23,7 +23,7 @@
                     <div class="card-header">
                         <p class="card-header-title"> 자판기 </p>
                     </div>
-                    <div class="card-body">
+                    <div class="vm-list card-body">
                         <vm-list-item v-for="vm in this.vm_data" :key="vm.id" :vm_data="vm"/>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                         <p class="card-header-title"> 온도알람 </p>
                     </div>
                     <div class="card-body">
-                        <!-- <alarm-list alarm_type="temp" /> -->
+                        <alarm-list alarm_type="temp" />
                     </div>
                 </div>
             </div>
@@ -138,6 +138,10 @@ export default {
 
     .map-container {
         height: 400px;
+    }
+
+    .vm-list {
+        overflow: auto;
     }
 
 </style>

@@ -86,7 +86,7 @@ export default {
             this.machine_service.get('/machines/', {
             }).then(function (response, error) {
                 self.vm_data = response.data.content;
-                console.log(response.data.content);
+
             }).catch(function (error) {
                 console.log(error);
             })
@@ -112,7 +112,6 @@ export default {
                 },
                 name: self.name
             }).then(function (response, error) {
-                console.log(response.data);
                 clearFields();
                 self.$router.push('/vm_list')
             }).catch(function (error) {
