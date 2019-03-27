@@ -1,13 +1,17 @@
 <template>
     <div>
-        <div class="list-item d-flex flex-row justify-content-start" data-toggle="modal" data-target="#alarm-modal">
+        <div class="list-item d-flex flex-row justify-content-start ml-2" data-toggle="modal" data-target="#alarm-modal">
             <div class="status-badge"></div>
-            <div class="ml-2 mb-2">
+            <div class="machine-name mb-2">
                 <p class="info-title"> {{ alarm_data.machine.name }} </p>
             </div>
-            <div class="ml-5">
+            <div class="alarm-box">
                 <p class="info-title"> {{ alarm_data.message }} </p>
                 <p class="info-sub"> {{ alarm_data.dateTime }} </p>
+            </div>
+            <div class="alarm-status">
+                <p class="info-title"> Status </p>
+                <p class="info-sub"> {{ alarm_data.status }} </p>
             </div>
         </div>
 
@@ -16,14 +20,14 @@
             <div class="modal-dialog" role="document">
                     <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Stock Alarm</h5>
+                        <h5 class="modal-title">{{ alarmName() }} Alarm</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <!--Lane 정보 편집-->
-
+                        
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">닫기</button>
@@ -37,9 +41,16 @@
 <script>
 export default {
     name: 'AlarmListItem',
-    props: ['alarm_data'],
+    props: {
+        'alarm_data': Object,
+        'alarm_type': String,
+    },
+    methods: {
+        alarmName () {
+            return this.alarm_type.charAt(0).toUpperCase() + this.alarm_type.slice(1);
+        }
+    },
     mounted() {
-        console.log(this.alarm_data)
     }
 
 }
@@ -60,7 +71,7 @@ export default {
         margin-bottom: 0px;
     }
     .status-badge {
-        background-color: #36a2eb;
+        background-color: rgba(255, 206, 86, 1);
         min-width: 0.4rem;
         height: 2rem;
         border-radius: 3px;
@@ -69,6 +80,7 @@ export default {
     .list-item {
         height: 50px;
         cursor: pointer;
+        margin: auto;
         margin-bottom: 10px;
     }
     .list-item:hover{ 
@@ -78,5 +90,20 @@ export default {
     .modal-title {
         font-size: 16px;
         font-weight: bold;
+    }
+    .machine-name {
+        width: 40px;
+        vertical-align: middle;
+    }
+    .alarm-box {
+        margin-left: auto;
+    }
+    .alarm-status {
+        width: 50px;
+        margin-left: auto;
+        padding-right: 2px;
+    }
+    .alarm-status *{
+        text-align: center;
     }
 </style>

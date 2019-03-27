@@ -31,10 +31,10 @@
             <div class="col-xl-4 col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <p class="card-header-title"> 재고알람 </p>
+                        <p class="card-header-title"> 재고알림 </p>
                     </div>
                     <div class="card-body">
-                       
+                       <alarm-list alarm_type="stock" />
                     </div>
                 </div>
             </div>
@@ -42,7 +42,7 @@
             <div class="col-xl-4 col-md-6">
                  <div class="card">
                     <div class="card-header">
-                        <p class="card-header-title"> 온도알람 </p>
+                        <p class="card-header-title"> 온도알림 </p>
                     </div>
                     <div class="card-body">
                         <alarm-list alarm_type="temp" />
@@ -52,7 +52,10 @@
             <div class="col-xl-4 col-md-6">
                  <div class="card">
                     <div class="card-header">
-                        <p class="card-header-title"> 습도알람 </p>
+                        <p class="card-header-title"> 습도알림 </p>
+                    </div>
+                    <div class="card-body">
+                        <alarm-list alarm_type="humi" />
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 <template>
 <div class="wrapper" v-if="alarm_data_loaded">
-    <alarm-list-item v-for="alarm in this.alarm_data_list" :key="alarm.id" :alarm_data="alarm" />
+    <alarm-list-item v-for="alarm in this.alarm_data_list" :key="alarm.id" :alarm_data="alarm" :alarm_type="alarm_type" />
 </div>
 
 </template>
@@ -54,7 +54,6 @@ export default {
                 }
             }).then(function (response, error) {
                 self.alarm_data_list = response.data.content;
-                console.log(self.alarm_data_list)
                 self.alarm_data_loaded = true;
             }).catch(function (error) {
                 console.log(error);
@@ -72,7 +71,6 @@ export default {
 
 <style scoped>
     .wrapper {
-        height: 500px;
         overflow: auto;
     }
 </style>
