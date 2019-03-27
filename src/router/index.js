@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 //View paths
 import SignIn from '../views/Authentication/SignIn'
+import SignUp from '../views/Authentication/SignUp'
 import DashboardIndex from '../views/'
 
 import Overview from '../views/Overview'
@@ -25,6 +26,7 @@ export function createRouter () {
         routes: [
            //authentication/redirect routes
            { path: '/signin', component: SignIn},
+           { path: '/signup', component: SignUp},
 
            //dashboard routes
            { path: '/', component: DashboardIndex,

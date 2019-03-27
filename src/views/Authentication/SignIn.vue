@@ -13,7 +13,7 @@
                 <input class="form-control" type="password" id="passInput"/>
             </div>
 
-            <button @click="userSignIn()" class="btn btn-primary w-100 mt-3"> Sign in </button>
+            <button @click="userSignIn()" class="btn btn-primary w-100 mt-3"> Sign In </button>
         </form>
     </div>
 </template>
@@ -35,5 +35,8 @@ export default {
         margin-top: 100px;
         min-width: 300px;
         max-width: 300px;
+    }
+    .form-control {
+        height: 33px;
     }
 </style>
