@@ -12,11 +12,11 @@
             </div>
         </div>
 
-        <datepicker class="datepicker-util" calendar-button-icon="far fa-calendar-alt" :calendar-button="true" v-model="date.start" input-class="inputclass"></datepicker>
+        <datepicker class="datepicker-util" calendar-button-icon="far fa-calendar-alt" :calendar-button="true" v-model="start" input-class="inputclass"></datepicker>
         ~
-        <datepicker class="datepicker-util" calendar-button-icon="far fa-calendar-alt" :calendar-button="true" v-model="date.end" input-class="inputclass"></datepicker>
+        <datepicker class="datepicker-util" calendar-button-icon="far fa-calendar-alt" :calendar-button="true" v-model="end" input-class="inputclass"></datepicker>
 
-        <button @click="update()" class="update-btn btn btn-primary btn-light btn-sm"> Update </button>
+        <button @click="update" class="update-btn btn btn-primary btn-light btn-sm"> Update </button>
     </div>
 
 </template>
@@ -29,19 +29,36 @@ export default {
     components: {
         Datepicker
     },
-    methods: {
-        update: function () {
-            console.log("update");
-            console.log(this.$emit('update-chart'));
-        }
-    },
     data () {
         return {
-            date: {
-                start: null,
-                end: null
-            }
-            
+            start: null,
+            end: null
+        }
+    },
+    watch: {
+        start: function (value) {
+            //convert date into wanted format
+            this.start = new Date(value).toISOString().split("T")[0];
+        },
+        end: function (value) {
+            //convert date into wanted format
+            this.end = new Date(value).toISOString().split("T")[0];
+        }
+    },
+    methods: {
+        //when update button is clicked, emits data to parent
+        update: function (event) {
+            var self = this;
+
+            var date = {
+                start: self.start,
+                end: self.end
+            };
+
+            this.$emit('update-chart', date);
+        },
+        validateDates: function () {
+
         }
     },
     // watch: {

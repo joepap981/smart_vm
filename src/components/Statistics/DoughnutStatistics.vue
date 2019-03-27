@@ -1,10 +1,10 @@
 <template>
     <div class="">
         <div class="card-body">
-            <doughnut-chart v-if="data_ready" v-on:update-chart="getChartData" class="chart-container" :chart-data="chart_data" :options="options" />
+            <doughnut-chart v-if="data_ready" class="chart-container" :chart-data="chart_data.datacollection" :options="chart_data.options" />
         </div>
         <div class="card-footer">
-            <date-picker />
+            <date-picker v-on:update-chart="updateChart" />
         </div>
     </div>
 </template>
@@ -12,6 +12,8 @@
 <script>
 import DoughnutChart from '../Common/DoughnutChart.vue'
 import DatePicker from '../../components/Common/DatePicker.vue'
+
+import doughnutchart_template from '../../assets/templates/doughnutchart_template.json'
 
 import axios from 'axios';
 
@@ -22,88 +24,65 @@ export default {
     },
     data () {
         return {
+            statistics_service: null,
             data_ready: false,
-            chart_data: {
-                "labels": [],
-                "datasets": [
-                    {
-                        "label": "Dataset 1",
-                        "data": [],
-                        "backgroundColor": [
-                            "rgba(255,99,132,1)",
-                            "rgba(54, 162, 235, 1)",
-                            "rgba(255, 206, 86, 1)",
-                            "rgba(75, 192, 192, 1)",
-                            "rgba(153, 102, 255, 1)",
-                            "rgba(255, 159, 64, 1)"
-                        ]
-                    }
-                ]
-            },
-            options: {
-                "responsive": true,
-                "legend": {
-                    "position": "top"
-                },
-                "title": {
-                    "display": false,
-                    "text": "인기제품"
-                },
-                "animation": {
-                    "animateScale": true,
-                    "animateRotate": true
-                }
-            }
+            start: null,
+            end: null,
+            chart_data: null,
+            chart_data_buffer: null,
         }
     },
     methods: {
-        initData: function() {
-            //state this component for use in axios 'then' callback function
+        init: function () {
             var self = this;
-            this.start = new Date().toISOString().split("T")[0];
-            this.end = new Date(new Date().getTime() - 60 * 60 * 24 * 7 * 1000).toISOString().split("T")[0];
-          
-            const instance = axios.create({
-                baseURL:'https://my-json-server.typicode.com/joepap981/api/',
+            //automatically set date to search. (a week from today) ~ (today)
+
+            this.start = new Date(new Date().getTime() - 60 * 60 * 24 * 7 * 1000).toISOString().split("T")[0];
+            this.end = new Date().toISOString().split("T")[0];
+
+            //statistics service instance
+            this.statistics_service = axios.create({
+                baseURL:'http://121.140.19.90:8080/',
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                 },
                 useCredentials: true,
                 crossDomain: true,
             })
+
+            //deep copy chart_data template
+            this.chart_data = JSON.parse(JSON.stringify(doughnutchart_template));
+
+            //get sales data
+            this.getSalesData();
+        },
+        getSalesData: function () {
+            var self = this;
+            
             //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
-            instance.get('/result/', {
-                // params: {
-                //     start: this.start,
-                //     end: this.end
-                // }
+            this.statistics_service.get('/logs/sell/user1@kt.com/', {
+                params: {
+                    start: self.start,
+                    end: self.end,
+                }
             }).then(function (response, error) {
-                var iterator = response.data;
-                iterator.forEach(element => {
-                    self.chart_data.labels.push(element.product);
-                    self.chart_data.datasets[0].data.push(element.set);
-                });
+                self.chart_data_buffer = response.data;
+
+                for(var i=0; i < 10; i++) {
+                    self.chart_data.datacollection.labels.push(self.chart_data_buffer[i].drink_type);
+                    self.chart_data.datacollection.datasets[0].data.push(self.chart_data_buffer[i].sell);
+                }
                 self.data_ready = true;
-                // console.log(self.chart_data.labels)
             }).catch(function (error) {
                 console.log(error);
             })
         },
-        getChartData: function () {
-            // this.start = event.start;
-            // this.end = event.end;
-            console.log("getchartdata")
-            // if (event != undefined) {
-            //     console.log(event.start);
-
-            //     console.log(this.start);
-            //     console.log(this.end);
-            // }
-
+        updateChart: function (event) {
+            console.log(event);
         }
     },
-    created: function (){
-        this.initData()
+    mounted: function (){
+        this.init()
     }
 }
 </script>

@@ -72,55 +72,16 @@ export default {
     },
     data: function () {
         return {
-            instance: null,
+            "statistics_service": null,
         }
     },
     methods: {
         init: function () {
-            //'https://my-json-server.typicode.com/joepap981/api/'
-             this.instance = axios.create({
-                baseURL:'http://121.140.19.90:8080/',
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                },
-                useCredentials: true,
-                crossDomain: true,
-            })
 
-            this.start = new Date().toISOString().split("T")[0];
-            this.end = new Date(new Date().getTime() - 60 * 60 * 24 * 7 * 1000).toISOString().split("T")[0];
-
-        },
-        getTempData: function () {
-            var self = this;
-            
-            //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
-            this.instance.get('/logs/sell/user1@kt.com/', {
-                params: {
-                    start: '2019-03-10',
-                    end: '2019-03-28'
-                }
-            }).then(function (response, error) {
-                console.log(response.data);
-                self.data_ready = true;
-                console.log(self.chart_data.labels)
-            }).catch(function (error) {
-                console.log(error);
-            })
-        },
-        beforeMount () {
-            var self = this;
-            // this.alarm_polling = setInterval(() => {
-            //     self.getStockDataAlarmData();
-            //     self.getAlarmData();
-            // }, 3000)
-
-            this.getVMData();
         },
     },
     mounted () {
         this.init();
-        this.getTempData();
     }
 }
 </script>

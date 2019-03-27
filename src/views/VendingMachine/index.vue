@@ -108,7 +108,7 @@ import LineChart from '../../components/Common/LineChart.vue';
 import KtMap2 from '../../components/VendingMachine/KtMap2.vue';
 import LaneStatusItem from '../../components/VendingMachine/LaneStatusItem.vue';
 
-import linechart_template from '../../data/linechart_template.json';
+import linechart_template from '../../assets/templates/linechart_template.json';
 // import { JSONParser } from '@amcharts/amcharts4/core';
 
 export default {
