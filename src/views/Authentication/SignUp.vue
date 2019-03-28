@@ -4,21 +4,28 @@
 
         <form>
             <div class="form-group">
-                <label class="d-flex align-content-start"> email </label>
-                <input class="form-control" type="email" />
+                <label class="d-flex align-content-start"> name </label>
+                <input v-model="name" class="form-control" type="text" />
+            </div>
+            <div class="form-group">
+                <label class="d-flex align-content-start"> phone </label>
+                <input v-model="phone" class="form-control" type="text" />
+            </div>
+            <div class="form-group">
+                <label class="d-flex align-content-start"> username </label>
+                <input v-model="username" class="form-control" type="text" />
             </div>
 
             <div class="form-group">
                 <label class="d-flex align-content-start"> password </label>
-                <input class="form-control" type="password" />
+                <input v-model="pwd" class="form-control" type="password" />
             </div>
             <div class="form-group">
                 <label class="d-flex align-content-start"> confirm password </label>
-                <input class="form-control" type="password" />
+                <input v-model="confirm_pwd" class="form-control" type="password" />
             </div>
-
-            <button @click="userSignUp()" class="btn btn-primary w-100 mt-3"> Sign Up </button>
         </form>
+        <button @click="userSignUp()" class="btn btn-primary w-100 mt-3"> Sign Up </button>
     </div>
 </template>
 
@@ -30,12 +37,17 @@ export default {
     data () {
         return {
             user_service:null,
-            email: null,
+            name: null,
+            phone: null,
+            username: null,
             pwd: null,
             confirm_pwd: null,
         }
     },
     methods: {
+        log (message) {
+            console.log(message)
+        },
         init: function () {
             this.user_service = axios.create({
                 baseURL:'http://localhost:8200/',
@@ -51,41 +63,84 @@ export default {
         userSignUp: function () {
             var self = this;
 
-            if (this.validateEmail() && this.validatePassword()) {
+            Promise.all([this.validateUsername(), this.validatePassword(), this.validateUserInfo()])
+            .then(function (response) {
+                console.log(response);
                 //create new user
-                this.user_service.put('/logs/sell/user1@kt.com/', {
+                self.user_service.post('/users', {
+                    name: self.name,
+                    phone: self.phone,
+                    password: self.pwd,
+                    username: self.username
                 }).then(function (response, error) {
-    
+                    self.log(response);
                 }).catch(function (error) {
-                    console.log(error);
+                    self.log(error);
                 })
-            } else {
-                alert("failed")
-            }
-
-       
-        },
-        validatePassword: function () {
-            //validate if one of password input is empty
-            if (this.pwd == null || this.confirm_pwd == null)
-                return false;
-            //validate if the two passwords match
-            else if (this.pwd != this.confirm_pwd) 
-                return false;
-            else 
-                return true;
-          
-        },
-        validateEmail: function () {
-            //validate if input username does not already exists
-            this.user_service.get(`/users/${this.email}`, {
-            }).then(function (response, error) {
-                console.log(response.data);
             }).catch(function (error) {
                 console.log(error);
             })
+    
+        },
+        validateUserInfo: function () {
+            var self = this;
+            let promise = new Promise( (resolve, reject) => {
+                //validate if password and conf password are not null
+                let passwordConfirmed = self.username != null && self.phone != null && self.name != null;
 
-            return false;
+                if (passwordConfirmed) {
+                    self.log('UserInfo Validated')
+                    resolve('UserInfo Validated');
+                }
+                else {
+                    self.log('UserInfo validtion failed')
+                    reject('UserInfo validation failed');
+                }
+            })
+
+            return promise;
+        },
+        validatePassword: function () {
+            var self = this;
+            let promise = new Promise( (resolve, reject) => {
+                //validate if password and conf password are not null
+                let passwordConfirmed = self.pwd != null && self.confirm_pwd != null;
+                //validate if the two password inputs match
+                passwordConfirmed = passwordConfirmed && (self.pwd == self.confirm_pwd);
+                if (passwordConfirmed) {
+                    resolve('Password Validated');
+                    self.log('Password Validated')
+                }
+                else {
+                    reject('Password validation failed');
+                    this.log('Password validation failed')
+                }
+            }) 
+
+            return promise;
+        },
+        validateUsername: function () {
+            var self = this;
+            var result;
+            //validate if input username does not already exists
+            var promise = new Promise ((resolve, reject) => {
+
+                this.user_service.get(`/users/${this.username}`, {
+                }).then(function (response, error) {
+                    result = response.data.content;
+                    if (result.length > 0) {
+                        reject("Username already exists");
+                    } else {
+                        resolve("Username Validated");
+                    }
+                }).catch(function (error) {
+                    self.log(error);
+                    reject("Username validation failed");
+                });
+
+            })
+                
+            return promise;
         }
     },
     mounted () {

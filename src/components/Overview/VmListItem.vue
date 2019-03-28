@@ -17,7 +17,10 @@
 <script>
 export default {
     name: 'VmListItem',
-    props: ['vm_data']
+    props: ['vm_data'],
+    mounted () {
+  
+    }
 }
 </script>
 
