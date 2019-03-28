@@ -351,7 +351,7 @@ export default {
             var getHumData = function () {
                 let promise = self.data_instance.get('/logs/humidity/user1@kt.com/machine1/', {
                 }).then(function (response, error) {
-                     update_hum = response.data;
+                    update_hum = response.data;
                 }).catch(function (error) {
                     console.log(error);
                 });

@@ -13,9 +13,6 @@
                     <div class="card-body">
                         <map-statistics />
                     </div>
-                    <div class="card-footer">
-  
-                    </div>
                 </div>
             </div>
 
@@ -38,9 +35,6 @@
                     </div>
                     <div class="card-body">
                         <line-statistics />
-                    </div>
-                    <div class="card-footer">
-         
                     </div>
                 </div>
             </div>

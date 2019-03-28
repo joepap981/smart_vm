@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="mt-3" >
-            <line-chart v-if="data_ready" class="chart-container" :chart-data="chart_data.datacollection" :options="chart_data.options" />
+        <div class="chart-container mt-3" >
+            <line-chart v-if="data_ready" :chart-data="chart_data.datacollection" :options="chart_data.options" />
         </div>
         <div class="card-footer">
             <date-picker v-on:update-chart="updateChart" />
@@ -64,7 +64,7 @@ export default {
             //deep copy chart_data template
             var temp_chart_data = JSON.parse(JSON.stringify(linechart_sales_template));
 
-            this.statistics_service.get('/logs/sell/user1@kt.com/', {
+            this.statistics_service.get('/logs/sell/time/user1@kt.com/', {
                 params: {
                     start: self.start,
                     end: self.end,
@@ -76,7 +76,6 @@ export default {
                     temp_chart_data.datacollection.datasets[0].data.push(self.chart_data_buffer[i].count);
                 }
                 self.chart_data = temp_chart_data;
-                alert("Chart updated");
             }).catch(function (error) {
                 alert(error);
             })
@@ -96,7 +95,6 @@ export default {
                 for(var i=0; i < response.data.length; i++) {
                     self.chart_data.datacollection.datasets[0].data.push(self.chart_data_buffer[i].count);
                 }
-                console.log(self.chart_data.datacollection)
                 self.data_ready = true;
             }).catch(function (error) {
                 console.log(error);
@@ -115,15 +113,21 @@ export default {
         height: 350px;
         width: 95%;
         margin: auto;
+        margin-bottom: 40px;
     }
 
     .date-picker {
-        margin-top: 20px;
         align-items: center;
+        margin-top: 5px;
     }
     
     .datepicker-label {
         font-size: 10px;
         margin-bottom: 0;
     }
+
+    .card-footer {
+        height: 40px;
+    }
+
 </style>
