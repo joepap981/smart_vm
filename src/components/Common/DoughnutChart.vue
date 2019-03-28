@@ -11,12 +11,6 @@
       // If you want to pass options please create a local options object
       this.renderChart(this.chartData, this.options)
     },
-    watch: {
-      chartData: function() {
-        console.log("hello");
-        this.renderChart(this.chartData, this.options);
-      }
-    }
   }
 </script>
 <style>

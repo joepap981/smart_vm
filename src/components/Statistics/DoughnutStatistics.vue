@@ -80,11 +80,31 @@ export default {
 
         //update chart on response from DatePicker
         updateChart: function (event) {
+            var self = this;
 
             this.start = event.start;
             this.end = event.end;
 
-            this.getSalesData();
+            //deep copy chart_data template
+            var temp_chart_data = JSON.parse(JSON.stringify(doughnutchart_template));
+
+            this.statistics_service.get('/logs/sell/user1@kt.com/', {
+                params: {
+                    start: self.start,
+                    end: self.end,
+                }
+            }).then(function (response, error) {
+                self.chart_data_buffer = response.data;
+
+                for(var i=0; i < 10; i++) {
+                    temp_chart_data.datacollection.labels.push(self.chart_data_buffer[i].drink_type);
+                    temp_chart_data.datacollection.datasets[0].data.push(self.chart_data_buffer[i].sell);
+                }
+                self.chart_data = temp_chart_data;
+                console.log(self.chart_data);
+            }).catch(function (error) {
+                console.log(error);
+            })
         }
     },
     mounted: function (){
