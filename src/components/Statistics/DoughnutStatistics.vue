@@ -60,7 +60,7 @@ export default {
             var self = this;
             
             //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
-            this.statistics_service.get('/logs/sell/user1@kt.com/', {
+            this.statistics_service.get('/logs/sell/all', {
                 params: {
                     start: self.start,
                     end: self.end,
@@ -68,9 +68,9 @@ export default {
             }).then(function (response, error) {
                 self.chart_data_buffer = response.data;
 
-                for(var i=0; i < 10; i++) {
+                for(var i=0; i < self.chart_data_buffer.length; i++) {
                     self.chart_data.datacollection.labels.push(self.chart_data_buffer[i].drink_type);
-                    self.chart_data.datacollection.datasets[0].data.push(self.chart_data_buffer[i].sell);
+                    self.chart_data.datacollection.datasets[0].data.push(self.chart_data_buffer[i].count);
                 }
                 self.data_ready = true;
             }).catch(function (error) {
@@ -101,9 +101,9 @@ export default {
                     temp_chart_data.datacollection.datasets[0].data.push(self.chart_data_buffer[i].sell);
                 }
                 self.chart_data = temp_chart_data;
-                console.log(self.chart_data);
+                alert("Chart updated");
             }).catch(function (error) {
-                console.log(error);
+                alert(error);
             })
         }
     },
