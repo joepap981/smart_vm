@@ -70,7 +70,8 @@ export default {
                     password: self.pwd,
                     username: self.username
                 }).then(function (response, error) {
-                    console.log(response);
+                    //add login session
+                    self.$router.push('/overview')
                 }).catch(function (error) {
                     var error_message;
                     for(var i=0; i < error.response.data.message.length; i++) {
