@@ -45,9 +45,7 @@ export default {
         }
     },
     methods: {
-        log (message) {
-            console.log(message)
-        },
+
         init: function () {
             this.user_service = axios.create({
                 baseURL:'http://localhost:8200/',
@@ -65,7 +63,6 @@ export default {
 
             Promise.all([this.validateUsername(), this.validatePassword(), this.validateUserInfo()])
             .then(function (response) {
-                console.log(response);
                 //create new user
                 self.user_service.post('/users', {
                     name: self.name,
@@ -73,9 +70,13 @@ export default {
                     password: self.pwd,
                     username: self.username
                 }).then(function (response, error) {
-                    self.log(response);
+                    console.log(response);
                 }).catch(function (error) {
-                    self.log(error);
+                    var error_message;
+                    for(var i=0; i < error.response.data.message.length; i++) {
+                        error_message = error_message + (error.response.data.message[i]) + "\n";
+                    }
+                    alert(error_message);
                 })
             }).catch(function (error) {
                 console.log(error);
@@ -89,11 +90,11 @@ export default {
                 let passwordConfirmed = self.username != null && self.phone != null && self.name != null;
 
                 if (passwordConfirmed) {
-                    self.log('UserInfo Validated')
+                    console.log('UserInfo Validated')
                     resolve('UserInfo Validated');
                 }
                 else {
-                    self.log('UserInfo validtion failed')
+                    alert('필수 정보를 입력해주세요.')
                     reject('UserInfo validation failed');
                 }
             })
@@ -105,15 +106,20 @@ export default {
             let promise = new Promise( (resolve, reject) => {
                 //validate if password and conf password are not null
                 let passwordConfirmed = self.pwd != null && self.confirm_pwd != null;
+                if (!passwordConfirmed) {
+                    alert("비밀번호를 입력해주세요")
+                    reject('Password validation failed');
+                }
+            
                 //validate if the two password inputs match
                 passwordConfirmed = passwordConfirmed && (self.pwd == self.confirm_pwd);
                 if (passwordConfirmed) {
                     resolve('Password Validated');
-                    self.log('Password Validated')
+                    console.log('Password Validated')
                 }
                 else {
                     reject('Password validation failed');
-                    this.log('Password validation failed')
+                    alert('입력한 비밀 번호가 동일하지 않습니다. 다시 입력해주세요.')
                 }
             }) 
 
@@ -124,20 +130,20 @@ export default {
             var result;
             //validate if input username does not already exists
             var promise = new Promise ((resolve, reject) => {
-
-                this.user_service.get(`/users/${this.username}`, {
+                this.user_service.head(`/users/${this.username}`, {
                 }).then(function (response, error) {
-                    result = response.data.content;
-                    if (result.length > 0) {
+                    result = response.status;
+                    if (result == '200') {
                         reject("Username already exists");
-                    } else {
+                    } else if (result == '404') {
                         resolve("Username Validated");
+                    } else {
+                        reject("Unknown error")
                     }
                 }).catch(function (error) {
-                    self.log(error);
-                    reject("Username validation failed");
+                    // console.log(error);
+                    resolve("Username validated");
                 });
-
             })
                 
             return promise;
