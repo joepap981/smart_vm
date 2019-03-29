@@ -20,7 +20,6 @@
                 </div>
             </div>
 
-
             <!-- Humidity Monitoring Graph-->
              <div class="col-xl-12">
                 <div class="card">
@@ -105,39 +104,25 @@
 
 <script>
 import axios from 'axios';
-import LineChart from '../../components/Common/LineChart.vue';
 import KtMap2 from '../../components/VendingMachine/KtMap2.vue';
 import LaneStatusItem from '../../components/VendingMachine/LaneStatusItem.vue';
 
 import LaneMonitorChart from '../../components/VendingMachine/LaneMonitorChart.vue'
 
-import linechart_template from '../../assets/templates/linechart_template.json';
-// import { JSONParser } from '@amcharts/amcharts4/core';
-
 export default {
     name: 'VendingMachine',
     components: {
-         LineChart, KtMap2, LaneStatusItem, LaneMonitorChart
+        KtMap2, LaneStatusItem, LaneMonitorChart
     },
     data() {
         return {
             vm_id: this.$route.params.id,
             vm_data: null,
             map_data: null,
-            statistics_service: null,
-            machine_service: null,
-
-            //final objects whose datacollection and options gets inserted into the chart
-            temp: null,
-            hum: null,
-            //arrays 
-            temp_init_data: [],
-            hum_init_data: [],
-
-            //flags to alert chart that data has been received
-            temp_data_ready: false,
-            hum_data_ready: false,
             vm_data_ready: false,
+
+            //axios machine service instance
+            machine_service: null,
 
             //lane related data
             add_lane: {
@@ -160,20 +145,10 @@ export default {
     mounted () {
         this.init();
     },
-    beforeDestroy () {
-        this.temp = null;
-        this.hum = null;
-    },
+
     methods: {
         init () {
             var self = this;
-
-
-            //initialize temperature and humidity variables
-            //these are the final object whose datacollection and options gets inserted into the chart
-            //deep copy json object template
-            this.temp = JSON.parse(JSON.stringify(linechart_template));
-            this.hum= JSON.parse(JSON.stringify(linechart_template));
 
             //machine-service
             this.machine_service = axios.create({
@@ -184,215 +159,26 @@ export default {
                 useCredentials: true,
                 crossDomain: true,
             })
-
-            //get initial temperature and humidity data
-            this.statistics_service = axios.create({
-                baseURL:'http://121.140.19.90:8080/',
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                },
-                useCredentials: true,
-                crossDomain: true,
-            })
-
             this.getLanes();
-
-            //get vending machine data
-            var getMachineData = function () {
-                let promise = self.machine_service.get(`/machines/${self.vm_id}`, {
-                }).then(function (response, error) {
-                    self.vm_data = response.data;
-                    self.map_data= [response.data];
-             
-                    self.vm_data_ready = true;
-                }).catch(function (error) {
-                    console.log(error);
-                });
-
-                return promise;
-            }
-            
-            //initial temperature data
-            //`/logs/temperature/init/${user_id}/${vm_id}/${lane_id}`
-            var getInitTempData = function () {
-                let promise = self.statistics_service.get('/logs/temperature/init/user1@kt.com/machine1/', {
-                }).then(function (response, error) {
-                    self.temp_init_data = response.data;
-                }).catch(function (error) {
-                    console.log(error);
-                });
-                return promise;
-            }
-
-            //initial humidity data
-            //`/logs/humidity/init/${user_id}/${vm_id}/${lane_id}`
-            var getInitHumData = function () {
-                let promise = self.statistics_service.get('/logs/humidity/init/user1@kt.com/machine1/', {
-                }).then(function (response, error) {
-                    self.hum_init_data = response.data;
-                    if (self.hum_init_data.length < 1)
-                        throw new Error('No lane humidity data');
-                }).catch(function (error) {
-                    console.log(error);
-                });
-                return promise;
-            }
-
-            var insertChartLabel = function (datacollection, data) {
-                // console.log(datacollection);
-                // console.log(data);
-                // for(let i=0; i < data.length; i++) {
-                //     datacollection.labels.push(data[i].date.split(" ")[1]);
-                // }
-            }
-
-            //once successful in getting machine and lane data
-            //format lane temp + hum data from server to chart
-            Promise.all([getMachineData(), getInitTempData(), getInitHumData()])
-                .then(function() {
-                    //insert label into charts
-                    insertChartLabel(self.temp.datacollection, self.temp_init_data[0].data)
-                    insertChartLabel(self.hum.datacollection, self.hum_init_data[0].data)
-                    
-                    //temperature
-                    //push each lane data into a dataset, which is inserted into datacollection
-                    for(var i=0; i < self.temp_init_data.length; i++){
-                        //current lane
-                        let temp_lane = self.temp_init_data[i].data;
-                 
-                        //dataset object to push into temp_datacollection
-                        let temp_lane_dataset = {
-                            "label": null,
-                            "data": [],
-                            "backgroundColor":"rgba(0, 0, 0, 0)",
-                            "borderColor": [
-                            ],
-                            "borderWidth": 1
-                        }
-
-
-                        //fix once server data match
-                        temp_lane_dataset.label = "lane " + i;
-                        // self.vm_data.lanes[i].id;
-
-                        for(var j=0; j < temp_lane.length; j++) {
-                            //split string to get just time
-                            temp_lane_dataset.data.push(temp_lane[j].degree);
-                        }
-                        //set border color for lane -> get from the linechart_template list of bordercolors
-                        temp_lane_dataset.borderColor.push(self.temp.borderColor[i])
-
-                        //push current dataset (lane) into the datacollection
-                        // *having muliple lanes means having multiple datasets and labels
-                        self.temp.datacollection.datasets.push(temp_lane_dataset);
-                    }
-                    //set flag to true to initiate chart creation
-                    self.temp_data_ready = true
-
-                    //humidity
-                    //push each lane data into a dataset, which is inserted into datacollection
-                    for(var i=0; i < self.hum_init_data.length; i++){
-                        //current lane
-                        let hum_lane = self.hum_init_data[i].data;
-                 
-                        //dataset object to push into temp_datacollection
-                        let hum_lane_dataset = {
-                            "label": null,
-                            "data": [],
-                            "backgroundColor":"rgba(0, 0, 0, 0)",
-                            "borderColor": [
-                            ],
-                            "borderWidth": 1
-                        }
-
-                        //fix once server data match
-                        hum_lane_dataset.label = "lane " + i;
-                        // self.vm_data.lanes[i].id;
-
-                        for(var j=0; j < hum_lane.length; j++) {
-                            //split string to get just time
-                            hum_lane_dataset.data.push(hum_lane[j].degree);
-                        }
-                        //set border color for lane -> get from the linechart_template list of bordercolors
-                        hum_lane_dataset.borderColor.push(self.hum.borderColor[i])
-
-                        //push current dataset (lane) into the datacollection
-                        // *having muliple lanes means having multiple datasets and labels
-                        self.hum.datacollection.datasets.push(hum_lane_dataset);  
-                    }
-                    //set flag to true to initiate chart creation
-                    self.hum_data_ready = true
-                    
-                    // self.updateData();
-                }).catch(function (error) {
-                    console.log(error);
-                    alert(error);
-                })
-
-
+            this.getMachineData();
         },
-        updateData () {
+        getMachineData () {
             var self = this;
-            //get new data
-            //data_type: temperature/humidity
-            //datacollection: this.temp/this.hum
-  
-            var temp_datasets = self.temp.datacollection.datasets;
-            var temp_labels = self.temp.datacollection.labels;
+            
+            //get vending machine data
+            let promise = self.machine_service.get(`/machines/${self.vm_id}`, {
+            }).then(function (response, error) {
+                self.vm_data = response.data;
+                self.map_data= [response.data];
 
-            var update_temp;
-            var update_hum;
+                console.log( self.vm_data)
+            
+                self.vm_data_ready = true;
+            }).catch(function (error) {
+                console.log(error);
+            });
 
-            //get latest data
-            //`/logs/temperature/${user_id}/${vm_id}/${lane_id}`
-            var getTempData = function () {
-                let promise = self.statistics_service.get('/logs/temperature/user1@kt.com/machine1/', {
-                }).then(function (response, error) {
-                     update_temp = response.data;
-                }).catch(function (error) {
-                    console.log(error);
-                });
-
-                return promise;
-            }
-
-            var getHumData = function () {
-                let promise = self.statistics_service.get('/logs/humidity/user1@kt.com/machine1/', {
-                }).then(function (response, error) {
-                    update_hum = response.data;
-                }).catch(function (error) {
-                    console.log(error);
-                });
-
-                return promise;
-            }
-
-
-            Promise.all([getTempData(), getHumData()])
-            .then(function () {
-                // console.log(temp_datasets);
-                // console.log(temp_datasets.length);
-                // console.log(update_temp);
-
-                //remove labels
-                // for(let i=0; i < update_temp[0].data.length; i++){
-                //     temp_labels.splice(0, update_temp[0].data.length)
-                // }
-
-                // for(let i=0; i< temp_datasets.length; i++) {
-                //     //splice off num of data being pushed in
-                //     temp_datasets[i].data.splice(0, update_temp[0].data.length)
-                    
-                // }
-                
-                console.log(self.temp.datacollection.labels.length);
-
-                // console.log(temp_datasets);
-
-            })
-            .catch(function () {
-
-            })
+            return promise;
         },
         addLane () {
             //get vending machine data

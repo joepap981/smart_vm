@@ -56,7 +56,7 @@ export default {
         getInitData () {
             var self = this;
 
-            //`/logs/temperature/init/${user_id}/${vm_id}/${lane_id}`
+            //`/logs/${this.data_type}/init/${user_id}/${this.vm_data.id}/${lane_id}`
             let promise = self.statistics_service.get(`/logs/${this.data_type}/init/user1@kt.com/machine1/`, {
             }).then(function (response, error) {
                 self.init_data = response.data;
@@ -115,6 +115,9 @@ export default {
             for(let i=0; i < data.length; i++) {
                 this.chartData.datacollection.labels.push(data[i].date.split(" ")[1]);
             }
+        },
+        updateData () {
+
         }
     },
     mounted () {
