@@ -3,7 +3,6 @@
         <div>
             <canvas id="temp-canvas"></canvas>
         </div>
-        <button id="updateData" @click="updateData()">Add Data</button>
     </div>
 
 
@@ -30,6 +29,9 @@ export default {
 
             //chart variable
             chart: null,
+
+            //interval
+            interval: 60000,
 
         }
     },
@@ -83,6 +85,7 @@ export default {
 
             // console.log(self.init_data[0].data[0].date);
             // console.log(moment('2019-03-30 17:27:00').format('ll hh:mm:ss'));
+            this.chartData.options.title.text = "Temperature Monitor: " + moment(self.init_data[0].data[0].date).format('ll');
 
             //push each lane data into a dataset, which is inserted into datacollection
             for(var i=0; i < self.init_data.length; i++){
@@ -124,38 +127,39 @@ export default {
             this.chart = new Chart(ctx, this.chartData);
         },
         updateData: function () {
-            var self = this
-            //`/logs/${this.data_type}/init/${user_id}/${this.vm_data.id}/${lane_id}`
-            let promise = this.statistics_service.get(`/logs/${this.data_type}/user1@kt.com/machine1/`, {
-            }).then(function (response, error) {
-                self.init_data = response.data;
-                console.log(response.data);
+            var self = this;
+            this.interval = setInterval(() => {
+                //`/logs/${this.data_type}/init/${user_id}/${this.vm_data.id}/${lane_id}`
+                this.statistics_service.get(`/logs/${this.data_type}/user1@kt.com/machine1/`, {
+                }).then(function (response, error) {
+                    self.init_data = response.data;
 
-                //check if the updated data's number of lane matches current charts number of lanes
-                if (self.chartData.data.datasets.length != self.init_data.length)
-                    throw new Error("Retrieved update data's lane number does not match current charts num of lanes.")
+                    //check if the updated data's number of lane matches current charts number of lanes
+                    if (self.chartData.data.datasets.length != self.init_data.length)
+                        throw new Error("Retrieved update data's lane number does not match current charts num of lanes.")
 
-                for(var i=0; i < self.init_data.length; i++) {
-                    let lane = self.init_data[i].data;
-                    for(var j=0; j < lane.length; j++) {
-                        self.chartData.data.datasets[i].data.shift();
-                        self.chartData.data.datasets[i].data.push({
-                            x: moment(lane[j].date, moment.ISO_8601).format('ll hh:mm:ss'),
-                            y: self.init_data[i].data[j].degree
-                        });
+                    for(var i=0; i < self.init_data.length; i++) {
+                        let lane = self.init_data[i].data;
+                        for(var j=0; j < lane.length; j++) {
+                            self.chartData.data.datasets[i].data.shift();
+                            self.chartData.data.datasets[i].data.push({
+                                x: moment(lane[j].date, moment.ISO_8601).format('ll hh:mm:ss'),
+                                y: self.init_data[i].data[j].degree
+                            });
+                        }
                     }
-                }
-
-                //update chart
-                self.chart.update();
-     
-                }).catch(function (error) {
-                    console.log(error);
-            });
+                    //update chart
+                    self.chart.update();
+        
+                    }).catch(function (error) {
+                        console.log(error);
+                });
+            }, self.interval);
         }
     },
     mounted ( ){
         this.init();
+        this.updateData();
     }
 }
 </script>

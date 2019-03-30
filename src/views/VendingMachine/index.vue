@@ -15,7 +15,7 @@
                         <div id="tempStatusBadge" class="status-badge"></div>
                     </div>
                     <div class="card-body">
-                        <!-- <temp-monitor-chart /> -->
+                        <temp-monitor-chart />
                     </div>
                 </div>
             </div>

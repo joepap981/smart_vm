@@ -3,7 +3,6 @@
         <div>
             <canvas id="humi-canvas"></canvas>
         </div>
-        <button id="updateData" @click="updateData()">Add Data</button>
     </div>
 
 
@@ -32,7 +31,7 @@ export default {
             //chart variable
             chart: null,
 
-            interval: null,
+            interval: 60000,
 
         }
     },
@@ -88,6 +87,9 @@ export default {
 
             // console.log(self.init_data[0].data[0].date);
             // console.log(moment('2019-03-30 17:27:00').format('ll hh:mm:ss'));
+
+            //set chart title
+            this.chartData.options.title.text = `Humidity Monitor - ${moment(self.init_data[0].data[0].date).format('ll')}`;
 
             //push each lane data into a dataset, which is inserted into datacollection
             for(var i=0; i < self.init_data.length; i++){
@@ -159,7 +161,7 @@ export default {
                     .catch(function (error) {
                         console.log(error);
                     });
-            }, 60000);
+            }, self.interval);
            
         }
     },
