@@ -25,19 +25,30 @@
                     </router-link>
                 </tbody>
             </table>
+            <div class="card-footer">
+                <bootstrap-pagination :num_of_pages="num_of_pages" v-on:changePage="changePage"/>
+            </div>
         </div>
+        
     </div>
 </template>
 
 <script>
 import axios from 'axios';
 
+import BootstrapPagination from '../../components/Common/BootstrapPagination';
+
 export default {
     name: 'VendingMachineList',
+    components: {
+        BootstrapPagination
+    },
     data () {
         return {
             axios_instance: null,
             vm_data: null,
+            page: 1,
+            num_of_pages: 10,
 
             rows: null,
             columns: null,
@@ -65,11 +76,21 @@ export default {
             var self = this;
 
             this.axios_instance.get('/machines/', {
+                params: {
+                    page: self.page,
+                    size: 10
+                }
             }).then(function (response, error) {
                 self.vm_data = response.data.content;
+                self.num_of_pages = response.data.totalPages;
             }).catch(function (error) {
                 console.log(error);
             })
+        },
+
+        changePage (event) {
+            this.page = event;
+            this.getVMList();
         }
     },
     mounted() {
@@ -88,9 +109,7 @@ export default {
         height: 80vh;
         box-shadow: 0px 0px 13px 0px rgba(82,63,105,0.05);
         margin-top: 10px;
-        margin-bottom: 10px;
-
-        overflow: auto;
+        margin-bottom: 10px;    
     }
 
     .table, thead {

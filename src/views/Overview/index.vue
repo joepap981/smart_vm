@@ -107,7 +107,6 @@ export default {
             this.machine_service.get('/machines/', {
             }).then(function (response, error) {
                 self.vm_data = response.data.content;
-                console.log(self.vm_data);
             }).catch(function (error) {
                 console.log(error);
             })
