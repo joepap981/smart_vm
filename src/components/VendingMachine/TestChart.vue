@@ -1,9 +1,9 @@
 <template>
     <div>
-        <div style="width:75%;">
+        <div>
             <canvas id="canvas"></canvas>
         </div>
-        <button id="addData" @click="addData()">Add Data</button>
+        <button id="updateData" @click="updateData()">Add Data</button>
     </div>
 
 
@@ -120,7 +120,6 @@ export default {
                 // *having muliple lanes means having multiple datasets and labels
                 self.chartData.data.datasets.push(lane_dataset);
             }
-            console.log(self.chartData)
         },
         createChart: function () {
             var color = Chart.helpers.color;
@@ -128,21 +127,33 @@ export default {
             var ctx = document.getElementById('canvas').getContext('2d');
             window.myLine = new Chart(ctx, this.chartData);
         },
-        addData: function () {
-                if (this.chartData.data.datasets.length > 0) {
-                    this.chartData.data.datasets[0].data.push({
-                        x: moment() + this.cur,
-                        y: this.randomScalingFactor()
-                    });
-                    this.chartData.data.datasets[1].data.push({
-                        x: moment() + this.cur,
-                        y: this.randomScalingFactor()
-                    });
+        updateData: function () {
+            var self = this
+            //`/logs/${this.data_type}/init/${user_id}/${this.vm_data.id}/${lane_id}`
+            let promise = this.statistics_service.get(`/logs/${this.data_type}/user1@kt.com/machine1/`, {
+            }).then(function (response, error) {
+                self.init_data = response.data;
+                console.log(response.data);
 
-                    this.cur++;
+                //check if the updated data's number of lane matches current charts number of lanes
+                if (self.chartData.data.datasets.length != self.init_data.length)
+                    throw new Error("Retrieved update data's lane number does not match current charts num of lanes.")
 
-                    window.myLine.update();
+                for(var i=0; i < self.init_data.length; i++) {
+                    let lane = self.init_data[i].data;
+                    for(var j=0; j < lane.length; j++) {
+                        self.chartData.data.datasets[i].data.push({
+                            x: moment(lane[j].date, moment.ISO_8601).format('ll hh:mm:ss'),
+                            y: self.init_data[i].data[j].degree
+                        });
+                    }
                 }
+
+                window.myLine.update();
+     
+                }).catch(function (error) {
+                    console.log(error);
+            });
         }
     },
     mounted ( ){
