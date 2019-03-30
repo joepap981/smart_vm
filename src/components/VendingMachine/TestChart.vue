@@ -12,6 +12,7 @@
 <script>
 import axios from 'axios';
 import linechart_template from '../../assets/templates/linechart_template.json';
+import test_chart_template from '../../assets/templates/test_chart_template.json';
 
 export default {
     name: "TestChart",
@@ -45,7 +46,7 @@ export default {
 
             //these are the final object whose datacollection and options gets inserted into the chart
             //deep copy json object template
-            this.chartData = JSON.parse(JSON.stringify(linechart_template));
+            this.chartData = JSON.parse(JSON.stringify(test_chart_template.datacollection));
 
             //get initial temperature and humidity data
             this.statistics_service = axios.create({
@@ -70,11 +71,11 @@ export default {
             }).then(function (response, error) {
                 self.init_data = response.data;
 
-
                 //set flag to true to initiate chart creation
                 self.data_ready = true;
 
                 self.pushToDatacollection();
+                self.createChart();
      
             }).catch(function (error) {
                 console.log(error);
@@ -85,7 +86,7 @@ export default {
             var self = this;
 
             // console.log(self.init_data[0].data[0].date);
-            console.log(moment('2019-03-30 17:27:00').format('ll hh:mm:ss'));
+            // console.log(moment('2019-03-30 17:27:00').format('ll hh:mm:ss'));
 
             //push each lane data into a dataset, which is inserted into datacollection
             for(var i=0; i < self.init_data.length; i++){
@@ -108,93 +109,21 @@ export default {
                 for(var j=0; j < lane.length; j++) {
                     //split string to get just time
                     lane_dataset.data.push({
-                        x: moment(lane[j].date).format('ll hh:mm:ss'),
+                        x: moment(lane[j].date, moment.ISO_8601).format('ll hh:mm:ss'),
                         y: lane[j].degree
                     });
                 }
                 //set border color for lane -> get from the linechart_template list of bordercolors              
-                lane_dataset.borderColor.push(self.chartData.borderColor[i])
+                lane_dataset.borderColor.push('red')
 
                 //push current dataset (lane) into the datacollection
                 // *having muliple lanes means having multiple datasets and labels
-                self.chartData.datacollection.datasets.push(lane_dataset);
+                self.chartData.data.datasets.push(lane_dataset);
             }
-            console.log(self.chartData.datacollection)
+            console.log(self.chartData)
         },
         createChart: function () {
             var color = Chart.helpers.color;
-            this.chartData = {
-                type: 'line',
-                data: {
-                    datasets: [{
-                        label: 'Dataset with string point data',
-                        backgroundColor: "red",
-                        borderColor: "red",
-                        fill: false,
-                        data: [{
-                            x: moment(),
-                            y: this.randomScalingFactor()
-                        }, {
-                            x: moment()+2,
-                            y: this.randomScalingFactor()
-                        }, {
-                            x: moment()+4,
-                            y: this.randomScalingFactor()
-                        }, {
-                            x: moment()+6,
-                            y: this.randomScalingFactor()
-                        }],
-                    }, {
-                        label: 'Dataset with date object point data',
-                        backgroundColor: "blue",
-                        borderColor: "blue",
-                        fill: false,
-                        data: [{
-                            x: moment(),
-                            y: this.randomScalingFactor()
-                        }, {
-                            x: moment()+2,
-                            y: this.randomScalingFactor()
-                        }, {
-                            x: moment()+4,
-                            y: this.randomScalingFactor()
-                        }, {
-                            x: moment()+6,
-                            y: this.randomScalingFactor()
-                        }]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    title: {
-                        display: true,
-                        text: 'Chart.js Time Point Data'
-                    },
-                    scales: {
-                        xAxes: [{
-                            type: 'time',
-                            display: true,
-                            scaleLabel: {
-                                display: true,
-                                labelString: 'Date'
-                            },
-                            ticks: {
-                                major: {
-                                    fontStyle: 'bold',
-                                    fontColor: '#FF0000'
-                                }
-                            }
-                        }],
-                        yAxes: [{
-                            display: true,
-                            scaleLabel: {
-                                display: true,
-                                labelString: 'value'
-                            }
-                        }]
-                    }
-                }
-            };
 
             var ctx = document.getElementById('canvas').getContext('2d');
             window.myLine = new Chart(ctx, this.chartData);

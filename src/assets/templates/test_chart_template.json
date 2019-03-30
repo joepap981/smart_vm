@@ -1,20 +1,8 @@
 {
-"config": {
+"datacollection": {
     "type": "line",
     "data": {
-        "datasets": [{
-            "label": "Dataset with string point data",
-            "backgroundColor": "red",
-            "borderColor": "red",
-            "fill": false,
-            "data": []
-        }, {
-            "label": "Dataset with date object point data",
-            "backgroundColor": "blue",
-            "borderColor": "blue",
-            "fill": false,
-            "data": []
-        }]
+        "datasets": []
     },
     "options": {
         "responsive": true,
