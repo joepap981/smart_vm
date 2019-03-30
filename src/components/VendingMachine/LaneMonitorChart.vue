@@ -1,5 +1,8 @@
 <template>
+<div>
     <line-chart v-if="data_ready" class="chart-container" :chart-data="chartData.datacollection" :options="chartData.options" />
+    <button class="btn btn-primary" @click="updateData()"> Update </button>
+</div>
 </template>
 
 <script>
@@ -117,11 +120,47 @@ export default {
             }
         },
         updateData () {
+            
+            var self = this
+            //`/logs/${this.data_type}/init/${user_id}/${this.vm_data.id}/${lane_id}`
+            let promise = this.statistics_service.get(`/logs/${this.data_type}/user1@kt.com/machine1/`, {
+            }).then(function (response, error) {
+                self.init_data = response.data;
+
+                //check if the updated data's number of lane matches current charts number of lanes
+                if (self.chartData.datacollection.datasets.length != self.init_data.length)
+                    throw new Error("Retrieved update data's lane number does not match current charts num of lanes.")
+
+                console.log(response.data)
+                console.log(self.chartData);
+
+                self.insertChartLabel();
+
+                // for(var i=0; i < self.init_data.length; i++) {
+                //     for(var j=0; j < self.init_data[i].data.length; j++) {
+                //         self.chartData.datacollection.datasets[i].data.push(self.init_data[i].data[j].degree);
+                //         console.log(i + " " + j)
+                //     }
+                // }
+
+                // //insert labels for the chart
+                // self.insertChartLabel();
+
+                // //push the received into datacollection format that chart.js understart
+                // self.pushToDatacollection();
+
+                // //set flag to true to initiate chart creation
+                // self.data_ready = true;
+     
+            }).catch(function (error) {
+                console.log(error);
+            });
 
         }
     },
     mounted () {
-        this.init();
+        this.init();        
+        //  window.setTimeout(this.updateData(), 3000);
     }
 }
 </script>

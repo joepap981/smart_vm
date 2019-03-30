@@ -7,6 +7,19 @@
         </div>
 
         <div class="row">
+            <!-- Test Chart-->
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+                        <p class="card-header-title mr-2"> 온도 </p>
+                        <div id="tempStatusBadge" class="status-badge"></div>
+                    </div>
+                    <div class="card-body">
+                        <test-chart />
+                    </div>
+                </div>
+            </div>
+
             <!-- Temperature Monitoring Graph-->
             <div class="col-xl-12">
                 <div class="card">
@@ -15,7 +28,7 @@
                         <div id="tempStatusBadge" class="status-badge"></div>
                     </div>
                     <div class="card-body">
-                        <lane-monitor-chart v-if="vm_data_ready" :vm_data="vm_data" data_type="temperature"/>
+                        <!-- <lane-monitor-chart v-if="vm_data_ready" :vm_data="vm_data" data_type="temperature"/> -->
                     </div>
                 </div>
             </div>
@@ -28,7 +41,7 @@
                         <div id="tempStatusBadge" class="status-badge"></div>
                     </div>
                     <div class="card-body">
-                        <lane-monitor-chart v-if="vm_data_ready" :vm_data="vm_data" data_type="humidity"/>
+                        <!-- <lane-monitor-chart v-if="vm_data_ready" :vm_data="vm_data" data_type="humidity"/> -->
                     </div>
                 </div>
             </div>
@@ -108,11 +121,12 @@ import KtMap2 from '../../components/VendingMachine/KtMap2.vue';
 import LaneStatusItem from '../../components/VendingMachine/LaneStatusItem.vue';
 
 import LaneMonitorChart from '../../components/VendingMachine/LaneMonitorChart.vue'
+import TestChart from '../../components/VendingMachine/TestChart.vue'
 
 export default {
     name: 'VendingMachine',
     components: {
-        KtMap2, LaneStatusItem, LaneMonitorChart
+        KtMap2, LaneStatusItem, LaneMonitorChart, TestChart
     },
     data() {
         return {
@@ -164,14 +178,12 @@ export default {
         },
         getMachineData () {
             var self = this;
-            
+
             //get vending machine data
             let promise = self.machine_service.get(`/machines/${self.vm_id}`, {
             }).then(function (response, error) {
                 self.vm_data = response.data;
                 self.map_data= [response.data];
-
-                console.log( self.vm_data)
             
                 self.vm_data_ready = true;
             }).catch(function (error) {
@@ -218,8 +230,6 @@ export default {
                 console.log(error);
             })
         }
-
-        
     }
 }
 </script>
