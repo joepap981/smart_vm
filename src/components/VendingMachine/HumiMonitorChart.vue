@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <canvas id="canvas"></canvas>
+            <canvas id="humi-canvas"></canvas>
         </div>
         <button id="updateData" @click="updateData()">Add Data</button>
     </div>
@@ -11,16 +11,15 @@
 
 <script>
 import axios from 'axios';
-import linechart_template from '../../assets/templates/linechart_template.json';
-import test_chart_template from '../../assets/templates/test_chart_template.json';
+import monitor_chart_template from '../../assets/templates/monitor_chart_template.json';
+import border_color from '../../assets/templates/border_color.json';
+import { setTimeout, setInterval } from 'timers';
 
 export default {
-    name: "TestChart",
-    props: {
-        data_type: null
-    },
+    name: "TempMonitorChart",
     data () {
         return {
+            data_type: "humidity",
             //axios statistics server instance
             statistics_service: null,
 
@@ -30,11 +29,11 @@ export default {
             //arrays 
             init_data: [],
 
-            //flags to alert chart that data has been received
-            data_ready: false,
-            
-            cur: 5,
-            chartData: null
+            //chart variable
+            chart: null,
+
+            interval: null,
+
         }
     },
     methods: {
@@ -46,7 +45,7 @@ export default {
 
             //these are the final object whose datacollection and options gets inserted into the chart
             //deep copy json object template
-            this.chartData = JSON.parse(JSON.stringify(test_chart_template.datacollection));
+            this.chartData = JSON.parse(JSON.stringify(monitor_chart_template.datacollection));
 
             //get initial temperature and humidity data
             this.statistics_service = axios.create({
@@ -58,7 +57,9 @@ export default {
                 crossDomain: true,
             })
 
-            this.getInitData();
+            this.getInitData()
+           
+            
             // this.createChart();
 
         },
@@ -97,9 +98,9 @@ export default {
                 let lane_dataset = {
                     "label": null,
                     "data": [],
-                    "backgroundColor":"rgba(0, 0, 0, 0)",
-                    "borderColor": [
-                    ],
+                    "fill": false,
+             
+                    "borderColor": null,
                     "borderWidth": 1
                 }
 
@@ -114,7 +115,7 @@ export default {
                     });
                 }
                 //set border color for lane -> get from the linechart_template list of bordercolors              
-                lane_dataset.borderColor.push('red')
+                lane_dataset.borderColor = border_color.borderColor[i];
 
                 //push current dataset (lane) into the datacollection
                 // *having muliple lanes means having multiple datasets and labels
@@ -124,40 +125,49 @@ export default {
         createChart: function () {
             var color = Chart.helpers.color;
 
-            var ctx = document.getElementById('canvas').getContext('2d');
-            window.myLine = new Chart(ctx, this.chartData);
+            var ctx = document.getElementById('humi-canvas').getContext('2d');
+            this.chart = new Chart(ctx, this.chartData);
+
         },
         updateData: function () {
             var self = this
-            //`/logs/${this.data_type}/init/${user_id}/${this.vm_data.id}/${lane_id}`
-            let promise = this.statistics_service.get(`/logs/${this.data_type}/user1@kt.com/machine1/`, {
-            }).then(function (response, error) {
-                self.init_data = response.data;
-                console.log(response.data);
 
-                //check if the updated data's number of lane matches current charts number of lanes
-                if (self.chartData.data.datasets.length != self.init_data.length)
-                    throw new Error("Retrieved update data's lane number does not match current charts num of lanes.")
+            this.interval = setInterval(() => {
+                 //`/logs/${this.data_type}/init/${user_id}/${this.vm_data.id}/${lane_id}`
+                self.statistics_service.get(`/logs/${this.data_type}/user1@kt.com/machine1/`, {
+                }).then(function (response, error) {
+                    self.init_data = response.data;
 
-                for(var i=0; i < self.init_data.length; i++) {
-                    let lane = self.init_data[i].data;
-                    for(var j=0; j < lane.length; j++) {
-                        self.chartData.data.datasets[i].data.push({
-                            x: moment(lane[j].date, moment.ISO_8601).format('ll hh:mm:ss'),
-                            y: self.init_data[i].data[j].degree
-                        });
+                    // //check if the updated data's number of lane matches current charts number of lanes
+                    // if (self.chartData.data.datasets.length != self.init_data.length)
+                    //     throw new Error("Retrieved update data's lane number does not match current charts num of lanes.")
+
+                    for(var i=0; i < self.init_data.length; i++) {
+                        let lane = self.init_data[i].data;
+                        for(var j=0; j < lane.length; j++) {
+                            self.chartData.data.datasets[i].data.shift();
+                            self.chartData.data.datasets[i].data.push({
+                                x: moment(lane[j].date, moment.ISO_8601).format('ll hh:mm:ss'),
+                                y: self.init_data[i].data[j].degree
+                            });
+                        }
                     }
-                }
-
-                window.myLine.update();
-     
-                }).catch(function (error) {
-                    console.log(error);
-            });
+                    //update chart
+                    self.chart.update();
+        
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }, 60000);
+           
         }
     },
     mounted ( ){
+        var self = this;
         this.init();
+        this.updateData();
+     
     }
 }
 </script>

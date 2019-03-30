@@ -7,7 +7,7 @@
         </div>
 
         <div class="row">
-            <!-- Test Chart-->
+            <!-- Temperature monitor-->
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-header d-flex align-items-center">
@@ -15,33 +15,20 @@
                         <div id="tempStatusBadge" class="status-badge"></div>
                     </div>
                     <div class="card-body">
-                        <test-chart data_type="temperature" />
+                        <!-- <temp-monitor-chart /> -->
                     </div>
                 </div>
             </div>
 
-            <!-- Temperature Monitoring Graph-->
+            <!-- Humidity monitor-->
             <div class="col-xl-12">
-                <div class="card">
-                    <div class="card-header d-flex align-items-center">
-                        <p class="card-header-title mr-2"> 온도 </p>
-                        <div id="tempStatusBadge" class="status-badge"></div>
-                    </div>
-                    <div class="card-body">
-                        <lane-monitor-chart v-if="vm_data_ready" :vm_data="vm_data" data_type="temperature"/>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Humidity Monitoring Graph-->
-             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-header d-flex align-items-center">
                         <p class="card-header-title mr-2"> 습도 </p>
-                        <div id="tempStatusBadge" class="status-badge"></div>
+                        <div id="humiStatusBadge" class="status-badge"></div>
                     </div>
                     <div class="card-body">
-                        <!-- <lane-monitor-chart v-if="vm_data_ready" :vm_data="vm_data" data_type="humidity"/> -->
+                        <humi-monitor-chart />
                     </div>
                 </div>
             </div>
@@ -120,13 +107,14 @@ import axios from 'axios';
 import KtMap2 from '../../components/VendingMachine/KtMap2.vue';
 import LaneStatusItem from '../../components/VendingMachine/LaneStatusItem.vue';
 
-import LaneMonitorChart from '../../components/VendingMachine/LaneMonitorChart.vue'
-import TestChart from '../../components/VendingMachine/TestChart.vue'
+// import LaneMonitorChart from '../../components/VendingMachine/LaneMonitorChart.vue'
+import TempMonitorChart from '../../components/VendingMachine/TempMonitorChart.vue'
+import HumiMonitorChart from '../../components/VendingMachine/HumiMonitorChart.vue'
 
 export default {
     name: 'VendingMachine',
     components: {
-        KtMap2, LaneStatusItem, LaneMonitorChart, TestChart
+        KtMap2, LaneStatusItem, TempMonitorChart, HumiMonitorChart
     },
     data() {
         return {

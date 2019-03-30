@@ -8,7 +8,7 @@
         "responsive": true,
         "title": {
             "display": true,
-            "text": "Chart.js Time Point Data"
+            "text": null
         },
         "scales": {
             "xAxes": [{
@@ -21,7 +21,7 @@
                 "ticks": {
                     "major": {
                         "fontStyle": "bold",
-                        "fontColor": "#FF0000"
+                        "fontColor": "grey"
                     }
                 }
             }],
