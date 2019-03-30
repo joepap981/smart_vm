@@ -191,7 +191,6 @@ export default {
                 temperature: this.add_lane.temperature,
                 sequence: this.add_lane.sequence
             }).then(function (response, error) {
-                console.log(response);
                 self.getLanes();
             }).catch(function (error) {
                 console.log(error);
