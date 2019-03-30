@@ -15,7 +15,7 @@
                         <div id="tempStatusBadge" class="status-badge"></div>
                     </div>
                     <div class="card-body">
-                        <test-chart />
+                        <test-chart data_type="temperature" />
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                         <div id="tempStatusBadge" class="status-badge"></div>
                     </div>
                     <div class="card-body">
-                        <!-- <lane-monitor-chart v-if="vm_data_ready" :vm_data="vm_data" data_type="temperature"/> -->
+                        <lane-monitor-chart v-if="vm_data_ready" :vm_data="vm_data" data_type="temperature"/>
                     </div>
                 </div>
             </div>
