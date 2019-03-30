@@ -15,7 +15,7 @@
                         <div id="tempStatusBadge" class="status-badge"></div>
                     </div>
                     <div class="card-body">
-                        <temp-monitor-chart />
+                        <!-- <temp-monitor-chart /> -->
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                         <div id="humiStatusBadge" class="status-badge"></div>
                     </div>
                     <div class="card-body">
-                        <humi-monitor-chart />
+                        <!-- <humi-monitor-chart /> -->
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                     </div>
                     <div class="card-body">
                         <div class="map-container">
-                            <kt-map2 v-if="vm_data_ready" v-bind:vm_data="map_data"/>
+                            <kt-map2 v-if="vm_data_ready" v-bind:map_data="map_data"/>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -172,6 +172,8 @@ export default {
             }).then(function (response, error) {
                 self.vm_data = response.data;
                 self.map_data= [response.data];
+
+                console.log(self.map_data);
             
                 self.vm_data_ready = true;
             }).catch(function (error) {

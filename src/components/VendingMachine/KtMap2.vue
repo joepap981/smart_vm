@@ -1,4 +1,5 @@
 <template>
+import { close } from 'fs';
     <div id="map2"></div>
 </template>
 
@@ -11,13 +12,13 @@ export default {
         latlng: null,
     }),
     props: {
-        vm_data: Array,
+        map_data: Array,
         map_id: String,
     },
     watch: {
-        vm_data: function (value) {
+        map_data: function (value) {
             var self = this;
-
+            console.log('here');
             
             //if the map is not initialize create new map
             if(this.map2 == null) {
