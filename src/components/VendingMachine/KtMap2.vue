@@ -1,5 +1,4 @@
 <template>
-import { close } from 'fs';
     <div id="map2"></div>
 </template>
 
@@ -12,13 +11,13 @@ export default {
         latlng: null,
     }),
     props: {
-        map_data: Array,
+        vm_data: Array,
         map_id: String,
     },
     watch: {
-        map_data: function (value) {
+        vm_data: function (value) {
             var self = this;
-            console.log('here');
+            console.log("this")
             
             //if the map is not initialize create new map
             if(this.map2 == null) {
@@ -39,6 +38,7 @@ export default {
     },
     methods: {
         initialize: function () {
+
             var self = this;
 
             var mapOpts = {
@@ -50,7 +50,7 @@ export default {
 
             self.map2 = new olleh.maps.Map(document.getElementById("map2"), mapOpts);
         },
-    },
+    }
 }
 </script>
 

@@ -55,7 +55,8 @@
                     </div>
                     <div class="card-body">
                         <div class="map-container">
-                            <kt-map2 v-if="vm_data_ready" v-bind:map_data="map_data"/>
+                            <!-- <KtMap2 v-bind:vm_data="map_data"/> -->
+                            <KtMap v-bind:vm_data="map_data"/>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -105,6 +106,7 @@
 <script>
 import axios from 'axios';
 import KtMap2 from '../../components/VendingMachine/KtMap2.vue';
+import KtMap from '../../components/Overview/KtMap.vue';
 import LaneStatusItem from '../../components/VendingMachine/LaneStatusItem.vue';
 
 // import LaneMonitorChart from '../../components/VendingMachine/LaneMonitorChart.vue'
@@ -114,13 +116,13 @@ import HumiMonitorChart from '../../components/VendingMachine/HumiMonitorChart.v
 export default {
     name: 'VendingMachine',
     components: {
-        KtMap2, LaneStatusItem, TempMonitorChart, HumiMonitorChart
+        KtMap2, LaneStatusItem, TempMonitorChart, HumiMonitorChart, KtMap
     },
     data() {
         return {
             vm_id: this.$route.params.id,
             vm_data: null,
-            map_data: null,
+            map_data: [],
             vm_data_ready: false,
 
             //axios machine service instance
@@ -172,8 +174,6 @@ export default {
             }).then(function (response, error) {
                 self.vm_data = response.data;
                 self.map_data= [response.data];
-
-                console.log(self.map_data);
             
                 self.vm_data_ready = true;
             }).catch(function (error) {

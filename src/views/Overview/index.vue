@@ -108,8 +108,6 @@ export default {
             }).then(function (response, error) {
                 self.vm_data = response.data.content;
 
-                console.log(response.data.content.length);
-                console.log(self.vm_data)
             }).catch(function (error) {
                 console.log(error);
             })
