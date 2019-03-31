@@ -16,12 +16,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <router-link :to="{ name: 'vm', params: {id: vm.name } }" tag="tr" v-for="vm in vm_data" :key="vm.id">
-                        <td> {{vm.id }} </td>
+                    <router-link :to="{ name: 'vm', params: {id: vm.name } }" tag="tr" v-for="vm in 50" :key="vm.id">
+                        <p> helllllllllllllllllllllllllloooo </p>
+                        <!-- <td> {{vm.id }} </td>
                         <td> {{vm.name }} </td>
                         <td> {{vm.username}} </td>
                         <td> {{vm.lanes.length }} </td>
-                        <td> {{vm.location.address.province }} </td>
+                        <td> {{vm.location.address.province }} </td> -->
                     </router-link>
                 </tbody>
             </table>
@@ -109,6 +110,30 @@ export default {
     tbody tr:hover{
         background-color: rgb(253, 253, 253);
         cursor: pointer;
+    }
+
+    /* width */
+    ::-webkit-scrollbar {
+        width: 10px;
+        border-radius: 3px 3px 3px 3px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 3px 3px 3px 3px;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 5px 5px 5px 5px;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555; 
+        border-radius: 3px 3px 3px 3px;
     }
 
 </style>
