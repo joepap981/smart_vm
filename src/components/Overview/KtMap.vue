@@ -17,8 +17,6 @@ export default {
     watch: {
         vm_data: function (value) {
             var self = this;
-
-            console.log(value);
             //if the map is not initialize create new map
             if(this.map == null) {
                 this.initialize();
