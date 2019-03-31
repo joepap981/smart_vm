@@ -65,7 +65,8 @@
                 </div>
             </div>
 
-            <div class="col-xl-8 col-md-12">
+            <!-- number of times visited during time bar chart -->
+            <div class="col-xl-8 col-md-6">
                 <div class="card">
                     <div class="card-header">
                         <p class="card-header-title"> 시간별 방문 횟수 </p>
@@ -73,6 +74,19 @@
 
                     <div class="card-body pb-0">
                         <visit-statistics />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Best selling drink -->
+            <div class="col-xl-4 col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <p class="card-header-title"> 제품 판매량 </p>
+                    </div>
+
+                    <div class="card-body p-0">
+                        <product-sales-statistics />
                     </div>
                 </div>
             </div>
@@ -125,11 +139,12 @@ import TempMonitorChart from '../../components/VendingMachine/TempMonitorChart.v
 import HumiMonitorChart from '../../components/VendingMachine/HumiMonitorChart.vue'
 
 import VisitStatistics from '../../components/VendingMachine/VisitStatistics.vue'
+import ProductSalesStatistics from '../../components/VendingMachine/ProductSalesStatistics.vue'
 
 export default {
     name: 'VendingMachine',
     components: {
-        LaneStatusItem, TempMonitorChart, HumiMonitorChart, KtMap, VisitStatistics
+        LaneStatusItem, TempMonitorChart, HumiMonitorChart, KtMap, VisitStatistics, ProductSalesStatistics
     },
     data() {
         return {

@@ -22,7 +22,7 @@
                     <div class="card-header">
                         <label> 기간별 인기제품 </label>
                     </div>
-                    <doughnut-statistics />
+                    <!-- <doughnut-statistics /> -->
                    
                 </div>
             </div>
@@ -33,20 +33,22 @@
                     <div class="card-header"> 
                         <label> 시간별 판매량 </label>
                     </div>
-                    <div class="card-body">
-                        <line-statistics />
-                    </div>
+                    <!-- <line-statistics /> -->
+
                 </div>
             </div>
 
             <!-- Bar graph statistics -->
-            <!-- <div class="col-xl-6 col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                        <line-statistics />
+            <div class="col-xl-12 col-sm-12">
+                <div id="bar-chart" class="card">
+                    <div class="card-header"> 
+                        <label> 시간별 기사 방문 횟수 </label>
+                    </div>
+                    <div class="card-body p-0">
+                        <!-- <bar-statistics /> -->
                     </div>
                 </div>
-            </div> -->
+            </div>
         </div>
     </div>
 </template>
@@ -55,13 +57,14 @@
 import DoughnutStatistics from '../../components/Statistics/DoughnutStatistics.vue'
 import MapStatistics from '../../components/Statistics/MapStatistics.vue'
 import LineStatistics from '../../components/Statistics/LineStatistics.vue'
+import BarStatistics from '../../components/Statistics/BarStatistics.vue'
 
 import axios from 'axios';
 
 export default {
     name: 'Statistics',
     components: {
-        DoughnutStatistics, MapStatistics, LineStatistics,
+        DoughnutStatistics, MapStatistics, LineStatistics, BarStatistics
     },
     data: function () {
         return {
@@ -81,7 +84,7 @@ export default {
 
 <style scoped>
     .card {
-        min-height: 300px;
+
         margin-top: 10px;
         margin-bottom: 10px;
         padding-top: 10px;
@@ -100,9 +103,7 @@ export default {
         padding: 10px;
     }
 
-    .col-xl-6 .card {
-        min-height: 535px;
-    }
+ 
 
     /* #doughnut-chart {
         padding-right: 10px;
@@ -110,7 +111,5 @@ export default {
     #line-chart {
         padding-left: 10px;
     }
-
-
 
 </style>
