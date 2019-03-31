@@ -52,7 +52,6 @@
 </template>
 
 <script>
-import BarStatistics from '../../components/Statistics/BarStatistics.vue'
 import DoughnutStatistics from '../../components/Statistics/DoughnutStatistics.vue'
 import MapStatistics from '../../components/Statistics/MapStatistics.vue'
 import LineStatistics from '../../components/Statistics/LineStatistics.vue'
@@ -62,7 +61,7 @@ import axios from 'axios';
 export default {
     name: 'Statistics',
     components: {
-        BarStatistics, DoughnutStatistics, MapStatistics, LineStatistics,
+        DoughnutStatistics, MapStatistics, LineStatistics,
     },
     data: function () {
         return {

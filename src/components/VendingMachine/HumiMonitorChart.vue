@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <canvas id="humi-canvas"></canvas>
+            <canvas height="110" width="400" id="humi-canvas"></canvas>
         </div>
     </div>
 

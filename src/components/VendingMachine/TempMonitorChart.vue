@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <canvas id="temp-canvas"></canvas>
+            <canvas height="110" width="400" id="temp-canvas"></canvas>
         </div>
     </div>
 
@@ -164,6 +164,5 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
 </style>

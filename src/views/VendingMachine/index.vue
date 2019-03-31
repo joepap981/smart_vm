@@ -15,7 +15,7 @@
                         <div id="tempStatusBadge" class="status-badge"></div>
                     </div>
                     <div class="card-body">
-                        <!-- <temp-monitor-chart /> -->
+                        <temp-monitor-chart />
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                         <div id="humiStatusBadge" class="status-badge"></div>
                     </div>
                     <div class="card-body">
-                        <!-- <humi-monitor-chart /> -->
+                        <humi-monitor-chart />
                     </div>
                 </div>
             </div>
@@ -61,6 +61,18 @@
                     </div>
                     <div class="card-footer">
                         <p v-if="vm_data_ready"> {{ vm_data.location.address.province }} {{ vm_data.location.address.municipality }} {{ vm_data.location.address.submunicipality }} </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-8 col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <p class="card-header-title"> 시간별 방문 횟수 </p>
+                    </div>
+
+                    <div class="card-body pb-0">
+                        <visit-statistics />
                     </div>
                 </div>
             </div>
@@ -105,7 +117,6 @@
 
 <script>
 import axios from 'axios';
-import KtMap2 from '../../components/VendingMachine/KtMap2.vue';
 import KtMap from '../../components/Overview/KtMap.vue';
 import LaneStatusItem from '../../components/VendingMachine/LaneStatusItem.vue';
 
@@ -113,10 +124,12 @@ import LaneStatusItem from '../../components/VendingMachine/LaneStatusItem.vue';
 import TempMonitorChart from '../../components/VendingMachine/TempMonitorChart.vue'
 import HumiMonitorChart from '../../components/VendingMachine/HumiMonitorChart.vue'
 
+import VisitStatistics from '../../components/VendingMachine/VisitStatistics.vue'
+
 export default {
     name: 'VendingMachine',
     components: {
-        KtMap2, LaneStatusItem, TempMonitorChart, HumiMonitorChart, KtMap
+        LaneStatusItem, TempMonitorChart, HumiMonitorChart, KtMap, VisitStatistics
     },
     data() {
         return {
@@ -165,6 +178,9 @@ export default {
             })
             this.getLanes();
             this.getMachineData();
+        },
+        getProductData () {
+
         },
         getMachineData () {
             var self = this;
@@ -234,7 +250,7 @@ export default {
 
     .chart-container {
         position: relative;
-        height: 500px;
+        height: 300px;
         width: 95%;
         margin: auto;
 

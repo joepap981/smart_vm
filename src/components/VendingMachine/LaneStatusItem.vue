@@ -73,13 +73,28 @@ export default {
     props: ['laneProp'],
     data () {
         return {
-           lane: this.laneProp,
+            lane: this.laneProp,
+            product_service: null,
         }
     },
     methods: {
-        test () {
-            console.log(this.lane);
-        }
+       init () {
+           var self = this;
+
+            //machine-service
+            this.product_service = axios.create({
+                baseURL:'http://localhost:8100/',
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                },
+                useCredentials: true,
+                crossDomain: true,
+            })
+       },
+       getProductData () {
+            var self = this;
+
+       }
     },
 
     mounted () {

@@ -3,7 +3,8 @@
   const { reactiveProp } = mixins
 
   export default {
-    extends: Line,
+    name: "BarChart",
+    extends: Bar,
     mixins: [reactiveProp],
     props: ['options'],
     mounted () {
