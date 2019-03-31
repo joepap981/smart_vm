@@ -53,9 +53,6 @@ export default {
             vm_data: null,
             page: 1,
             num_of_pages: 10,
-
-            rows: null,
-            columns: null,
         }
     },
     methods: {
