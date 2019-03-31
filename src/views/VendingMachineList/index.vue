@@ -4,44 +4,55 @@
             <h5> Vending Machine List </h5>
         </div>
         <div class="card">
-            <router-link tag="button" to="/vm_list/add_machine" class="btn btn-light btn-sm mb-2 w-25" > 자판기 추가 </router-link>
-            <table class="table table-borderless">
-                <thead>
-                    <tr>
-                        <th scope="col">id</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Username</th>
-                        <th scope="col"># of lanes</th>
-                        <th scope="col">Location</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <router-link :to="{ name: 'vm', params: {id: vm.name } }" tag="tr" v-for="vm in 50" :key="vm.id">
-                        <p> helllllllllllllllllllllllllloooo </p>
-                        <!-- <td> {{vm.id }} </td>
-                        <td> {{vm.name }} </td>
-                        <td> {{vm.username}} </td>
-                        <td> {{vm.lanes.length }} </td>
-                        <td> {{vm.location.address.province }} </td> -->
-                    </router-link>
-                </tbody>
-            </table>
+            <div class="card-body">
+                <div class="card-header d-flex justify-content-start">
+                    <router-link tag="button" to="/vm_list/add_machine" class="btn btn-light btn-sm mb-2 w-25" > 자판기 추가 </router-link>
+                </div>
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Username</th>
+                            <th scope="col"># of lanes</th>
+                            <th scope="col">Location</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <router-link :to="{ name: 'vm', params: {id: vm.name } }" tag="tr" v-for="vm in vm_data" :key="vm.id">
+                            <td> {{vm.id }} </td>
+                            <td> {{vm.name }} </td>
+                            <td> {{vm.username}} </td>
+                            <td> {{vm.lanes.length }} </td>
+                            <td> {{vm.location.address.province }} </td>
+                        </router-link>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer">
+                <bootstrap-pagination :num_of_pages="num_of_pages" v-on:changePage="changePage" :cur_page="page"/>
+            </div>
         </div>
+        
     </div>
 </template>
 
 <script>
 import axios from 'axios';
 
+import BootstrapPagination from '../../components/Common/BootstrapPagination';
+
 export default {
     name: 'VendingMachineList',
+    components: {
+        BootstrapPagination
+    },
     data () {
         return {
             axios_instance: null,
             vm_data: null,
-
-            rows: null,
-            columns: null,
+            page: 1,
+            num_of_pages: 10,
         }
     },
     methods: {
@@ -66,11 +77,24 @@ export default {
             var self = this;
 
             this.axios_instance.get('/machines/', {
+                params: {
+                    page: self.page,
+                    size: 10
+                }
             }).then(function (response, error) {
                 self.vm_data = response.data.content;
+                self.num_of_pages = response.data.totalPages;
             }).catch(function (error) {
                 console.log(error);
             })
+        },
+
+        changePage (event) {
+            console.log(event);
+            if(event > 0) {
+                this.page = event;
+                this.getVMList();
+            }
         }
     },
     mounted() {
@@ -81,17 +105,26 @@ export default {
 
 <style scoped>
     .card {
-        padding: 30px;
-        padding-top: 10px;
+        padding: 0px;
  
         border-color: white;
         width: 100%;
-        height: 80vh;
+        height: 100%;
         box-shadow: 0px 0px 13px 0px rgba(82,63,105,0.05);
         margin-top: 10px;
-        margin-bottom: 10px;
+        margin-bottom: 10px;    
+    }
 
-        overflow: auto;
+    .card-header {
+        padding: 0;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .card-footer{
+        padding-bottom: 0;
     }
 
     .table, thead {

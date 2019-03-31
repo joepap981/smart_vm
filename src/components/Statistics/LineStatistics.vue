@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="chart-container mt-3" >
-            <line-chart v-if="data_ready" :chart-data="chart_data.datacollection" :options="chart_data.options" />
+        <div class="card-body mt-3" >
+            <line-chart class="chart-container" v-if="data_ready" :chart-data="chart_data.datacollection" :options="chart_data.options" />
         </div>
         <div class="card-footer">
             <date-picker v-on:update-chart="updateChart" />
@@ -110,7 +110,7 @@ export default {
 <style scoped>
     .chart-container {
         position: relative;
-        height: 350px;
+        height: 100%;
         width: 95%;
         margin: auto;
         margin-bottom: 40px;
@@ -126,8 +126,12 @@ export default {
         margin-bottom: 0;
     }
 
-    .card-footer {
-        height: 40px;
+    .card-body {
+        height: 350px;
+        padding-top:0;
     }
 
+    .card-footer {
+        padding: 5px;
+    }
 </style>

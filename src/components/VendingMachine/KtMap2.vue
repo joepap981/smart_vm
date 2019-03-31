@@ -17,7 +17,7 @@ export default {
     watch: {
         vm_data: function (value) {
             var self = this;
-
+            console.log("this")
             
             //if the map is not initialize create new map
             if(this.map2 == null) {
@@ -38,6 +38,7 @@ export default {
     },
     methods: {
         initialize: function () {
+
             var self = this;
 
             var mapOpts = {
@@ -49,7 +50,7 @@ export default {
 
             self.map2 = new olleh.maps.Map(document.getElementById("map2"), mapOpts);
         },
-    },
+    }
 }
 </script>
 

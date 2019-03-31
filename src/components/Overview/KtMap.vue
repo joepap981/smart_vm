@@ -17,14 +17,12 @@ export default {
     watch: {
         vm_data: function (value) {
             var self = this;
-
-            
             //if the map is not initialize create new map
             if(this.map == null) {
                 this.initialize();
             }
 
-            if(this.vm_data.length =! 0) {
+            if(this.vm_data.length != 0) {
                 //loop through array of vending machines and add marker on map
                 value.forEach(function(coor) {
                     var marker = new olleh.maps.overlay.Marker({

@@ -1,17 +1,5 @@
 <template>
     <div class="date-picker d-flex justify-content-center">
-        <!--dropdown button for data type-->
-        <div class="dropdown">
-            <button class="btn btn-secondary btn-sm btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Data Type
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-        </div>
-
         <datepicker class="datepicker-util" calendar-button-icon="far fa-calendar-alt" :calendar-button="true" v-model="start" input-class="inputclass"></datepicker>
         ~
         <datepicker class="datepicker-util" calendar-button-icon="far fa-calendar-alt" :calendar-button="true" v-model="end" input-class="inputclass"></datepicker>

@@ -1,0 +1,38 @@
+{
+"datacollection": {
+    "type": "line",
+    "data": {
+        "datasets": []
+    },
+    "options": {
+        "responsive": true,
+        "title": {
+            "display": true,
+            "text": null
+        },
+        "scales": {
+            "xAxes": [{
+                "type": "time",
+                "display": true,
+                "scaleLabel": {
+                    "display": true,
+                    "labelString": "Date"
+                },
+                "ticks": {
+                    "major": {
+                        "fontStyle": "bold",
+                        "fontColor": "grey"
+                    }
+                }
+            }],
+            "yAxes": [{
+                "display": true,
+                "scaleLabel": {
+                    "display": true,
+                    "labelString": "value"
+                }
+            }]
+        }
+    }
+}
+}

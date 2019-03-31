@@ -1,9 +1,7 @@
 <template>
 <div>
-    <div class="card-body">
-        <bar-chart class="chart-container" v-if="data_ready" :chartData="chart_data.datacollection" :options="chart_data.options"/>
-    </div>
-    <div class="card-footer p-0">
+    <bar-chart class="chart-container" v-if="data_ready" :chartData="chart_data.datacollection" :options="chart_data.options"/>
+    <div class="card-footer">
         <date-picker v-on:update-chart="updateChart"/>
     </div>
 </div>
@@ -18,7 +16,7 @@ import DatePicker from '../../components/Common/DatePicker.vue';
 import barchart_template from '../../assets/templates/barchart_template.json'
 
 export default {
-    name: 'BarStatistics',
+    name: 'VisitStatistics',
     components: {
         BarChart, DatePicker
     },
@@ -63,7 +61,7 @@ export default {
 
             //get vending machine data
             //`/logs/visit/${self.user_id}/${self.vm_id}`
-            let promise = self.statistics_service.get(`/logs/visit/user1@kt.com/`, {
+            let promise = self.statistics_service.get(`/logs/visit/user1@kt.com/machine1/`, {
                 params: {
                     start: self.start,
                     end: self.end
@@ -110,5 +108,7 @@ export default {
         width: 80%;
         margin: auto;
     }
+
+ 
 
 </style>
