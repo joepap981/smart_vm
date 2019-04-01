@@ -34,7 +34,7 @@
             </div>
 
             <!-- Lane Status -->
-            <div class="col-xl-3 col-md-6">
+            <div class="col-xl-2 col-md-6">
                 <div class="card row3">
                     <div class="card-header d-flex justify-content-between">
                         <p class="card-header-title"> Lane Status </p>
@@ -42,20 +42,7 @@
                         <button class="btn btn-sm btn-light" data-toggle="modal" data-target="#lane-modal"> + </button>
                     </div>
                     <div class="card-body">
-                        <lane-status-item v-for="lane in this.lanes" :key="lane.id" :laneProp="lane" :vm_id="vm_id"/>                 
-                    </div>
-                </div>
-            </div>
-            <!-- Lane Status -->
-            <div class="col-xl-3 col-md-6">
-                <div class="card row3">
-                    <div class="card-header d-flex justify-content-between">
-                        <p class="card-header-title"> Alarm Status </p>
-                        <!-- Add Lane Modal Button -->
-                        <button class="btn btn-sm btn-light" @click="markAllRead()"> Mark All as Read </button>
-                    </div>
-                    <div class="card-body">
-                        <alarm-status :vm_id="vm_id"/>      
+                        <lane-status-item v-for="lane in this.lanes" :key="lane.id" :laneProp="lane" :vm_id="vm_id" v-on:refreshLane="getLanes"/>                 
                     </div>
                 </div>
             </div>
@@ -77,6 +64,22 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Alarm Status -->
+            <div class="col-xl-4 col-md-6">
+                <div class="card row3">
+                    <div class="card-header d-flex justify-content-between">
+                        <p class="card-header-title"> Alarm Status </p>
+                        <!-- Add Lane Modal Button -->
+                        <button class="btn btn-sm btn-light" @click="markAllRead()"> Mark All as Read </button>
+                    </div>
+                    <div class="card-body">
+                        <alarm-status :vm_id="vm_id"/>      
+                    </div>
+                </div>
+            </div>
+
+            
 
             <!-- number of times visited during time bar chart -->
             <div class="col-xl-6 col-md-6">
@@ -279,7 +282,8 @@ export default {
             }).catch(function (error) {
                 console.log(error);
             })
-        }
+        },
+ 
     }
 }
 </script>
