@@ -42,7 +42,7 @@
                         <button class="btn btn-sm btn-light" data-toggle="modal" data-target="#lane-modal"> + </button>
                     </div>
                     <div class="card-body">
-                        <lane-status-item v-for="lane in this.lanes" :key="lane.id" :laneProp="lane" />                 
+                        <lane-status-item v-for="lane in this.lanes" :key="lane.id" :laneProp="lane" :vm_id="vm_id"/>                 
                     </div>
                 </div>
             </div>
@@ -169,6 +169,7 @@ export default {
 
             //axios machine service instance
             machine_service: null,
+            alarm_service: null,
 
             //lane related data
             add_lane: {
@@ -205,11 +206,18 @@ export default {
                 useCredentials: true,
                 crossDomain: true,
             })
+
+            //alarm-service
+            this.alarm_service = axios.create({
+                baseURL:'http://localhost:8400/',
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                },
+                useCredentials: true,
+                crossDomain: true,
+            })
             this.getLanes();
             this.getMachineData();
-        },
-        getProductData () {
-
         },
         getMachineData () {
             var self = this;
@@ -265,7 +273,12 @@ export default {
             })
         },
         markAllRead () {
-            
+            this.alarm_service.put(`/alarms/machines/${this.vm_id}`, {
+            }).then(function (response, error) {
+                alert("All Marked as Read!")
+            }).catch(function (error) {
+                console.log(error);
+            })
         }
     }
 }

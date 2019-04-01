@@ -31,7 +31,7 @@ export default {
             //chart variable
             chart: null,
 
-            interval: 20000,
+            interval: 60000,
 
         }
     },

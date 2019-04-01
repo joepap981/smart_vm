@@ -38,14 +38,12 @@ export default {
             })
 
             this.getAlarmData();
-            // this.alarm_polling = setInterval(() => {
-            //     self.getStockDataAlarmData();
-            //     self.getAlarmData();
-            // }, 3000)
+            this.updateAlarmData();
 
         },
         getAlarmData () {
             var self = this
+
             //get all alarms
             this.alarm_service.get(`/alarms/machines/${self.vm_id}`, {
                 params: {
@@ -58,6 +56,25 @@ export default {
             }).catch(function (error) {
                 console.log(error);
             })
+
+        },
+        updateAlarmData () {
+            var self = this
+
+            this.interval = setInterval(() => {
+                //get all alarms
+                this.alarm_service.get(`/alarms/machines/${self.vm_id}`, {
+                    params: {
+                        size: 6,
+                        sort: 'desc'
+                    }
+                }).then(function (response, error) {
+                    self.alarm_data_list = response.data.content;
+                    self.alarm_data_loaded = true;
+                }).catch(function (error) {
+                    console.log(error);
+                })
+            }, 60000);
         }
     },
     mounted () {
