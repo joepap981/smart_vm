@@ -34,7 +34,20 @@
             </div>
 
             <!-- Lane Status -->
-            <div class="col-xl-6 col-md-12">
+            <div class="col-xl-3 col-md-12">
+                <div class="card row3">
+                    <div class="card-header d-flex justify-content-between">
+                        <p class="card-header-title"> Lane Status </p>
+                        <!-- Add Lane Modal Button -->
+                        <button class="btn btn-sm btn-light" data-toggle="modal" data-target="#lane-modal"> + </button>
+                    </div>
+                    <div class="card-body">
+                        <lane-status-item v-for="lane in this.lanes" :key="lane.id" :laneProp="lane" />                 
+                    </div>
+                </div>
+            </div>
+            <!-- Lane Status -->
+            <div class="col-xl-3 col-md-12">
                 <div class="card row3">
                     <div class="card-header d-flex justify-content-between">
                         <p class="card-header-title"> Lane Status </p>
@@ -66,7 +79,7 @@
             </div>
 
             <!-- number of times visited during time bar chart -->
-            <div class="col-xl-8 col-md-6">
+            <div class="col-xl-6 col-md-6">
                 <div class="card">
                     <div class="card-header">
                         <p class="card-header-title"> 시간별 방문 횟수 </p>
@@ -79,7 +92,7 @@
             </div>
 
             <!-- Best selling drink -->
-            <div class="col-xl-4 col-md-6">
+            <div class="col-xl-6 col-md-6">
                 <div class="card">
                     <div class="card-header">
                         <p class="card-header-title"> 제품 판매량 </p>
@@ -255,8 +268,19 @@ export default {
 </script>
 
 <style scoped>
+    .col-md-12, .col-md-6 {
+        padding: 10px;
+    }
+
+    .col-xl-6.col-md-6 {
+        padding-top: 0;
+    }
+
+    .col-xl-12 {
+        margin-top: 10px;
+    }
     .card {
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
 
     .card-body {
