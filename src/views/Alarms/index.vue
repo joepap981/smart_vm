@@ -5,20 +5,38 @@
         </div>
         <div class="card">
             <div class="card-header d-flex justify-content-start">
+                <!-- search by status -->
+                <div id="status-select" class="d-flex flex-column">
+                    <label> Status </label>
+                    <select v-model="selected_status" class="custom-select custom-select-sm mb-3">
+                        <option value="all">All</option>
+                        <option value="read">Read</option>
+                        <option value="unread">Unread</option>
+                    </select>
+                </div>
+
                 <!-- search by alarm type -->
-                <select id="alarm-type-select" class="custom-select custom-select-sm mb-3">
-                    <option selected>Alarm Type</option>
-                    <option value="stock">Stock</option>
-                    <option value="temp">Temperature</option>
-                    <option value="humi">Humidity</option>
-                    <option value="shock">Shock</option>
-                </select>
+                <div id="alarm-type-select" class="d-flex flex-column">
+                    <label> Alarm Type </label>
+                    <select v-model="selected_type" class="custom-select custom-select-sm mb-3">
+                        <option value="all">All</option>
+                        <option value="stock">Stock</option>
+                        <option value="temp">Temperature</option>
+                        <option value="humi">Humidity</option>
+                        <option value="shock">Shock</option>
+                    </select>
+                </div>
 
                 <!-- search by vm -->
-                <select id="vm-select" class="custom-select custom-select-sm mb-3">
-                    <option selected> by VM </option>
-                    <option :value="vm.name" v-for="vm in vm_list" :key="vm.id"> {{ vm.name }} </option>
-                </select>
+                <div id="vm-select" class="d-flex flex-column">
+                    <label> Vending Machine </label>
+                    <select v-model="selected_vm" class="custom-select custom-select-sm mb-3">
+                        <option value="all" selected> All </option>
+                        <option :value="vm.name" v-for="vm in vm_list" :key="vm.id"> {{ vm.name }} </option>
+                    </select>
+                </div>
+
+                <button @click="getAlarmList()" class="btn btn-light btn-sm"><i class="fas fa-search"></i> </button>
 
 
             </div>
@@ -31,6 +49,7 @@
                         <th scope="col">Machine Name</th>
                         <th scope="col">Date</th>
                         <th scope="col">Error Type</th>
+                        <th scope="col">Status</th>
                         <th scope="col">Location</th>
                         </tr>
                     </thead>
@@ -40,6 +59,7 @@
                             <td> {{alarm.machine.name }} </td>
                             <td> {{alarm.dateTime}} </td>
                             <td> {{alarm.message }} </td>
+                            <td> {{alarm.status }} </td>
                             <td> {{alarm.machine.location.address.province }} {{alarm.machine.location.address.municipality }} {{alarm.machine.location.address.submunicipality }}</td>
                         </tr>
                     </tbody>
@@ -56,6 +76,7 @@
 import axios from 'axios';
 import BootstrapPagination from '../../components/Common/BootstrapPagination';
 import DatePicker from '../../components/Common/DatePicker.vue';
+import { all } from 'q';
 
 export default {
     name: 'Alarms',
@@ -64,11 +85,20 @@ export default {
     },
     data () {
         return {
-            selected_vm: null,
-            alarm_list: null,
-            vm_list: null,
+            //axios instance
             alarm_service: null,
             machine_service: null,
+
+            //selected option
+            selected_status: 'all',
+            selected_vm: 'all',
+            selected_type: 'all',
+
+            //objects to hold incoming data
+            alarm_list: null,
+            vm_list: null,
+
+            //current page
             page: 1,
             num_of_pages: 10,
         }
@@ -122,11 +152,21 @@ export default {
             })
         },
         getAlarmList () {
+            
             var self = this;
+            var url;
 
-            this.alarm_service.get('/alarms', {
+            if (this.selected_vm == 'all') {
+                url = '/alarms';
+            } else {
+                url = `/alarms/machines/${this.selected_vm}`
+            }
+
+            this.alarm_service.get(url, {
                  params: {
-                    page: self.page,
+                    status: self.selected_status,
+                    type: self.selected_type,
+                    page: self.selected_page,
                     size: 10
                 }
             }).then(function (response, error) {
@@ -195,13 +235,35 @@ export default {
         font-size: 13px;
     }
 
-    .custom-select {
-        margin: 3px;
-        width:12%;
+    #status-select {
+        width: 100px;
+    }
+
+    #alarm-type-select {
+        width: 140px;
+    }
+
+    #vm-select {
+        width: 100px;
     }
 
     select {
         margin-bottom: 0!important;
+    }
+
+    label {
+        text-align: start;
+        font-size:10px;
+        margin: 0;
+    }
+
+    .flex-column { 
+        margin-right: 5px;
+    }
+
+    .btn-light {
+        height: 30px;
+        margin-top: 14px;
     }
 
 </style>

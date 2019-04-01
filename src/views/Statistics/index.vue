@@ -22,7 +22,7 @@
                     <div class="card-header">
                         <label> 기간별 인기제품 </label>
                     </div>
-                    <!-- <doughnut-statistics /> -->
+                    <doughnut-statistics />
                    
                 </div>
             </div>
@@ -33,7 +33,7 @@
                     <div class="card-header"> 
                         <label> 시간별 판매량 </label>
                     </div>
-                    <!-- <line-statistics /> -->
+                    <line-statistics />
 
                 </div>
             </div>
@@ -45,7 +45,7 @@
                         <label> 시간별 기사 방문 횟수 </label>
                     </div>
                     <div class="card-body p-0">
-                        <!-- <bar-statistics /> -->
+                        <bar-statistics />
                     </div>
                 </div>
             </div>
@@ -58,8 +58,6 @@ import DoughnutStatistics from '../../components/Statistics/DoughnutStatistics.v
 import MapStatistics from '../../components/Statistics/MapStatistics.vue'
 import LineStatistics from '../../components/Statistics/LineStatistics.vue'
 import BarStatistics from '../../components/Statistics/BarStatistics.vue'
-
-import axios from 'axios';
 
 export default {
     name: 'Statistics',
