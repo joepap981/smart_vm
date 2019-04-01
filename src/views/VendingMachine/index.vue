@@ -2,7 +2,7 @@
     <div class="">
         <div class="top-nav">
             <div class="d-flex flex-row">
-                <h5> 자판기 {{ vm_id}} </h5>
+                <h5> 자판기 {{ vm_id }} </h5>
             </div>
         </div>
 
@@ -34,7 +34,7 @@
             </div>
 
             <!-- Lane Status -->
-            <div class="col-xl-3 col-md-12">
+            <div class="col-xl-3 col-md-6">
                 <div class="card row3">
                     <div class="card-header d-flex justify-content-between">
                         <p class="card-header-title"> Lane Status </p>
@@ -47,15 +47,15 @@
                 </div>
             </div>
             <!-- Lane Status -->
-            <div class="col-xl-3 col-md-12">
+            <div class="col-xl-3 col-md-6">
                 <div class="card row3">
                     <div class="card-header d-flex justify-content-between">
-                        <p class="card-header-title"> Lane Status </p>
+                        <p class="card-header-title"> Alarm Status </p>
                         <!-- Add Lane Modal Button -->
-                        <button class="btn btn-sm btn-light" data-toggle="modal" data-target="#lane-modal"> + </button>
+                        <button class="btn btn-sm btn-light" @click="markAllRead()"> Mark All as Read </button>
                     </div>
                     <div class="card-body">
-                        <lane-status-item v-for="lane in this.lanes" :key="lane.id" :laneProp="lane" />                 
+                        <alarm-status :vm_id="vm_id"/>      
                     </div>
                 </div>
             </div>
@@ -146,6 +146,7 @@
 import axios from 'axios';
 import KtMap from '../../components/Overview/KtMap.vue';
 import LaneStatusItem from '../../components/VendingMachine/LaneStatusItem.vue';
+import AlarmStatus from '../../components/VendingMachine/AlarmStatus.vue';
 
 // import LaneMonitorChart from '../../components/VendingMachine/LaneMonitorChart.vue'
 import TempMonitorChart from '../../components/VendingMachine/TempMonitorChart.vue'
@@ -157,7 +158,7 @@ import ProductSalesStatistics from '../../components/VendingMachine/ProductSales
 export default {
     name: 'VendingMachine',
     components: {
-        LaneStatusItem, TempMonitorChart, HumiMonitorChart, KtMap, VisitStatistics, ProductSalesStatistics
+        LaneStatusItem, AlarmStatus, TempMonitorChart, HumiMonitorChart, KtMap, VisitStatistics, ProductSalesStatistics
     },
     data() {
         return {
@@ -262,6 +263,9 @@ export default {
             }).catch(function (error) {
                 console.log(error);
             })
+        },
+        markAllRead () {
+            
         }
     }
 }
