@@ -15,7 +15,7 @@ import border_color from '../../assets/templates/border_color.json';
 import { setTimeout, setInterval } from 'timers';
 
 export default {
-    name: "TempMonitorChart",
+    name: "HumiMonitorChart",
     data () {
         return {
             data_type: "humidity",

@@ -65,15 +65,12 @@ export default {
                     end: self.end,
                 }
             }).then(function (response, error) {
-                self.chart_data_buffer = response.data;
-                console.log(response.data)
-                
+                self.chart_data_buffer = response.data;      
 
                 for(var i=0; i < self.chart_data_buffer.length; i++) {
                     self.chart_data.datacollection.labels.push(self.chart_data_buffer[i].drink_type);
                     self.chart_data.datacollection.datasets[0].data.push(self.chart_data_buffer[i].sell);
                 }
-                console.log(self.chart_data)
                 self.data_ready = true;
             }).catch(function (error) {
                 console.log(error);
@@ -117,7 +114,7 @@ export default {
 
 <style scoped>
     .chart-container {
-        width: 90%;
+        width: 380px;
         margin: auto;
     }
 
