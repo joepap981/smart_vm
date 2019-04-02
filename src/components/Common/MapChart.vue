@@ -1,5 +1,10 @@
 <template>
-<div class="hello" ref="chartdiv"></div>
+<div>
+    <div class="chart-container" ref="chartdiv"></div>
+    <div class="card-footer">
+        <date-picker v-on:update-chart="updateChart" />
+    </div>
+</div>
 </template>
 
 <script>
@@ -12,10 +17,15 @@ import submunicipality from "../../assets/geojson/submunicipalities.json";
 import municipality from "../../assets/geojson/municipalities.json";
 import province from "../../assets/geojson/provinces.json";
 
+import DatePicker from "./DatePicker";
+
 am4core.useTheme(am4themes_animated);
 
 export default {
     name: 'MapChart',
+    components: {
+        DatePicker
+    },
     data () {
         return {
             user_id: 'user1@kt.com',
@@ -89,6 +99,34 @@ export default {
             })
 
             return promise;
+        },
+        //update chart on response from DatePicker
+        updateChart: function (event) {
+            var self = this;
+
+            this.start = event.start;
+            this.end = event.end;
+
+            //deep copy chart_data template
+            var temp_chart_data = JSON.parse(JSON.stringify(doughnutchart_template));
+
+            this.statistics_service.get('/logs/sell/user1@kt.com/', {
+                params: {
+                    start: self.start,
+                    end: self.end,
+                }
+            }).then(function (response, error) {
+                self.chart_data_buffer = response.data;
+
+                for(var i=0; i < 10; i++) {
+                    temp_chart_data.datacollection.labels.push(self.chart_data_buffer[i].drink_type);
+                    temp_chart_data.datacollection.datasets[0].data.push(self.chart_data_buffer[i].sell);
+                }
+                self.chart_data = temp_chart_data;
+                alert("Chart updated");
+            }).catch(function (error) {
+                alert(error);
+            })
         },
         //build the 3 layer map chart
         buildMap () {
@@ -287,4 +325,7 @@ export default {
 </script>
 
 <style scoped>
+ .chart-container {
+     height: 400px;
+ }
 </style>

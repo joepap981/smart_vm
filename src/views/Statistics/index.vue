@@ -11,7 +11,7 @@
                         <label> 지역별 </label>
                     </div>
                     <div class="card-body">
-                        <map-statistics />
+                        <map-chart />
                     </div>
                 </div>
             </div>
@@ -55,14 +55,14 @@
 
 <script>
 import DoughnutStatistics from '../../components/Statistics/DoughnutStatistics.vue'
-import MapStatistics from '../../components/Statistics/MapStatistics.vue'
+import MapChart from '../../components/Common/MapChart.vue'
 import LineStatistics from '../../components/Statistics/LineStatistics.vue'
 import BarStatistics from '../../components/Statistics/BarStatistics.vue'
 
 export default {
     name: 'Statistics',
     components: {
-        DoughnutStatistics, MapStatistics, LineStatistics, BarStatistics
+        DoughnutStatistics, MapChart, LineStatistics, BarStatistics
     },
     data: function () {
         return {
