@@ -83,12 +83,6 @@ export default {
         var provinceHS = provincePolygonTemplate.states.create("hover");
         provinceHS.properties.fill = am4core.color("#00226F");
 
-
-        // provinceSeries.mapPolygons.template.events.on("over", function(ev) {
-        //     console.log(ev.target);
-        //     // provincePolygonTemplate.tooltipText = "{name}" +  ev.target.dataItem.dataContext.name_eng;
-        // });
-
         //zoom in/out to municipality level when clicked
         provinceSeries.mapPolygons.template.events.on("hit", function(ev) {
             curObject = ev.target;
