@@ -44,6 +44,7 @@ export default {
                 baseURL:'http://121.140.19.90:8080/',
                 headers: {
                     'Access-Control-Allow-Origin': '*',
+                    'Authorization': `Bearer ${$cookies.get('token')}`,
                 },
                 useCredentials: true,
                 crossDomain: true,

@@ -89,19 +89,32 @@ export default {
         }
     },
     methods: {
-        getVMData: function () {
-            //state this component for use in axios 'then' callback function
-            var self = this;
-          
+        init() {
+            this.checkAuth();
+
             //machine-service
             this.machine_service = axios.create({
                 baseURL:'http://localhost:8100/',
                 headers: {
                     'Access-Control-Allow-Origin': '*',
+                    'Authorization': `Bearer ${$cookies.get('token')}`,
                 },
                 useCredentials: true,
                 crossDomain: true,
             })
+
+        },
+        checkAuth () {
+            //check if key exists
+            if(!$cookies.isKey('token')) {
+                this.$router.push('/signin');
+            }
+        },
+        getVMData: function () {
+            //state this component for use in axios 'then' callback function
+            var self = this;
+          
+            
 
             //get all vending machines
             this.machine_service.get('/machines/', {
@@ -113,8 +126,7 @@ export default {
         },
     },
     beforeMount () {
-        var self = this;
-
+        this.init();
         this.getVMData();
     }
 }

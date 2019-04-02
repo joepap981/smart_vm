@@ -91,6 +91,7 @@ export default {
                 baseURL:'http://localhost:8100/',
                 headers: {
                     'Access-Control-Allow-Origin': '*',
+                    'Authorization': `Bearer ${$cookies.get('token')}`,
                 },
                 useCredentials: true,
                 crossDomain: true,

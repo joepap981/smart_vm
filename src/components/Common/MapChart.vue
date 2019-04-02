@@ -1,7 +1,24 @@
 <template>
 <div>
-    <div class="chart-container" ref="chartdiv"></div>
-    <div class="card-footer">
+    <div class="card-header">
+        <label> 지역별 </label>
+    </div>
+    <div class="chart-container card-body" ref="chartdiv"></div>
+    <div class="card-footer d-flex flex-row">
+        <!-- search by data type -->
+        <div id="data-type-select" class="d-flex flex-column">
+            <select v-model="data_type" class="custom-select custom-select-sm mb-3">
+                <option value="visit">기사 방문량</option>
+                <option value="product_comp">인기 제품</option>
+                <option value="sales">{{ product_type }} 판매량</option>
+            </select>
+        </div>
+
+        <div v-if="data_type=='sales'" id="data-type-select" class="d-flex flex-column">
+            <select v-model="product_type" class="custom-select custom-select-sm mb-3">
+                <option :value="product.name" v-for="product in product_list" :key="product.id"> {{ product.name }} </option>
+            </select>
+        </div>
         <date-picker v-on:update-chart="updateChart" />
     </div>
 </div>
@@ -30,13 +47,15 @@ export default {
         return {
             user_id: 'user1@kt.com',
             statistics_service: null,
-            data_ready: false,
             municipality_data : null,
             submunicipality_data: null,
 
             start: null,
             end: null,
-            data_type: 'Sales',
+            data_type: 'visit',
+
+            product_list: null,
+            product_type: null,
         }
     },
     methods: {
@@ -52,6 +71,7 @@ export default {
                 baseURL:'http://121.140.19.90:8080/',
                 headers: {
                     'Access-Control-Allow-Origin': '*',
+                    'Authorization': `Bearer ${$cookies.get('token')}`,
                 },
                 useCredentials: true,
                 crossDomain: true,
@@ -60,10 +80,22 @@ export default {
             this.getMunicipalityData();
        
         },
+        getProductList () {
+
+        },
         getMunicipalityData () {
             var self = this;
-            let query = `/logs/visit/loc/서울/${this.user_id}/`;
-         
+            let query;
+
+            if(this.data_type == 'visit') {
+                query = `/logs/visit/loc/서울/${this.user_id}/`;
+            }else if (this.data_type == 'product_comp') {
+                query = `/logs/sell/loc/서울/${this.user_id}/`;
+            } else if (this.data_type == 'sales'){ 
+                query = `/logs/sell/${product_type}/loc/서울/${this.user_id}/`;
+            } else {
+                alert("Something has gone wrong")
+            }
             
             //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
             let promise = this.statistics_service.get(query, {
@@ -73,8 +105,8 @@ export default {
                 }
             }).then(function (response, error) {
                 self.municipality_data = response.data;
+                console.log(response.data);
                 self.buildMap();
-                self.data_ready = true;
             }).catch(function (error) {
                 console.log(error);
             })
@@ -83,7 +115,17 @@ export default {
         },
         getSubmunicipalityData (district) {
             var self = this;
-            let query = `/logs/visit/loc/서울/${district}/${this.user_id}/`;
+            let query;
+
+            if(this.data_type == 'visit') {
+                 query = `/logs/visit/loc/서울/${district}/${this.user_id}/`;
+            }else if (this.data_type == 'product_comp') {
+                query = `/logs/sell/loc/서울/${district}/${this.user_id}/`;
+            } else if (this.data_type == 'sales'){ 
+                query = `/logs/sell/${product_type}/loc/서울/${district}/${this.user_id}/`;
+            } else {
+
+            }
             
             //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
             let promise = this.statistics_service.get(query, {
@@ -93,7 +135,6 @@ export default {
                 }
             }).then(function (response, error) {
                 self.submunicipality_data = response.data;
-                self.data_ready = true;
             }).catch(function (error) {
                 console.log(error);
             })
@@ -102,31 +143,7 @@ export default {
         },
         //update chart on response from DatePicker
         updateChart: function (event) {
-            var self = this;
-
-            this.start = event.start;
-            this.end = event.end;
-
-            //deep copy chart_data template
-            var temp_chart_data = JSON.parse(JSON.stringify(doughnutchart_template));
-
-            this.statistics_service.get('/logs/sell/user1@kt.com/', {
-                params: {
-                    start: self.start,
-                    end: self.end,
-                }
-            }).then(function (response, error) {
-                self.chart_data_buffer = response.data;
-
-                for(var i=0; i < 10; i++) {
-                    temp_chart_data.datacollection.labels.push(self.chart_data_buffer[i].drink_type);
-                    temp_chart_data.datacollection.datasets[0].data.push(self.chart_data_buffer[i].sell);
-                }
-                self.chart_data = temp_chart_data;
-                alert("Chart updated");
-            }).catch(function (error) {
-                alert(error);
-            })
+            
         },
         //build the 3 layer map chart
         buildMap () {
@@ -327,5 +344,8 @@ export default {
 <style scoped>
  .chart-container {
      height: 400px;
+ }
+ .card-body {
+     padding: 0;
  }
 </style>

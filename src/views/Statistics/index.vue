@@ -7,12 +7,7 @@
             <!-- Map based statistics -->
             <div class="col-xl-12 col-sm-12">
                 <div class="card">
-                    <div class="card-header">
-                        <label> 지역별 </label>
-                    </div>
-                    <div class="card-body">
-                        <map-chart />
-                    </div>
+                    <map-chart />
                 </div>
             </div>
 

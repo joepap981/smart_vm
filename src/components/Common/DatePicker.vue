@@ -55,14 +55,10 @@ export default {
             return this.start > this.end;
         }
     },
-    // watch: {
-    //     start: function (value) {
-    //         console.log(value);
-    //     },
-    //     end: function (value) {
-    //         console.log(value);
-    //     }
-    // }
+    mounted () {
+        this.start = new Date(new Date().getTime() - 60 * 60 * 24 * 7 * 1000).toISOString().split("T")[0];
+        this.end = new Date().toISOString().split("T")[0];
+    }
 }
 </script>
 
