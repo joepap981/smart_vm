@@ -16,10 +16,16 @@ am4core.useTheme(am4themes_animated);
 
 export default {
     name: 'MapChart',
+    data () {
+        return {
+            tooltipData: 'hello',
+        }
+    },
     methods: {
         
     },
     mounted() {
+        var self = this;
         //zoom depth of map
         //0: province, 1: municipality, 2: submunicipality
         var depth = 0;
@@ -34,15 +40,15 @@ export default {
         map.seriesContainer.events.disableType("doublehit");
         map.chartContainer.background.events.disableType("doublehit");
 
-        //map up level button
+        // //map up level button
         var upButton = map.chartContainer.createChild(am4core.Button);
-        upButton.label.text = "+";
-        upButton.label.fontSize= 9;
-        upButton.padding(5, 5, 5, 5);
-        upButton.width = 20;
-        upButton.align = "right";
-        upButton.marginRight = 30;
-        upButton.cursorOverStyle = am4core.MouseCursorStyle.pointer;
+        // upButton.label.text = "+";
+        // upButton.label.fontSize= 9;
+        // upButton.padding(5, 5, 5, 5);
+        // upButton.width = 20;
+        // upButton.align = "right";
+        // upButton.marginRight = 30;
+        // upButton.cursorOverStyle = am4core.MouseCursorStyle.pointer;
 
         //when zoom out button is pressed, 
         upButton.events.on("hit", function() {
@@ -63,6 +69,8 @@ export default {
 
         // set series for Seoul municipalities map
         map.geodata = am4geodata_koreaProvinces;
+        console.log(map.geodata);
+     
         // map.geodata = am4geodata_seoulMunicipalities;
         map.projection = new am4maps.projections.Miller();
 
@@ -74,6 +82,12 @@ export default {
         provincePolygonTemplate.fill = am4core.color("#0F2B67");
         var provinceHS = provincePolygonTemplate.states.create("hover");
         provinceHS.properties.fill = am4core.color("#1E3D7E");
+
+
+        // provinceSeries.mapPolygons.template.events.on("over", function(ev) {
+        //     console.log(ev.target);
+        //     // provincePolygonTemplate.tooltipText = "{name}" +  ev.target.dataItem.dataContext.name_eng;
+        // });
 
         //zoom in/out to municipality level when clicked
         provinceSeries.mapPolygons.template.events.on("hit", function(ev) {
@@ -103,6 +117,8 @@ export default {
             municipalitySeries.geodata.features = am4geodata_koreaMunicipalities.features.filter(features => {
                 return features.id.substr(0,2) == ev.target.dataItem.dataContext.id;
             });
+
+            console.log(municipalitySeries.geodata.features)
 
             var municipalityPolygonTemplate = municipalitySeries.mapPolygons.template;
             municipalityPolygonTemplate.tooltipText = "{name}";
