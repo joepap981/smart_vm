@@ -79,9 +79,9 @@ export default {
         provinceSeries.useGeodata = true;
         var provincePolygonTemplate = provinceSeries.mapPolygons.template;
         provincePolygonTemplate.tooltipText = "{name}";
-        provincePolygonTemplate.fill = am4core.color("#0F2B67");
+        provincePolygonTemplate.fill = am4core.color("#00184E");
         var provinceHS = provincePolygonTemplate.states.create("hover");
-        provinceHS.properties.fill = am4core.color("#1E3D7E");
+        provinceHS.properties.fill = am4core.color("#00226F");
 
 
         // provinceSeries.mapPolygons.template.events.on("over", function(ev) {
@@ -122,10 +122,10 @@ export default {
 
             var municipalityPolygonTemplate = municipalitySeries.mapPolygons.template;
             municipalityPolygonTemplate.tooltipText = "{name}";
-            municipalityPolygonTemplate.fill = am4core.color("#345291");
+            municipalityPolygonTemplate.fill = am4core.color("#002A8C");
 
             var municipalityHS = municipalityPolygonTemplate.states.create("hover");
-            municipalityHS.properties.fill = am4core.color("#516CA5");
+            municipalityHS.properties.fill = am4core.color("#0035AE");
 
 
             //zoom in/out to submunicipality level when clicked
@@ -150,11 +150,11 @@ export default {
                 });
 
                 let submunicipalityPolygonTemplate = submunicipalitySeries.mapPolygons.template;
-                submunicipalityPolygonTemplate.tooltipText = "{name}";
-                submunicipalityPolygonTemplate.fill = am4core.color("#8793AD");
+                municipalityPolygonTemplate.tooltipText = "{name}";
+                municipalityPolygonTemplate.fill = am4core.color("#002A8C");
 
                 let submunicipalityHS = submunicipalityPolygonTemplate.states.create("hover");
-                submunicipalityHS.properties.fill = am4core.color("#DFDFDF");
+                municipalityHS.properties.fill = am4core.color("#0035AE");
             });
         });
 
