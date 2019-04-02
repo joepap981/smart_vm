@@ -74,7 +74,6 @@ export default {
         getSubmunicipalityData (district) {
             var self = this;
             let query = `/logs/visit/loc/서울/${district}/${this.user_id}/`;
-            console.log(query);
             
             //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
             let promise = this.statistics_service.get(query, {
@@ -84,7 +83,6 @@ export default {
                 }
             }).then(function (response, error) {
                 self.submunicipality_data = response.data;
-                console.log(response.data);
                 self.data_ready = true;
             }).catch(function (error) {
                 console.log(error);
@@ -170,7 +168,6 @@ export default {
                     curObject = ev.target;  
                 }
                 
-
                 // set series for municipality for selected provice
                 var municipalitySeries = map.series.push(new am4maps.MapPolygonSeries());
                 //set template for series geodata
@@ -181,7 +178,6 @@ export default {
                 });
 
                 //insert data
-                console.log(municipalitySeries.geodata.features);
                 for(var i=0; i < self.municipality_data.length; i++) {
                     for(var j=0; j < municipalitySeries.geodata.features.length; j++){
                         if(self.municipality_data[i].loc == municipalitySeries.geodata.features[j].properties.name) {
@@ -213,7 +209,9 @@ export default {
                         return features.id.substr(0,5) == ev.target.dataItem.dataContext.id;
                     });
 
-                    self.getSubmunicipalityData('양천구').then(function() {
+                    var municipality_name = ev.target.dataItem.dataContext.name;
+
+                    self.getSubmunicipalityData(municipality_name).then(function() {
                         //insert data
                         for(var i=0; i < self.submunicipality_data.length; i++) {
                             for(var j=0; j < tempFeatures.length; j++){
