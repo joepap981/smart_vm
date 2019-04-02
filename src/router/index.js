@@ -16,7 +16,7 @@ import AddVendingMachine from '../views/VendingMachineList/AddVendingMachine.vue
 
 import PageNotFound from '../components/Common/PageNotFound'
 
-import Mapchart from '../components/Common/MapChart.vue'
+import test from '../views/test.vue'
 
 Vue.use(VueRouter)
 
@@ -40,7 +40,7 @@ export function createRouter () {
                     {name: 'vm_list/add_machine', path: 'vm_list/add_machine', component: AddVendingMachine}
                 ]
             },
-            {path: '/test', component: Mapchart },
+            {path: '/test', component: test },
             {path: '*', component: PageNotFound}
 
        ]
