@@ -1,0 +1,4 @@
+{
+    "zuul_service": "http://172.20.10.3/",
+    "statistics_service": "http://121.140.19.90:8080/"
+}

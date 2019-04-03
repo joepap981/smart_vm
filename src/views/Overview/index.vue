@@ -13,7 +13,6 @@
                     <div class="card-body">
                         <div class="map-container">
                             <kt-map v-bind:vm_data="vm_data"/>
-                            <!-- <kakao-map /> -->
                         </div>
                     </div>
                 </div>
@@ -70,8 +69,6 @@ import VmListItem from '../../components/Overview/VmListItem.vue'
 import AlarmList from '../../components/Overview/AlarmList.vue'
 
 
-import axios from 'axios'
-
 export default {
     name: 'Overview',
     components: {
@@ -90,18 +87,23 @@ export default {
     },
     methods: {
         init() {
-            this.checkAuth();
+            // this.checkAuth();
+            var self = this;
+            var auth = 'Bearer '+ $cookies.get('access_token');
 
             //machine-service
-            this.machine_service = axios.create({
-                baseURL:'http://localhost:8100/',
+            this.machine_service = self.$axios.create({
+                baseURL: self.$service.zuul_service,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
-                    'Authorization': `Bearer ${$cookies.get('token')}`,
+                    'Authorization': auth,
                 },
+       
                 useCredentials: true,
                 crossDomain: true,
             })
+
+            this.getVMData();
 
         },
         checkAuth () {
@@ -114,12 +116,10 @@ export default {
             //state this component for use in axios 'then' callback function
             var self = this;
           
-            
-
             //get all vending machines
-            this.machine_service.get('/machines/', {
+            this.machine_service.get('users/machines/', {
             }).then(function (response, error) {
-                self.vm_data = response.data.content;
+                self.vm_data = response.data.machines;
             }).catch(function (error) {
                 console.log(error);
             })
@@ -127,7 +127,6 @@ export default {
     },
     beforeMount () {
         this.init();
-        this.getVMData();
     }
 }
 </script>

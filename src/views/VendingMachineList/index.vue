@@ -38,8 +38,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 import BootstrapPagination from '../../components/Common/BootstrapPagination';
 
 export default {
@@ -60,11 +58,11 @@ export default {
             var self = this;
           
             //machine-service
-            this.axios_instance = axios.create({
-                baseURL:'http://localhost:8100/',
+            this.axios_instance = self.$axios.create({
+                baseURL:self.$service.zuul_service,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
-                    'Authorization': `Bearer ${$cookies.get('token')}`,
+                    'Authorization': `Bearer ${$cookies.get('access_token')}`,
                 },
                 useCredentials: true,
                 crossDomain: true,
@@ -77,13 +75,13 @@ export default {
         getVMList () {
             var self = this;
 
-            this.axios_instance.get('/machines/', {
+            this.axios_instance.get('users/machines/', {
                 params: {
                     page: self.page,
                     size: 10
                 }
             }).then(function (response, error) {
-                self.vm_data = response.data.content;
+                self.vm_data = response.data.machines;
                 self.num_of_pages = response.data.totalPages;
             }).catch(function (error) {
                 console.log(error);

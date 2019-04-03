@@ -73,7 +73,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import BootstrapPagination from '../../components/Common/BootstrapPagination';
 import DatePicker from '../../components/Common/DatePicker.vue';
 import { all } from 'q';
@@ -113,29 +112,28 @@ export default {
             var self = this;
           
             //machine-service
-            this.alarm_service = axios.create({
-                baseURL:'http://localhost:8400/',
+            this.alarm_service = self.$axios.create({
+                baseURL:self.$service.zuul_service,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
-                    'Authorization': `Bearer ${$cookies.get('token')}`,
+                    'Authorization': `Bearer ${$cookies.get('access-token')}`,
                 },
                 useCredentials: true,
                 crossDomain: true,
             })
 
              //machine-service
-            this.machine_service = axios.create({
-                baseURL:'http://localhost:8100/',
+            this.machine_service = self.$axios.create({
+                baseURL:self.$service.zuul_service,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
-                    'Authorization': `Bearer ${$cookies.get('token')}`,
+                    'Authorization': `Bearer ${$cookies.get('access-token')}`,
                 },
                 useCredentials: true,
                 crossDomain: true,
             })
 
             this.getVMList();
-
             this.getAlarmList();
 
         },
@@ -148,7 +146,7 @@ export default {
                     size: 10
                 }
             }).then(function (response, error) {
-                self.vm_list = response.data.content;
+                self.vm_list = response.data.machines;
             }).catch(function (error) {
                 console.log(error);
             })

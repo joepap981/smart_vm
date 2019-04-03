@@ -36,21 +36,35 @@ export default {
     name: 'SignUp',
     data () {
         return {
-            user_service:null,
-            name: null,
-            phone: null,
-            username: null,
-            pwd: null,
-            confirm_pwd: null,
+            user_service: null,
+            auth_service: null,
+            name: '한희망',
+            phone: '010-0000-0000',
+            username: 'hanope',
+            pwd: 'password',
+            confirm_pwd: 'password',
         }
     },
     methods: {
 
         init: function () {
+            var self = this;
+
             this.user_service = axios.create({
-                baseURL:'http://localhost:8200/',
+                baseURL: self.$service.zuul_service,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
+                },
+                useCredentials: true,
+                crossDomain: true,
+            })
+
+            this.auth_service = axios.create({
+                baseURL: self.$service.zuul_service,
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': 'Basic dHJ1c3RlZC1hcHA6c2VjcmV0',
+                    'Content-Type': 'application/x-www-form-urlencoded;utf-8'
                 },
                 useCredentials: true,
                 crossDomain: true,
@@ -61,7 +75,9 @@ export default {
         userSignUp: function () {
             var self = this;
 
-            Promise.all([this.validateUsername(), this.validatePassword(), this.validateUserInfo()])
+            Promise.all([
+                this.validateUsername(), 
+                this.validatePassword(), this.validateUserInfo()])
             .then(function (response) {
                 //create new user
                 self.user_service.post('/users', {
@@ -148,7 +164,8 @@ export default {
             })
                 
             return promise;
-        }
+        },
+        
     },
     mounted () {
         this.init();

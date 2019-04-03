@@ -7,6 +7,12 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue);
 
+import axios from 'axios';
+Vue.prototype.$axios = axios;
+
+//import service ip config file
+import service from '../config.json';
+Vue.prototype.$service = service;
 
 import { createRouter } from './router'
 
@@ -18,7 +24,7 @@ const router =  createRouter()
 
 new Vue({
   render: h => h(App),
-  router
+  router,
 }).$mount('#app')
 
 

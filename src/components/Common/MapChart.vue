@@ -4,28 +4,30 @@
         <label> 지역별 </label>
     </div>
     <div class="chart-container card-body" ref="chartdiv"></div>
-    <div class="card-footer d-flex flex-row">
-        <!-- search by data type -->
-        <div id="data-type-select" class="d-flex flex-column">
-            <select v-model="data_type" class="custom-select custom-select-sm mb-3">
-                <option value="visit">기사 방문량</option>
-                <option value="product_comp">인기 제품</option>
-                <option value="sales">{{ product_type }} 판매량</option>
-            </select>
-        </div>
+    <div class="card-footer">
+        <div class="input-box d-flex flex-row justify-content-center">
+            <!-- search by data type -->
+            <div id="data-type-select" class="d-flex flex-column">
+                <select v-model="data_type" class="custom-select custom-select-sm mb-3">
+                    <option value="visit">기사 방문량</option>
+                    <option value="product_comp">인기 제품</option>
+                    <option value="sales"> 개별 제품 판매량</option>
+                </select>
+            </div>
 
-        <div v-if="data_type=='sales'" id="data-type-select" class="d-flex flex-column">
-            <select v-model="product_type" class="custom-select custom-select-sm mb-3">
-                <option :value="product.name" v-for="product in product_list" :key="product.id"> {{ product.name }} </option>
-            </select>
+            <div v-if="data_type=='sales'" id="data-type-select" class="d-flex flex-column">
+                <select v-model="product_type" class="custom-select custom-select-sm mb-3">
+                    <option :value="product.drink_type" v-for="product in product_list" :key="product.id"> {{ product.drink_type }} </option>
+                </select>
+            </div>
+            <date-picker v-on:update-chart="updateChart" />
         </div>
-        <date-picker v-on:update-chart="updateChart" />
     </div>
 </div>
 </template>
 
 <script>
-import axios from 'axios';
+
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4maps from "@amcharts/amcharts4/maps";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
@@ -56,6 +58,8 @@ export default {
 
             product_list: null,
             product_type: null,
+
+            tooltipText: `{name}\n 기사 방문 횟수 : {data}`,
         }
     },
     methods: {
@@ -67,7 +71,7 @@ export default {
             this.end = new Date().toISOString().split("T")[0];
 
             //statistics service instance
-            this.statistics_service = axios.create({
+            this.statistics_service = this.$axios.create({
                 baseURL:'http://121.140.19.90:8080/',
                 headers: {
                     'Access-Control-Allow-Origin': '*',
@@ -76,11 +80,31 @@ export default {
                 useCredentials: true,
                 crossDomain: true,
             })
-
-            this.getMunicipalityData();
+            this.getProductList().then(function () {
+                self.getMunicipalityData();
+            })
+           
+            
        
         },
         getProductList () {
+            var self = this;
+
+            var query = `/logs/sell/all/10`
+            //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
+            let promise = this.statistics_service.get(query, {
+                params: {
+                    start: self.start,
+                    end: self.end,
+                }
+            }).then(function (response, error) {
+                self.product_list = response.data;
+                self.product_type = self.product_list[0].drink_type;
+            }).catch(function (error) {
+                console.log(error);
+            })
+
+            return promise;
 
         },
         getMunicipalityData () {
@@ -118,7 +142,7 @@ export default {
             let query;
 
             if(this.data_type == 'visit') {
-                 query = `/logs/visit/loc/서울/${district}/${this.user_id}/`;
+                query = `/logs/visit/loc/서울/${district}/${this.user_id}/`;
             }else if (this.data_type == 'product_comp') {
                 query = `/logs/sell/loc/서울/${district}/${this.user_id}/`;
             } else if (this.data_type == 'sales'){ 
@@ -141,9 +165,26 @@ export default {
 
             return promise;
         },
+        setTooltipText () {
+            //set tooltip text for each data type
+            if (this.data_type == 'visit') {
+                this.tooltipText = `{name}\n${self.data_type} : {data}`;
+            } else if(this.data_type == 'sales') {
+                this.tooltipText = `{name}\n {data}`;
+            } else if(this.data_type == 'product_comp'){
+                let string;
+                // for (var i=0; i < this.product_list)
+                this.tooltipText = `{name}\n${self.product_type} : {data}`;
+            } else {
+
+            }
+        },
         //update chart on response from DatePicker
         updateChart: function (event) {
-            
+
+            this.getMunicipalityData(); 
+            this.setTooltipText();
+            alert('Map data updated');
         },
         //build the 3 layer map chart
         buildMap () {
@@ -199,7 +240,7 @@ export default {
     
             provinceSeries.useGeodata = true;
             var provincePolygonTemplate = provinceSeries.mapPolygons.template;
-            provincePolygonTemplate.tooltipText = "{name}";
+            provincePolygonTemplate.tooltipText = self.tooltipText;
             provincePolygonTemplate.fill = am4core.color("#00184E");
             var provinceHS = provincePolygonTemplate.states.create("hover");
             provinceHS.properties.fill = am4core.color("#1E3D7E");
@@ -242,7 +283,7 @@ export default {
                 }
 
                 var municipalityPolygonTemplate = municipalitySeries.mapPolygons.template;
-                municipalityPolygonTemplate.tooltipText = `{name}\n${self.data_type} : {data}`;
+                municipalityPolygonTemplate.tooltipText = self.tooltipText;
                 municipalityPolygonTemplate.fill = am4core.color("#002A8C");
 
                 var municipalityHS = municipalityPolygonTemplate.states.create("hover");
@@ -284,7 +325,7 @@ export default {
                         submunicipalitySeries.geodata.features = tempFeatures;
 
                         var submunicipalityPolygonTemplate = submunicipalitySeries.mapPolygons.template;
-                        submunicipalityPolygonTemplate.tooltipText = `{name}\n${self.data_type} : {data}`;
+                        submunicipalityPolygonTemplate.tooltipText = self.tooltipText;
                         submunicipalityPolygonTemplate.fill = am4core.color("#7D7FD2");
 
                         var submunicipalityHS = submunicipalityPolygonTemplate.states.create("hover");
@@ -342,10 +383,27 @@ export default {
 </script>
 
 <style scoped>
- .chart-container {
-     height: 400px;
- }
- .card-body {
-     padding: 0;
- }
+    .chart-container {
+        height: 400px;
+    }
+    .card-body {
+        padding: 0;
+    }
+    .card-footer {
+        padding: 0;
+    }
+    .data-type-select {
+        min-width: 100px;
+    }
+    .custom-select {
+        margin-bottom: 0;
+    }
+
+    #data-type-select {
+        margin-top: 20px;
+    }
+
+    .input-box {
+        margin:auto;
+    }
 </style>

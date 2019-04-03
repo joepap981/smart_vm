@@ -1,9 +1,9 @@
 <template>
-    <div>
-        <div class="list-item d-flex flex-row justify-content-start ml-2" data-toggle="modal" data-target="#alarm-modal">
+    <router-link tag="div" :to="{ name: 'vm', params: {id: alarm_data.machineName } }">
+        <div class="list-item d-flex flex-row justify-content-start ml-2">
             <div class="status-badge"></div>
             <div class="machine-name mb-2">
-                <p class="info-title"> {{ alarm_data.machine.name }} </p>
+                <p class="info-title"> {{ alarm_data.machineName }} </p>
             </div>
             <div class="alarm-box">
                 <p class="info-title"> {{ alarm_data.message }} </p>
@@ -14,28 +14,7 @@
                 <p class="info-sub"> {{ alarm_data.status }} </p>
             </div>
         </div>
-
-        <!--Alarm info modal -->
-        <div id="alarm-modal" class="modal fade" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">{{ alarmName() }} Alarm</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <!--Lane 정보 편집-->
-                        
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">닫기</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    </router-link>
 </template>
 
 <script>

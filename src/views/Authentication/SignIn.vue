@@ -4,30 +4,28 @@
 
         <form>
             <div class="form-group">
-                <label class="d-flex align-content-start"> email </label>
-                <input v-model="user" class="form-control" type="email" id="emailInput"/>
+                <label class="d-flex align-content-start"> username </label>
+                <input v-model="user" class="form-control" type="text" id="emailInput"/>
             </div>
 
             <div class="form-group">
                 <label class="d-flex align-content-start"> password </label>
                 <input v-model="password" class="form-control" type="password" id="passInput"/>
             </div>
-
-            <button @click="getOAuthToken()" class="btn btn-primary w-100 mt-3"> Sign In </button>
         </form>
+        <button @click="getOAuthToken(user, password)" class="btn btn-primary w-100 mt-3"> Sign In </button>
     </div>
 </template>
 
 <script>
-import axios from 'axios';
 import VueCookies from 'vue-cookies';
 
 export default {
     name: 'SignIn',
     data () {
         return {
-            user: null,
-            password: null,
+            user: 'hanope',
+            password: 'password',
             auth_service: null,
         }
     },
@@ -36,47 +34,41 @@ export default {
             //state this component for use in axios 'then' callback function
             var self = this;
           
-            //machine-service
-            this.auth_service = axios.create({
-                baseURL:'http://localhost:8300/',
+            this.auth_service = self.$axios.create({
+                baseURL: self.$service.zuul_service,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
+                    'Authorization': 'Basic dHJ1c3RlZC1hcHA6c2VjcmV0',
+                    'Content-Type': 'application/x-www-form-urlencoded;utf-8'
                 },
                 useCredentials: true,
                 crossDomain: true,
             })
-
-            this.getOAuthToken();
         },
-        userSignIn: function () {
-            
-            this.auth_service.get('/users/', {
-            }).then(function (response, error) {
-                console.log(response.data);
-            }).catch(function (error) {
-                console.log(error);
-            })
-        },
-        getOAuthToken () {
+        getOAuthToken (username, password) {
             var self = this;
+            var querystring = require('querystring');
 
-            this.auth_service.post(`/oauth/token`, {
-                grant_type: 'password',
-                user: self.user,
-                password: self.password
-            }).then(function (response, error) {
-                console.log(response.data);
+            let promise = this.auth_service.post(`/oauth/token`, 
+                querystring.stringify({
+                    grant_type: 'password',
+                    username: username,
+                    password: password
+                })
+            ).then(function (response, error) {
 
                 //check for oauth-key in cookie and if does not exist, set
-                if (!$cookies.isKey('token')) {
-                    $cookies.set('token', response.data);
-                }
+        
+                    $cookies.set('access_token', response.data.access_token);
+                    $cookies.set('refresh_token', response.data.refresh_token);
                 
-                //redirect to overview
+   
                 self.$router.push('/overview');
             }).catch(function (error) {
                 console.log(error);
             })
+
+            return promise;
         }
     },
     mounted () {
