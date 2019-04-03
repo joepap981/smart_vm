@@ -11,7 +11,6 @@
                 <table class="table table-borderless">
                     <thead>
                         <tr>
-                            <th scope="col">id</th>
                             <th scope="col">Name</th>
                             <th scope="col">Username</th>
                             <th scope="col"># of lanes</th>
@@ -20,9 +19,8 @@
                     </thead>
                     <tbody>
                         <router-link :to="{ name: 'vm', params: {id: vm.name } }" tag="tr" v-for="vm in vm_data" :key="vm.id">
-                            <td> {{vm.id }} </td>
                             <td> {{vm.name }} </td>
-                            <td> {{vm.username}} </td>
+                            <td> {{ username }} </td>
                             <td> {{vm.lanes.length }} </td>
                             <td> {{vm.location.address.province }} </td>
                         </router-link>
@@ -51,6 +49,7 @@ export default {
             vm_data: null,
             page: 1,
             num_of_pages: 10,
+            username: $cookies.get('username')
         }
     },
     methods: {
@@ -81,6 +80,7 @@ export default {
                     size: 10
                 }
             }).then(function (response, error) {
+                console.log(response.data)
                 self.vm_data = response.data.machines;
                 self.num_of_pages = response.data.totalPages;
             }).catch(function (error) {
@@ -89,7 +89,6 @@ export default {
         },
 
         changePage (event) {
-            console.log(event);
             if(event > 0) {
                 this.page = event;
                 this.getVMList();

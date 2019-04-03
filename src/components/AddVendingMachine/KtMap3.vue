@@ -2,8 +2,8 @@
 <div class="wrapper">
     <div id="map3"></div>
     <div class="coord row text-left justify-content-center">
-        <p> x: {{ utmk.x }} </p>
-        <p> y: {{ utmk.y }} </p>
+        <p> x: {{ coord.lat }} </p>
+        <p> y: {{ coord.lng }} </p>
     </div>
     <div class="form-group text-left">
         <label> Name </label>
@@ -29,10 +29,9 @@ export default {
         machine_service: null,
         vm_data: null,
         map3: null,
-        latlng: null,
-        utmk: {
-            x: 36.123,
-            y: 126.123,
+        coord: {
+            lat: 36.123,
+            lng: 126.123,
         },
         address: {
             province: null,
@@ -45,12 +44,13 @@ export default {
     },
     methods: {
         initialize: function () {
+         
             // this.authMachineToUser();
             //initialize map
             var self = this;
 
             var mapOpts = {
-                center: new olleh.maps.LatLng(37.5210873, 127.0889181),
+                center: new olleh.maps.LatLng(37.41684166505688, 127.11765038867628),
                 zoom: 4,
                 mapTypeId: 'ROADMAP',
                 disableDefaultUI: true
@@ -67,9 +67,11 @@ export default {
             this.map3.onEvent('click', function (event, payload){
                 // marker.position = event.getCoord(),
                 // marker.visible = true;
+                var coord = new olleh.maps.LatLng.valueOf(event.getCoord());
+                
+                self.coord.lat= coord.x;
+                self.coord.lng = coord.y;
 
-                self.utmk.x = event.getCoord().x;
-                self.utmk.y = event.getCoord().y;
             })
 
             //machine-service

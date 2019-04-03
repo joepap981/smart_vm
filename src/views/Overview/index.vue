@@ -19,8 +19,9 @@
             </div>
             <div class="col-xl-3 col-md-6">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header d-flex flex-row">
                         <p class="card-header-title"> 자판기 </p>
+                        <router-link tag="button" to="/vm_list/add_machine" class="btn btn-light btn-sm  add-btn" > + </router-link>
                     </div>
                     <div class="vm-list card-body">
                         <vm-list-item v-for="vm in this.vm_data" :key="vm.id" :vm_data="vm"/>
@@ -120,6 +121,7 @@ export default {
             this.machine_service.get('users/machines/', {
             }).then(function (response, error) {
                 self.vm_data = response.data.machines;
+                console.log(response.data)
             }).catch(function (error) {
                 console.log(error);
             })
@@ -156,6 +158,12 @@ export default {
 
     .vm-list {
         overflow: auto;
+    }
+
+    .add-btn {
+        height: 20px;
+        width: 20px;
+        margin-left: 20px;
     }
 
 </style>

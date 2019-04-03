@@ -18,6 +18,7 @@
     "load-script": "^1.0.0",
     "load-script-once": "^2.0.1",
     "popper.js": "^1.14.7",
+    "utm-latlng": "^1.0.5",
     "vue": "^2.6.10",
     "vue-chartjs": "^3.4.0",
     "vue-cookies": "^1.5.13",

@@ -2,7 +2,8 @@
     <div class="">
         <div class="top-nav">
             <div class="d-flex flex-row">
-                <h5> 자판기 {{ vm_id }} </h5>
+                <h5> {{ vm_id }} </h5>
+                <button class="btn btn-sm btn-danger ml-3" @click="openDoor()"> 문열기 </button>
             </div>
         </div>
 
@@ -285,6 +286,15 @@ export default {
                 console.log(error);
             })
         },
+        openDoor () {
+
+            this.machine_service.put(`/machines/${this.vm_id}/open`, {
+            }).then(function (response, error) {
+                alert("Vending Machine Door Opened!")
+            }).catch(function (error) {
+                console.log(error);
+            })
+        }
  
     }
 }

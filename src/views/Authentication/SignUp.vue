@@ -96,9 +96,8 @@ export default {
                     alert(error_message);
                 })
             }).catch(function (error) {
-                console.log(error);
+                alert(error);
             })
-    
         },
         validateUserInfo: function () {
             var self = this;
