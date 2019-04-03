@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <canvas height="110" width="400" id="temp-canvas"></canvas>
+            <canvas height="200" width="400" id="temp-canvas"></canvas>
         </div>
     </div>
 
@@ -51,7 +51,6 @@ export default {
                 baseURL:'http://121.140.19.90:8080/',
                 headers: {
                     'Access-Control-Allow-Origin': '*',
-                    'Authorization': `Bearer ${$cookies.get('token')}`,
                 },
                 useCredentials: true,
                 crossDomain: true,
@@ -66,8 +65,9 @@ export default {
             var self = this;
 
             //`/logs/${this.data_type}/init/${user_id}/${this.vm_data.id}/${lane_id}`
-            let promise = self.statistics_service.get(`/logs/${this.data_type}/init/user1@kt.com/machine1/`, {
+            let promise = self.statistics_service.get(`/logs/${this.data_type}/init/hanope/machine1/`, {
             }).then(function (response, error) {
+                console.log(response.data)
                 self.init_data = response.data;
 
                 //set flag to true to initiate chart creation
@@ -131,13 +131,13 @@ export default {
             var self = this;
             this.interval = setInterval(() => {
                 //`/logs/${this.data_type}/init/${user_id}/${this.vm_data.id}/${lane_id}`
-                this.statistics_service.get(`/logs/${this.data_type}/user1@kt.com/machine1/`, {
+                this.statistics_service.get(`/logs/${this.data_type}/hanope/machine1/`, {
                 }).then(function (response, error) {
                     self.init_data = response.data;
 
                     //check if the updated data's number of lane matches current charts number of lanes
-                    if (self.chartData.data.datasets.length != self.init_data.length)
-                        throw new Error("Retrieved update data's lane number does not match current charts num of lanes.")
+                    // if (self.chartData.data.datasets.length != self.init_data.length)
+                    //     throw new Error("Retrieved update data's lane number does not match current charts num of lanes.")
 
                     for(var i=0; i < self.init_data.length; i++) {
                         let lane = self.init_data[i].data;
@@ -149,6 +149,7 @@ export default {
                             });
                         }
                     }
+                    console.log(response.data);
                     //update chart
                     self.chart.update();
         

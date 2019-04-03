@@ -202,10 +202,10 @@ export default {
 
             //machine-service
             this.machine_service = axios.create({
-                baseURL:'http://localhost:8100/',
+                baseURL: self.$service.zuul_service,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
-                    'Authorization': `Bearer ${$cookies.get('token')}`,
+                    'Authorization': `Bearer ${$cookies.get('access_token')}`,
                 },
                 useCredentials: true,
                 crossDomain: true,
@@ -213,10 +213,10 @@ export default {
 
             //alarm-service
             this.alarm_service = axios.create({
-                baseURL:'http://localhost:8400/',
+                baseURL:self.$service.zuul_service,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
-                    'Authorization': `Bearer ${$cookies.get('token')}`,
+                    'Authorization': `Bearer ${$cookies.get('access_token')}`,
                 },
                 useCredentials: true,
                 crossDomain: true,

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <canvas height="110" width="400" id="humi-canvas"></canvas>
+            <canvas height="200" width="400" id="humi-canvas"></canvas>
         </div>
     </div>
 
@@ -51,7 +51,6 @@ export default {
                 baseURL:'http://121.140.19.90:8080/',
                 headers: {
                     'Access-Control-Allow-Origin': '*',
-                    'Authorization': `Bearer ${$cookies.get('token')}`,
                 },
                 useCredentials: true,
                 crossDomain: true,
@@ -68,7 +67,7 @@ export default {
             var self = this;
 
             //`/logs/${this.data_type}/init/${user_id}/${this.vm_data.id}/${lane_id}`
-            let promise = self.statistics_service.get(`/logs/${this.data_type}/init/user1@kt.com/machine1/`, {
+            let promise = self.statistics_service.get(`/logs/${this.data_type}/init/hanope/machine1/`, {
             }).then(function (response, error) {
                 self.init_data = response.data;
 

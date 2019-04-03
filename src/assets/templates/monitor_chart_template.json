@@ -30,6 +30,9 @@
                 "scaleLabel": {
                     "display": true,
                     "labelString": "value"
+                },
+                "ticks": {
+                    "stepSize": 10 
                 }
             }]
         }

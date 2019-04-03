@@ -116,7 +116,7 @@ export default {
                 baseURL:self.$service.zuul_service,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
-                    'Authorization': `Bearer ${$cookies.get('access-token')}`,
+                    'Authorization': `Bearer ${$cookies.get('access_token')}`,
                 },
                 useCredentials: true,
                 crossDomain: true,
@@ -127,7 +127,7 @@ export default {
                 baseURL:self.$service.zuul_service,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
-                    'Authorization': `Bearer ${$cookies.get('access-token')}`,
+                    'Authorization': `Bearer ${$cookies.get('access_token')}`,
                 },
                 useCredentials: true,
                 crossDomain: true,
@@ -140,7 +140,7 @@ export default {
         getVMList () {
             var self = this;
 
-            this.machine_service.get('/machines/', {
+            this.machine_service.get('machines/', {
                 params: {
                     page: self.page,
                     size: 10
@@ -166,17 +166,18 @@ export default {
                  params: {
                     status: self.selected_status,
                     type: self.selected_type,
-                    page: self.selected_page,
-                    size: 10
+                    page: self.page,
+                    size: 10,
+                    sort: 'dateTime,desc'
                 }
             }).then(function (response, error) {
                 self.alarm_list = response.data.content;
+                console.log(response)
             }).catch(function (error) {
                 console.log(error);
             })
         },
         changePage (event) {
-            console.log(event);
             if(event > 0) {
                 this.page = event;
                 this.getAlarmList();

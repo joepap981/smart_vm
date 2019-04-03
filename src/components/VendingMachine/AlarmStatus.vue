@@ -27,12 +27,14 @@ export default {
     },
     methods: {
         init () {
+            var self = this;
+
             //machine-service
             this.alarm_service = axios.create({
-                baseURL:'http://localhost:8400/',
+                baseURL: self.$service.zuul_service,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
-                    'Authorization': `Bearer ${$cookies.get('token')}`,
+                    'Authorization': `Bearer ${$cookies.get('access_token')}`,
                 },
                 useCredentials: true,
                 crossDomain: true,
@@ -49,7 +51,7 @@ export default {
             this.alarm_service.get(`/alarms/machines/${self.vm_id}`, {
                 params: {
                     size: 6,
-                    sort: 'desc'
+                    sort: 'dateTime,desc'
                 }
             }).then(function (response, error) {
                 self.alarm_data_list = response.data.content;
@@ -67,7 +69,7 @@ export default {
                 this.alarm_service.get(`/alarms/machines/${self.vm_id}`, {
                     params: {
                         size: 6,
-                        sort: 'desc'
+                        sort: 'dateTime,desc'
                     }
                 }).then(function (response, error) {
                     self.alarm_data_list = response.data.content;

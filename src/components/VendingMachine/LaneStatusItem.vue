@@ -4,7 +4,7 @@
             <div id="laneStatusBadge" class="status-badge"></div>
             <div class="lane-status">
                 <p class="info-title"> Lane {{ lane.sequence }} </p>
-                <p class="info-address">{{ product.name }} {{ product.price }}</p>
+                <p class="info-address">{{ product.name }} {{ product.price }}원</p>
             </div>
 
             <!-- <div class="stock-status d-flex">
@@ -88,10 +88,10 @@ export default {
 
             //machine-service
             this.product_service = axios.create({
-                baseURL:'http://localhost:8100/',
+                baseURL:self.$service.zuul_service,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
-                    'Authorization': `Bearer ${$cookies.get('token')}`,
+                    'Authorization': `Bearer ${$cookies.get('access_token')}`,
                 },
                 useCredentials: true,
                 crossDomain: true,
