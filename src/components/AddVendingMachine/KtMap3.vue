@@ -31,8 +31,8 @@ export default {
         map3: null,
         latlng: null,
         utmk: {
-            x: null,
-            y: null,
+            x: 36.123,
+            y: 126.123,
         },
         address: {
             province: null,
@@ -45,6 +45,7 @@ export default {
     },
     methods: {
         initialize: function () {
+            // this.authMachineToUser();
             //initialize map
             var self = this;
 
@@ -66,16 +67,17 @@ export default {
             this.map3.onEvent('click', function (event, payload){
                 // marker.position = event.getCoord(),
                 // marker.visible = true;
-                
+
                 self.utmk.x = event.getCoord().x;
                 self.utmk.y = event.getCoord().y;
             })
 
             //machine-service
              this.machine_service = axios.create({
-                baseURL:'http://localhost:8100/',
+                baseURL:self.$service.zuul_service,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
+                    'Authorization': `Bearer ${$cookies.get('access_token')}`,
                 },
                 useCredentials: true,
                 crossDomain: true,
@@ -91,6 +93,17 @@ export default {
                 console.log(error);
             })
         },
+        authMachineToUser () {
+            var self = this;
+            //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
+            this.machine_service.post(`/users/${$cookies.get('username')}/machines/${self.name}`, {
+            }).then(function (response, error) {
+                console.log(response);
+            }).catch(function (error) {
+                console.log(error);
+            })
+            console.log($cookies.get('username'));
+        },
         registerVM () {
             var self = this;
             var clearFields = function () {
@@ -101,23 +114,27 @@ export default {
                 self.address.submunicipality= null;
                 self.name = null;
             }
-            
 
-            //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
-            this.machine_service.post('/machines/', {
-                location: {
-                    address: self.address,
-                    latitude: self.utmk.x,
-                    longitude: self.utmk.y
-                },
-                name: self.name
-            }).then(function (response, error) {
-                clearFields();
-                self.$router.push('/vm_list')
-            }).catch(function (error) {
-                console.log(error);
-            })
-
+            if (self.utmk.x == null || self.utmk.y == null ) {
+                alert('좌표를 찍어주세요!')
+            } else {
+                //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
+                this.machine_service.post('/machines/', {
+                    location: {
+                        address: self.address,
+                        latitude: self.utmk.x,
+                        longitude: self.utmk.y
+                    },
+                    name: self.name
+                }).then(function (response, error) {
+                    self.authMachineToUser();
+                    alert("registered")
+                    clearFields();
+                    self.$router.push('/vm_list')
+                }).catch(function (error) {
+                    console.log(error);
+                })
+            }
         }
     },
     mounted () {

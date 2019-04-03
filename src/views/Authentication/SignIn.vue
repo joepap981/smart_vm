@@ -59,9 +59,9 @@ export default {
 
                 //check for oauth-key in cookie and if does not exist, set
         
-                    $cookies.set('access_token', response.data.access_token);
-                    $cookies.set('refresh_token', response.data.refresh_token);
-                
+                $cookies.set('access_token', response.data.access_token);
+                $cookies.set('refresh_token', response.data.refresh_token);
+                $cookies.set('username', self.user);
    
                 self.$router.push('/overview');
             }).catch(function (error) {

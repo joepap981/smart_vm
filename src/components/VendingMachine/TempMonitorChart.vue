@@ -149,7 +149,7 @@ export default {
                             });
                         }
                     }
-                    console.log(response.data);
+
                     //update chart
                     self.chart.update();
         
