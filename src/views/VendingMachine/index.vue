@@ -233,7 +233,7 @@ export default {
             }).then(function (response, error) {
                 self.vm_data = response.data;
                 self.map_data= [response.data];
-            
+            console.log(response.data)
                 self.vm_data_ready = true;
             }).catch(function (error) {
                 console.log(error);

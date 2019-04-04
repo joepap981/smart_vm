@@ -22,11 +22,11 @@
             <!--Top Navigation Bar-->
             <div id="topbar">
                 <div class="d-flex justify-content-end mr-4">
-                    <div id="notification-bell">
+                    <!-- <div id="notification-bell">
                         <span id="notification-badge" class="badge badge-light"> 1 </span>
                         <img class="nav-img" src="../assets/bell.png" width="30" height="30" style="margin-top: 4px"/>          
-                    </div>
-                    <img class="nav-img" src="../assets/profile_placeholder.png" width="40" height="40"  />
+                    </div> -->
+                    <img class="nav-img" src="../assets/profile_placeholder.png" width="40" height="40" data-toggle="modal" data-target="#signout-modal" />
                 </div>
             </div>
 
@@ -36,6 +36,30 @@
             </div>
 
         </div>
+
+        <!--Alarm info modal -->
+        <div id="signout-modal" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"> Sign Out?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!--Lane 정보 편집-->
+                        <p> 로그아웃 하시겠습니까? </p>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" @click="signOut()">Sign Out</button>
+                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     
@@ -47,6 +71,14 @@ export default {
     name: 'DashboardIndex',
     components: {
     },
+    methods: {
+        signOut () {
+            $cookies.remove('username');
+            $cookies.remove('access_token');
+            $cookies.remove('refresh_token');
+            this.$router.push('/signin');
+        }
+    }
 }
 </script>
 
@@ -143,6 +175,7 @@ export default {
         border-radius: 50%;
         margin: 0 5px 0 5px;
         vertical-align: middle;
+        cursor: pointer;
     }
 
     #notification-bell {

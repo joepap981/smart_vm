@@ -50,7 +50,7 @@ export default {
 
             //if no vm data center on fixed location
             if (this.vm_data.length < 1) {
-                mapOpts.center = new olleh.maps.LatLng(958383.0798032843, 1941452.1748861822);
+                mapOpts.center = new olleh.maps.LatLng(37.41684166505688, 127.11765038867628);
             } else {
                 mapOpts.center = new olleh.maps.LatLng(this.vm_data[0].location.latitude, this.vm_data[0].location.longitude);
             }

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <canvas height="200" width="400" id="humi-canvas"></canvas>
+            <canvas height="100" width="400" id="humi-canvas"></canvas>
         </div>
     </div>
 
@@ -136,7 +136,7 @@ export default {
 
             this.interval = setInterval(() => {
                  //`/logs/${this.data_type}/init/${user_id}/${this.vm_data.id}/${lane_id}`
-                self.statistics_service.get(`/logs/${this.data_type}/user1@kt.com/machine1/`, {
+                self.statistics_service.get(`/logs/${this.data_type}/${$cookies.get('username')}/machine1/`, {
                 }).then(function (response, error) {
                     self.init_data = response.data;
 

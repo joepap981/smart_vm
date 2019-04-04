@@ -24,7 +24,7 @@
 
             <!-- Line chart statistics -->
             <div id="line-chart" class="col-xl-6 col-sm-12">
-                <div class="card">
+                <div class="card sales">
                     <div class="card-header"> 
                         <label> 시간별 판매량 </label>
                     </div>
@@ -103,6 +103,11 @@ export default {
     } */
     #line-chart {
         padding-left: 10px;
+    }
+
+
+    .sales {
+        min-height: 535px;
     }
 
 </style>

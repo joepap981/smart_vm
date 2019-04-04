@@ -13,10 +13,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-4">
-                <div class="card">
-                </div>
-            </div>
         </div>
     </div>
 </template>

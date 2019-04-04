@@ -38,11 +38,11 @@ export default {
         return {
             user_service: null,
             auth_service: null,
-            name: '한희망',
-            phone: '010-0000-0000',
-            username: 'hanope',
-            pwd: 'password',
-            confirm_pwd: 'password',
+            name: null,
+            phone: null,
+            username: null,
+            pwd: null,
+            confirm_pwd: null,
         }
     },
     methods: {
@@ -87,7 +87,7 @@ export default {
                     username: self.username
                 }).then(function (response, error) {
                     //add login session
-                    self.$router.push('/overview')
+                    self.getOAuthToken();
                 }).catch(function (error) {
                     var error_message;
                     for(var i=0; i < error.response.data.message.length; i++) {
@@ -164,6 +164,32 @@ export default {
                 
             return promise;
         },
+
+        getOAuthToken () {
+            var self = this;
+            var querystring = require('querystring');
+
+            let promise = this.auth_service.post(`/oauth/token`, 
+                querystring.stringify({
+                    grant_type: 'password',
+                    username: self.username,
+                    password: self.pwd
+                })
+            ).then(function (response, error) {
+
+                //check for oauth-key in cookie and if does not exist, set
+        
+                $cookies.set('access_token', response.data.access_token);
+                $cookies.set('refresh_token', response.data.refresh_token);
+                $cookies.set('username', self.user);
+   
+                self.$router.push('/overview');
+            }).catch(function (error) {
+                console.log(error);
+            })
+
+            return promise;
+        }
         
     },
     mounted () {

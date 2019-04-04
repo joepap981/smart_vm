@@ -14,6 +14,7 @@
             </div>
         </form>
         <button @click="getOAuthToken(user, password)" class="btn btn-primary w-100 mt-3"> Sign In </button>
+        <router-link tag="p" to="/signup" class="signup" > Sign Up </router-link>
     </div>
 </template>
 
@@ -24,8 +25,8 @@ export default {
     name: 'SignIn',
     data () {
         return {
-            user: 'hanope',
-            password: 'password',
+            user: null,
+            password: null,
             auth_service: null,
         }
     },
@@ -86,5 +87,14 @@ export default {
     }
     .form-control {
         height: 33px;
+    }
+    .signup {
+        margin-top: 5px;
+        cursor: pointer;
+        font-size: 15px;
+    }
+
+    .signup:hover {
+        color: blue;
     }
 </style>

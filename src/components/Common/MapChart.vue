@@ -10,8 +10,6 @@
             <div id="data-type-select" class="d-flex flex-column">
                 <select v-model="data_type" class="custom-select custom-select-sm mb-3">
                     <option value="visit">기사 방문량</option>
-                    <option value="product_comp">인기 제품</option>
-                    <option value="sales"> 개별 제품 판매량</option>
                 </select>
             </div>
 
@@ -47,7 +45,7 @@ export default {
     },
     data () {
         return {
-            user_id: 'user1@kt.com',
+            user_id: 'hanope',
             statistics_service: null,
             municipality_data : null,
             submunicipality_data: null,
@@ -60,6 +58,8 @@ export default {
             product_type: null,
 
             tooltipText: `{name}\n 기사 방문 횟수 : {data}`,
+
+            depth: 0,
         }
     },
     methods: {
@@ -116,7 +116,7 @@ export default {
             }else if (this.data_type == 'product_comp') {
                 query = `/logs/sell/loc/서울/${this.user_id}/`;
             } else if (this.data_type == 'sales'){ 
-                query = `/logs/sell/${product_type}/loc/서울/${this.user_id}/`;
+                query = `/logs/sell/${self.product_type}/loc/서울/${this.user_id}/`;
             } else {
                 alert("Something has gone wrong")
             }
@@ -146,7 +146,7 @@ export default {
             }else if (this.data_type == 'product_comp') {
                 query = `/logs/sell/loc/서울/${district}/${this.user_id}/`;
             } else if (this.data_type == 'sales'){ 
-                query = `/logs/sell/${product_type}/loc/서울/${district}/${this.user_id}/`;
+                query = `/logs/sell/${self.product_type}/loc/서울/${district}/${this.user_id}/`;
             } else {
 
             }
@@ -159,6 +159,7 @@ export default {
                 }
             }).then(function (response, error) {
                 self.submunicipality_data = response.data;
+                console.log(response);
             }).catch(function (error) {
                 console.log(error);
             })
@@ -184,13 +185,15 @@ export default {
 
             this.getMunicipalityData(); 
             this.setTooltipText();
+            this.depth = 0;
             alert('Map data updated');
+            
         },
         //build the 3 layer map chart
         buildMap () {
             //zoom depth of map
             //0: province, 1: municipality, 2: submunicipality
-            var depth = 0;
+            this.depth = 0;
             var curObject = null;
             var self = this;
 
@@ -216,13 +219,13 @@ export default {
             //when zoom out button is pressed, 
             upButton.events.on("hit", function() {
                 //if depth 2, zoom out to the previous
-                if (depth > 1) {
+                if (self.depth > 1) {
                     zoomOut(curObject);
                 }
                 //if depth 1 zoom out to home
-                else if (depth == 1) {
-                    map.series.removeIndex(depth);
-                    depth--;
+                else if (self.depth == 1) {
+                    map.series.removeIndex(self.depth);
+                    self.depth--;
                     curObject = null;
                     map.goHome();
                 } else {
@@ -241,19 +244,19 @@ export default {
             provinceSeries.useGeodata = true;
             var provincePolygonTemplate = provinceSeries.mapPolygons.template;
             provincePolygonTemplate.tooltipText = self.tooltipText;
-            provincePolygonTemplate.fill = am4core.color("#00184E");
+            provincePolygonTemplate.fill = am4core.color("#2BA329");
             var provinceHS = provincePolygonTemplate.states.create("hover");
-            provinceHS.properties.fill = am4core.color("#1E3D7E");
+            provinceHS.properties.fill = am4core.color("#69C468");
 
             //zoom in/out to municipality level when clicked
             provinceSeries.mapPolygons.template.events.on("hit", function(ev) {
                 curObject = ev.target;
                 //province(0) -> municipality(1)
-                if (depth == 0) {
+                if (self.depth == 0) {
                     zoomIn(ev.target);
                 }
                 //municipality(1) -> municipality(1)
-                else if(depth == 1) {
+                else if(self.depth == 1) {
                     zoomMove(ev.target);
                     curObject = ev.target;  
                 }
@@ -284,20 +287,20 @@ export default {
 
                 var municipalityPolygonTemplate = municipalitySeries.mapPolygons.template;
                 municipalityPolygonTemplate.tooltipText = self.tooltipText;
-                municipalityPolygonTemplate.fill = am4core.color("#002A8C");
+                municipalityPolygonTemplate.fill = am4core.color("#C4C468");
 
                 var municipalityHS = municipalityPolygonTemplate.states.create("hover");
-                municipalityHS.properties.fill = am4core.color("#0035AE");
+                municipalityHS.properties.fill = am4core.color("#DCDC8F");
 
 
                 //zoom in/out to submunicipality level when clicked
                 municipalitySeries.mapPolygons.template.events.on("hit", function(ev) {
                     //municipality(1) -> submunicipality(2)
-                    if (depth == 1){
+                    if (self.depth == 1){
                         zoomIn(ev.target);
                     }
                     //submunicipality(2) -> another.submunicipality(2)
-                    else if (depth == 2) {
+                    else if (self.depth == 2) {
                         zoomMove(ev.target)
                     }
 
@@ -306,8 +309,8 @@ export default {
                     });
 
                     var municipality_name = ev.target.dataItem.dataContext.name;
-
                     self.getSubmunicipalityData(municipality_name).then(function() {
+    
                         //insert data
                         for(var i=0; i < self.submunicipality_data.length; i++) {
                             for(var j=0; j < tempFeatures.length; j++){
@@ -326,10 +329,10 @@ export default {
 
                         var submunicipalityPolygonTemplate = submunicipalitySeries.mapPolygons.template;
                         submunicipalityPolygonTemplate.tooltipText = self.tooltipText;
-                        submunicipalityPolygonTemplate.fill = am4core.color("#7D7FD2");
+                        submunicipalityPolygonTemplate.fill = am4core.color("#CA5D1B");
 
                         var submunicipalityHS = submunicipalityPolygonTemplate.states.create("hover");
-                        submunicipalityHS.properties.fill = am4core.color("#BDBED9");
+                        submunicipalityHS.properties.fill = am4core.color("#E19A6E");
 
                     }).catch(function(error) {
                         console.log(error);
@@ -338,7 +341,7 @@ export default {
             });
 
             var zoomMove = function (target) {
-                map.series.removeIndex(depth);
+                map.series.removeIndex(self.depth);
                 let selectedObjData = target.dataItem.dataContext;
                     if (selectedObjData.zoomLevel != null) {
                         map.zoomToMapObject(target, selectedObjData.zoomLevel)
@@ -348,7 +351,7 @@ export default {
             }
             
             var zoomIn = function (target) {
-                depth++;
+                self.depth++;
                 let selectedObjData = target.dataItem.dataContext;
                     if (selectedObjData.zoomLevel != null) {
                         map.zoomToMapObject(target, selectedObjData.zoomLevel)
@@ -359,8 +362,8 @@ export default {
             };
 
             var zoomOut = function (target) {
-                map.series.removeIndex(depth);
-                depth--;
+                map.series.removeIndex(self.depth);
+                self.depth--;
             
                 let selectedObjData = target.dataItem.dataContext;
                     if (selectedObjData.zoomLevel != null) {

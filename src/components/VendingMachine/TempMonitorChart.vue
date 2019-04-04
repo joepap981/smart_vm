@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <canvas height="200" width="400" id="temp-canvas"></canvas>
+            <canvas height="100" width="400" id="temp-canvas"></canvas>
         </div>
     </div>
 
@@ -67,7 +67,6 @@ export default {
             //`/logs/${this.data_type}/init/${user_id}/${this.vm_data.id}/${lane_id}`
             let promise = self.statistics_service.get(`/logs/${this.data_type}/init/hanope/machine1/`, {
             }).then(function (response, error) {
-                console.log(response.data)
                 self.init_data = response.data;
 
                 //set flag to true to initiate chart creation
@@ -131,7 +130,7 @@ export default {
             var self = this;
             this.interval = setInterval(() => {
                 //`/logs/${this.data_type}/init/${user_id}/${this.vm_data.id}/${lane_id}`
-                this.statistics_service.get(`/logs/${this.data_type}/hanope/machine1/`, {
+                this.statistics_service.get(`/logs/${this.data_type}/${$cookies.get('username')}/machine1/`, {
                 }).then(function (response, error) {
                     self.init_data = response.data;
 

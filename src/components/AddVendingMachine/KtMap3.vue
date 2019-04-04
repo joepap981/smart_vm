@@ -2,8 +2,8 @@
 <div class="wrapper">
     <div id="map3"></div>
     <div class="coord row text-left justify-content-center">
-        <p> x: {{ coord.lat }} </p>
-        <p> y: {{ coord.lng }} </p>
+        <p> lat: {{ coord.lat }} </p>
+        <p> long: {{ coord.lng }} </p>
     </div>
     <div class="form-group text-left">
         <label> Name </label>
@@ -69,8 +69,8 @@ export default {
                 // marker.visible = true;
                 var coord = new olleh.maps.LatLng.valueOf(event.getCoord());
                 
-                self.coord.lat= coord.x;
-                self.coord.lng = coord.y;
+                self.coord.lat= coord.y;
+                self.coord.lng = coord.x;
 
             })
 
@@ -104,28 +104,27 @@ export default {
             }).catch(function (error) {
                 console.log(error);
             })
-            console.log($cookies.get('username'));
         },
         registerVM () {
             var self = this;
             var clearFields = function () {
-                self.utmk.x = null;
-                self.utmk.y = null;
+                self.coord.lat = null;
+                self.coord.lng = null;
                 self.address.province= null;
                 self.address.municipality = null;
                 self.address.submunicipality= null;
                 self.name = null;
             }
 
-            if (self.utmk.x == null || self.utmk.y == null ) {
+            if (self.coord.lat == null || self.coord.lng == null ) {
                 alert('좌표를 찍어주세요!')
             } else {
                 //'/logs/sell/user1?start=2019-03-01&end=2019-03-28'
                 this.machine_service.post('/machines/', {
                     location: {
                         address: self.address,
-                        latitude: self.utmk.x,
-                        longitude: self.utmk.y
+                        latitude: self.coord.lat,
+                        longitude: self.coord.lng
                     },
                     name: self.name
                 }).then(function (response, error) {

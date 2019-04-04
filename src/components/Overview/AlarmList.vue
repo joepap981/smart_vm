@@ -23,7 +23,8 @@ export default {
             'alarm_service': null,
             'alarm_data_loaded': false,
             'alarm_data_list': [],
-            'alarm_list_temp': null
+            'alarm_list_temp': null,
+            'alarm_polling': null,
         }
     },
     methods: {
@@ -42,10 +43,8 @@ export default {
             })
 
             this.getAlarmData();
-            // this.alarm_polling = setInterval(() => {
-            //     self.getStockDataAlarmData();
-            //     self.getAlarmData();
-            // }, 3000)
+            this.updateAlarmData();
+            
 
         },
         insertToFinalList () {
@@ -56,9 +55,24 @@ export default {
                     this.alarm_data_list.push(this.alarm_list_temp.alarms[j]);
                 }
             }
-
-           
-
+        },
+        updateAlarmData () {
+            var self = this;
+            this.alarm_polling= setInterval(() => {
+                self.alarm_service.get('users/alarms', {
+                params: {
+                    type: self.alarm_type,
+                    status: 'unread',
+                    sort: 'dateTime,desc'
+                }
+                }).then(function (response, error) {
+                    self.alarm_data_list = response.data;
+                    self.alarm_data_loaded = true;
+                    console.log('alarm updated')
+                }).catch(function (error) {
+                    console.log(error);
+                })
+            }, 5000)
         },
         getAlarmData () {
             var self = this
@@ -67,6 +81,7 @@ export default {
                 params: {
                     type: this.alarm_type,
                     status: 'unread',
+                    sort: 'dateTime,desc'
                 }
             }).then(function (response, error) {
                 self.alarm_data_list = response.data;
@@ -80,7 +95,7 @@ export default {
         this.init();
     },
     beforeDestroy() {
-        // clearInterval(this.alarm_polling)
+        clearInterval(this.alarm_polling)
     }
 }
 </script>

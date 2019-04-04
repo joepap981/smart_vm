@@ -62,7 +62,7 @@ export default {
 
             //get vending machine data
             //`/logs/visit/${self.user_id}/${self.vm_id}`
-            let promise = self.statistics_service.get(`/logs/visit/user1@kt.com/machine1/`, {
+            let promise = self.statistics_service.get(`/logs/visit/hanope/machine1/`, {
                 params: {
                     start: self.start,
                     end: self.end
@@ -80,7 +80,7 @@ export default {
         },
         pushToChartData () {
             for (var i = 0; i< this.visit_data.length; i++) {
-                this.chart_data.datacollection.datasets[0].data[this.visit_data[i].hour] += this.visit_data[i].count;
+                this.chart_data.datacollection.datasets[0].data[this.visit_data[i].hour] = this.visit_data[i].count;
             }
         },
         //update chart on response from DatePicker
@@ -94,7 +94,7 @@ export default {
             let temp_chart_data = JSON.parse(JSON.stringify(barchart_template));
 
             this.getVisitData();
-            console.log("updated");
+            alert("updated");
         }
     },
     mounted () {
